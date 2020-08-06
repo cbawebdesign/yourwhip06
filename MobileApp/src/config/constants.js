@@ -1,5 +1,4 @@
-export const API_HOST = 'http://localhost:4000';
-// export const API_HOST = 'https://react-native-share.herokuapp.com';
+export const API_HOST = 'YOUR_SERVER_URL_STRING';
 
 // CHANGE POST AUTO-DELETE SETTINGS
 // IF 'TRUE', POSTS WILL EXPIRE AFTER 24 HOURS
