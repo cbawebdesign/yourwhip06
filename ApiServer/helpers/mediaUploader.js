@@ -17,8 +17,7 @@ exports.cloudinaryUploader = async (
     .upload_stream(
       {
         resource_type: 'auto',
-        secure: true,
-        folder: CONFIG.CLOUDINARY.MEDIA_FOLDER,
+        folder: 'ReactNativeShare',
         width: 400,
         crop: 'scale',
       },
@@ -29,7 +28,7 @@ exports.cloudinaryUploader = async (
 
         const image = new Image({
           createdBy: user,
-          image: result.secure_url,
+          image: result.url,
           publicId: result.public_id,
           resourceType: result.resource_type,
         });

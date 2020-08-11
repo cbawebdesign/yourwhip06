@@ -1,11 +1,4 @@
-const development = true;
-
-const DEVELOPMENT_API_HOST = 'http://localhost:4000';
-const PRODUCTION_API_HOST = '';
-
-export const API_HOST = development
-  ? DEVELOPMENT_API_HOST
-  : PRODUCTION_API_HOST;
+export const API_HOST = 'YOUR_SERVER_URL_STRING';
 
 // CHANGE POST AUTO-DELETE SETTINGS
 // IF 'TRUE', POSTS WILL EXPIRE AFTER 24 HOURS
@@ -58,8 +51,8 @@ export const REPLIES = 'Replies';
 
 // CHANGE COLOR SETTINGS
 export const COLORS = {
-  primary1: '#AB3817',
-  primary2: '#FDD87E',
+  primary1: '#D7F8C3',
+  primary2: '#A3F8FF',
   backgroundGray: '#DDDDDD',
   black: '#020202',
   white: '#fff',
