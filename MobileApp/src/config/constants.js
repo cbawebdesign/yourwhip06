@@ -58,7 +58,7 @@ export const REPLIES = 'Replies';
 
 // CHANGE COLOR SETTINGS
 export const COLORS = {
-  primary1: '#AB3817',
+  primary1: '#C65230',
   primary2: '#FDD87E',
   backgroundGray: '#DDDDDD',
   black: '#020202',

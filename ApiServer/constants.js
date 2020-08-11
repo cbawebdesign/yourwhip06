@@ -4,15 +4,16 @@ dotenv.config();
 
 const development = true;
 
-const MONGODB_CONNECTION_STRING = '';
+const MONGODB_CONNECTION_STRING =
+  'mongodb+srv://henkcorporaal:M%21xensenna1705@share-development.rc1zg.mongodb.net/share_dev?retryWrites=true&w=majority';
 
-const SENDGRID_USERNAME = '';
-const SENDGRID_PASSWORD = '';
+const SENDGRID_USERNAME = 'knowlephant';
+const SENDGRID_PASSWORD = 'ILoveElephants88';
 
-const CLOUDINARY_CLOUD_NAME = '';
-const CLOUDINARY_API_KEY = '';
-const CLOUDINARY_API_SECRET = '';
-const CLOUDINARY_MEDIA_FOLDER = '';
+const CLOUDINARY_CLOUD_NAME = 'knowlephant';
+const CLOUDINARY_API_KEY = '291472866985434';
+const CLOUDINARY_API_SECRET = 'ZltFjsHGEYoDwydZumuo1PeWuAc';
+const CLOUDINARY_MEDIA_FOLDER = 'ReactNativeShare';
 
 exports.MONGODB = {
   connectionString: development
