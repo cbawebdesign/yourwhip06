@@ -61,7 +61,7 @@ app.post('/delete-comment/', auth, Comments.deleteComment);
 
 // REPLIES
 app.get('/get-reply-feed/:parentId', auth, Replies.getReplyFeed);
-app.post('/like-reply-press', auth, Replies.likeReplyPress);
+app.post('/like-reply-press/', auth, Replies.likeReplyPress);
 app.post('/compose-reply/', auth, uploads.uploadImage, Replies.composeReply);
 app.post('/delete-reply/', auth, Replies.deleteReply);
 

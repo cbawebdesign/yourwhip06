@@ -5,7 +5,7 @@ dotenv.config();
 const development = true;
 
 const MONGODB_CONNECTION_STRING =
-  'mongodb+srv://henkcorporaal:M%21xensenna1705@share-development.rc1zg.mongodb.net/share_dev?retryWrites=true&w=majority';
+  'mongodb+srv://henkcorporaal:2ZyEsk30ODqGPL44@share-development.rc1zg.mongodb.net/share_dev?retryWrites=true&w=majority';
 
 const SENDGRID_USERNAME = 'knowlephant';
 const SENDGRID_PASSWORD = 'ILoveElephants88';
