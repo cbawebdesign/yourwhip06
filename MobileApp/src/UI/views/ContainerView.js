@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
   Platform,
+  Keyboard,
+  AppState,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -22,6 +24,7 @@ import { containerViewStyles as styles } from './styles';
 // enable/disable loading spinner)
 // headerHeight (sets the header margin for all screens with
 // transparent options set to 'true')
+// onKeyboardHide (called when keyboard disappears)
 
 const ContainerView = ({
   children,
@@ -31,38 +34,56 @@ const ContainerView = ({
   backgroundColor,
   loadingOptions,
   headerHeight,
+  onKeyboardShow,
+  onKeyboardHide,
 }) => {
   const BG_COLOR = hasGradient
     ? [styles.$gradientColorFrom, styles.$gradientColorTo]
     : [backgroundColor, backgroundColor];
 
-  if (!touchEnabled) {
-    return (
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : null}
-        style={{ flex: 1 }}
-      >
-        <LinearGradient
-          style={[styles.gradientView, { paddingTop: headerHeight }]}
-          colors={BG_COLOR}
-          start={[0, 0]}
-          end={[1, 1]}
-        >
-          {loadingOptions && loadingOptions.loading && (
-            <LoadingView hideSpinner={loadingOptions.hideSpinner} />
-          )}
-          {children}
-        </LinearGradient>
-      </KeyboardAvoidingView>
-    );
-  }
+  useEffect(() => {
+    const name = Platform.OS === 'ios' ? 'Will' : 'Did';
+
+    if (onKeyboardShow) {
+      AppState.addEventListener = Keyboard.addListener(
+        `keyboard${name}Show`,
+        onKeyboardShow
+      );
+    }
+
+    if (onKeyboardHide) {
+      AppState.addEventListener = Keyboard.addListener(
+        `keyboard${name}Hide`,
+        onKeyboardHide
+      );
+    }
+
+    return () => {
+      if (onKeyboardShow) {
+        AppState.removeEventListener = Keyboard.removeListener(
+          `keyboard${name}Show`,
+          onKeyboardShow
+        );
+      }
+      if (onKeyboardHide) {
+        AppState.removeEventListener = Keyboard.removeListener(
+          `keyboard${name}Hide`,
+          onKeyboardHide
+        );
+      }
+    };
+  });
 
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : null}
       style={{ flex: 1 }}
     >
-      <TouchableWithoutFeedback onPress={onPress} style={styles.container}>
+      <TouchableWithoutFeedback
+        onPress={onPress}
+        disabled={!touchEnabled}
+        style={styles.container}
+      >
         <LinearGradient
           style={[styles.gradientView, { paddingTop: headerHeight }]}
           colors={BG_COLOR}
@@ -87,6 +108,8 @@ ContainerView.defaultProps = {
   backgroundColor: '#DDDDDD',
   loadingOptions: null,
   headerHeight: 0,
+  onKeyboardShow: null,
+  onKeyboardHide: null,
 };
 
 ContainerView.propTypes = {
@@ -100,6 +123,8 @@ ContainerView.propTypes = {
     hideSpinner: PropTypes.bool,
   }),
   headerHeight: PropTypes.number,
+  onKeyboardShow: PropTypes.func,
+  onKeyboardHide: PropTypes.func,
 };
 
 export default ContainerView;

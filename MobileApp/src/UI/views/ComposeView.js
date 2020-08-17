@@ -1,14 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  View,
-  TextInput,
-  Image,
-  AppState,
-  Keyboard,
-  Platform,
-  Animated,
-} from 'react-native';
+import { View, TextInput, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import MediaView from './listItemViews/MediaView';
@@ -29,8 +21,6 @@ import { composeViewStyles as styles } from './styles';
 
 const templateImage = require('../../../assets/images/compose.png');
 
-const ANIMATION_DURATION = 300;
-
 const ComposeView = ({
   descriptionPlaceholder,
   captionPlaceholder,
@@ -41,61 +31,17 @@ const ComposeView = ({
   captionValue,
   galleryName,
 }) => {
-  const inputViewHeight = useRef(new Animated.Value(0)).current;
-  const translate = inputViewHeight.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0, 70],
-  });
-
-  const inputViewStyles = [
-    styles.descriptionView,
-    { transform: [{ translateY: translate }] },
-  ];
-
-  const keyboardShow = () => {
-    Animated.timing(inputViewHeight, {
-      toValue: 1,
-      duration: 0,
-      useNativeDriver: true,
-    }).start();
-  };
-
-  const keyboardHide = () => {
-    Animated.timing(inputViewHeight, {
-      toValue: 0,
-      duration: ANIMATION_DURATION,
-      useNativeDriver: true,
-    }).start();
-  };
-
-  useEffect(() => {
-    const name = Platform.OS === 'ios' ? 'Will' : 'Did';
-
-    AppState.addEventListener = Keyboard.addListener(
-      `keyboard${name}Show`,
-      keyboardShow
-    );
-    AppState.addEventListener = Keyboard.addListener(
-      `keyboard${name}Hide`,
-      keyboardHide
-    );
-
-    return () => {
-      AppState.removeEventListener = Keyboard.removeListener(
-        `keyboard${name}Show`,
-        keyboardShow
-      );
-      AppState.removeEventListener = Keyboard.removeListener(
-        `keyboard${name}Hide`,
-        keyboardHide
-      );
-    };
-  });
+  const containsVideo =
+    media &&
+    (media.type === 'video' ||
+      (media.images &&
+        (media.images[0].localUri.includes('mp4') ||
+          media.images[0].localUri.includes('MOV'))));
 
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
-        <Animated.View style={inputViewStyles}>
+        <View style={styles.descriptionView}>
           <TextInput
             style={[styles.input, styles.inputTop]}
             placeholder={descriptionPlaceholder}
@@ -104,7 +50,7 @@ const ComposeView = ({
             value={descriptionValue}
             multiline
           />
-        </Animated.View>
+        </View>
         <View style={styles.mediaView}>
           {galleryName !== null && (
             <LinearGradient
@@ -133,10 +79,10 @@ const ComposeView = ({
         <View
           style={[
             styles.captionView,
-            media && media.type !== 'video' && styles.$captionviewHeight,
+            media && !containsVideo && styles.$captionviewHeight,
           ]}
         >
-          {media && media.type !== 'video' && (
+          {media && !containsVideo && (
             <TextInput
               style={styles.input}
               placeholder={captionPlaceholder}

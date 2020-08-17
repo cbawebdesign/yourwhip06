@@ -259,14 +259,3 @@ export const searchListItemStyles = EStyleSheet.create({
     flex: 1,
   },
 });
-
-export default {
-  exploreListItemStyles,
-  commentListItemStyles,
-  galleryListItemStyles,
-  peopleListItemStyles,
-  timelineListItemStyles,
-  settingsListItemStyles,
-  photoListItemStyles,
-  searchListItemStyles,
-};

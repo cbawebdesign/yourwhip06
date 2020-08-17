@@ -123,16 +123,14 @@ export function* editProfile(action) {
   const user = yield select((state) => state.user.user);
 
   const formData = new FormData();
-  // if (action.userInfo.birthday) {
   formData.append(
     'birthday',
     action.userInfo.birthday
       ? action.userInfo.birthday.toString()
       : user.birthday
   );
-  // }
   formData.append('gender', action.userInfo.gender || user.gender);
-  formData.append('location', action.userInfo.location || user.location);
+  formData.append('location', action.userInfo.location || '');
   formData.append(
     'description',
     action.userInfo.description || user.description

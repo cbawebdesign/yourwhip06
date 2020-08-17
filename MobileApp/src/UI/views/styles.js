@@ -202,11 +202,12 @@ export const composeViewStyles = EStyleSheet.create({
     justifyContent: 'flex-end',
   },
   innerContainer: {
-    width: VIEW_WIDTH - 100,
+    width: VIEW_WIDTH - 60,
     backgroundColor: '$white',
   },
   galleryView: {
     position: 'absolute',
+    top: 0,
     right: 0,
     width: VIEW_WIDTH - 32,
     padding: 25,
@@ -224,10 +225,14 @@ export const composeViewStyles = EStyleSheet.create({
   },
   inputTop: {
     paddingTop: 25,
+    paddingBottom: 25,
   },
   mediaView: {
     alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: '$backgroundGray',
+    width: VIEW_WIDTH - 32,
   },
   templateImage: {
     width: VIEW_WIDTH - 210,

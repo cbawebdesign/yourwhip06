@@ -20,10 +20,10 @@ const backgroundImage = require('../../../assets/images/background.png');
 const SignupStep1 = ({ route, navigation, fetching, error, success }) => {
   const dispatch = useDispatch();
 
-  const [firstName, setFirstname] = useState('Chang');
-  const [lastName, setLastName] = useState('Yang');
-  const [email, setEmail] = useState('yangchangcy13@gmail.com');
-  const [password, setPassword] = useState('qqqqqqqq');
+  const [firstName, setFirstname] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [firstNameActive, setFirstNameActive] = useState(false);
   const [lastNameActive, setLastNameActive] = useState(false);
   const [emailActive, setEmailActive] = useState(false);
@@ -38,6 +38,7 @@ const SignupStep1 = ({ route, navigation, fetching, error, success }) => {
       value: firstName,
       onChangeText: (text) => handleInputChange(text, 'FIRST_NAME'),
       onPress: (type) => handleInputPress(type),
+      removeKeyboard: () => handleRemoveKeyboard(),
       active: firstNameActive,
     },
     {
@@ -46,6 +47,7 @@ const SignupStep1 = ({ route, navigation, fetching, error, success }) => {
       value: lastName,
       onChangeText: (text) => handleInputChange(text, 'LAST_NAME'),
       onPress: (type) => handleInputPress(type),
+      removeKeyboard: () => handleRemoveKeyboard(),
       active: lastNameActive,
     },
     {
@@ -55,6 +57,7 @@ const SignupStep1 = ({ route, navigation, fetching, error, success }) => {
       value: email,
       onChangeText: (text) => handleInputChange(text, 'EMAIL'),
       onPress: (type) => handleInputPress(type),
+      removeKeyboard: () => handleRemoveKeyboard(),
       active: emailActive,
     },
     {
@@ -64,6 +67,7 @@ const SignupStep1 = ({ route, navigation, fetching, error, success }) => {
       value: password,
       onChangeText: (text) => handleInputChange(text, 'PASSWORD'),
       onPress: (type) => handleInputPress(type),
+      removeKeyboard: () => handleRemoveKeyboard(),
       active: passwordActive,
     },
   ];
@@ -183,7 +187,7 @@ const SignupStep1 = ({ route, navigation, fetching, error, success }) => {
         />
         <ScrollView keyboardShouldPersistTaps="always">
           <View style={styles.topView}>
-            <LogoView title="SIGNUP" />
+            <LogoView title="SIGN UP" />
           </View>
           <View style={styles.inputView}>
             <AuthInputView inputOptions={inputBlockOptions} signup />

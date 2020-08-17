@@ -7,7 +7,7 @@ const styles = EStyleSheet.create({
   $innerBackgroundColor: '$white',
   $background: '$backgroundGray',
   $dark: '$black',
-  $authProfileImage: { flex: 5, marginTop: 25 },
+  $authProfileImage: { flex: 7 },
 
   $navigationInnerContainer: {
     flexWrap: 'wrap',
@@ -71,7 +71,7 @@ const styles = EStyleSheet.create({
   },
 
   // AUTH SCREENS
-  $active: { marginTop: 150 },
+  $active: { marginTop: 100 },
 
   topView: {
     flex: 4,
@@ -80,7 +80,7 @@ const styles = EStyleSheet.create({
     flex: 5,
   },
   buttonView: {
-    flex: 2,
+    flex: 1,
   },
 
   // IMAGE PICKER

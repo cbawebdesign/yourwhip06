@@ -21,8 +21,8 @@ const backgroundImage = require('../../../assets/images/background.png');
 const Login = ({ route, navigation, error, success, fetching }) => {
   const dispatch = useDispatch();
 
-  const [email, setEmail] = useState('yangchangcy13@gmail.com');
-  const [password, setPassword] = useState('qqqqqqqq');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [emailActive, setEmailActive] = useState(false);
   const [passwordActive, setPasswordActive] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -36,6 +36,7 @@ const Login = ({ route, navigation, error, success, fetching }) => {
       value: email,
       onChangeText: (text) => handleInputChange(text, 'EMAIL'),
       onPress: (type) => handleInputPress(type),
+      removeKeyboard: () => handleRemoveKeyboard(),
       active: emailActive,
     },
     {
@@ -45,6 +46,7 @@ const Login = ({ route, navigation, error, success, fetching }) => {
       value: password,
       onChangeText: (text) => handleInputChange(text, 'PASSWORD'),
       onPress: (type) => handleInputPress(type),
+      removeKeyboard: () => handleRemoveKeyboard(),
       active: passwordActive,
     },
   ];

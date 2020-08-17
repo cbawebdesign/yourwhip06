@@ -24,14 +24,6 @@ const ProfileInfoView = ({
   <View style={styles.container}>
     <View style={styles.headerView}>
       <Text text={name} fontFamily={TITLE_FONT} style={styles.name} />
-      <LinearGradient
-        style={styles.gradientView}
-        colors={[styles.$gradientColorFrom, styles.$gradientColorTo]}
-        start={[0, 0]}
-        end={[1, 1]}
-      >
-        {/* <IconButton icon={commentIcon} onPress={() => null} /> */}
-      </LinearGradient>
     </View>
     <View style={styles.doubleLabelView}>
       <View style={styles.locationView}>

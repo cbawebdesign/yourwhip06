@@ -1,3 +1,5 @@
+import * as SecureStore from 'expo-secure-store';
+
 import {
   USER_INFO_RESULT,
   WALKTHROUGH_COMPLETE,
@@ -51,6 +53,8 @@ const userState = (state = initialState, action) => {
         user: action.result.user,
       };
     case WALKTHROUGH_COMPLETE:
+      SecureStore.setItemAsync('walkthroughComplete', 'true');
+
       return {
         ...state,
         walkthroughComplete: true,

@@ -405,9 +405,6 @@ const Explore = ({
             itemInView={viewableItems.some(
               (viewable) => viewable.item._id === item._id
             )}
-            getListItemViewHeight={(height) =>
-              setHeightItemsInView((prevHeight) => (prevHeight += height + 12))
-            }
           />
         )}
         scrollIndicatorInsets={{ right: 1 }}

@@ -27,7 +27,7 @@ export const getUserInfo = (token) => ({
   token,
 });
 
-export const walkthroughComplete = () => ({
+export const setWalkthroughComplete = () => ({
   type: WALKTHROUGH_COMPLETE,
 });
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { View, Keyboard } from 'react-native';
+import { View, ScrollView, Keyboard } from 'react-native';
 import { connect, useDispatch } from 'react-redux';
 
 import ContainerView from '../UI/views/ContainerView';
@@ -34,6 +34,7 @@ const Compose = ({ route, navigation, galleryFeed }) => {
   const [preventContinue, setPreventContinue] = useState(false);
   const [saveToGalleryType, setSaveToGalleryType] = useState('');
   const [galleryName, setGalleryName] = useState(null);
+  const [keyboardActive, setKeyboardActive] = useState(false);
 
   const alertOptions = {
     title: 'Please note',
@@ -201,6 +202,14 @@ const Compose = ({ route, navigation, galleryFeed }) => {
   };
 
   const handleGallerySavePress = () => {
+    if (galleryName === '' || !galleryName) {
+      setErrorMessage(
+        'Please provide a name in order to save your new gallery'
+      );
+      setShowAlertModal(true);
+      setSaveToGalleryType('');
+    }
+
     setShowMoreModal(false);
     setShowNewGalleryModal(false);
   };
@@ -258,6 +267,8 @@ const Compose = ({ route, navigation, galleryFeed }) => {
       hasGradient
       onPress={() => Keyboard.dismiss()}
       headerHeight={route.params.headerHeight}
+      onKeyboardShow={() => setKeyboardActive(true)}
+      onKeyboardHide={() => setKeyboardActive(false)}
     >
       <SelectionModal
         showModal={showAlertModal}
@@ -290,16 +301,18 @@ const Compose = ({ route, navigation, galleryFeed }) => {
         placeholder="Give your gallery a name..."
         inputValue={galleryName}
       />
-      <ComposeView
-        media={media}
-        onDescriptionChange={(text) => setDescription(text)}
-        onCaptionChange={(text) => setCaption(text)}
-        descriptionValue={description}
-        captionValue={caption}
-        galleryName={galleryName}
-      />
-      <View style={styles.emptyView} />
-      <FooterView backgroundColor="white">
+      <ScrollView>
+        <ComposeView
+          media={media}
+          onDescriptionChange={(text) => setDescription(text)}
+          onCaptionChange={(text) => setCaption(text)}
+          descriptionValue={description}
+          captionValue={caption}
+          galleryName={galleryName}
+        />
+        <View style={styles.emptyView} />
+      </ScrollView>
+      <FooterView backgroundColor="white" keyboardActive={keyboardActive}>
         <ComposeControlsView
           onPhotoPress={() => setShowImageTypeModal(true)}
           onCameraPress={handleCameraPress}

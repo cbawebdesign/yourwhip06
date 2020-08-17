@@ -59,8 +59,6 @@ const ExploreListItem = ({
     sharedPost.images[0].image.substr(sharedPost.images[0].image.length - 3) ===
       'mp4';
 
-  const [height, setHeight] = useState(0);
-
   const handleDeleteItem = () => {
     Animated.timing(opacity, {
       toValue: 0,
@@ -137,7 +135,6 @@ const ExploreListItem = ({
   return (
     <Animated.View style={{ opacity }}>
       <ListItemContainerView
-        height={height + 107}
         onPress={onPress}
         getListItemViewHeight={getListItemViewHeight}
         disabled={
@@ -156,7 +153,6 @@ const ExploreListItem = ({
               text={item.description}
               fontFamily={BODY_FONT}
               style={styles.bodyText}
-              onLayout={(event) => setHeight(event.nativeEvent.layout.height)}
             />
           </View>
         ) : (

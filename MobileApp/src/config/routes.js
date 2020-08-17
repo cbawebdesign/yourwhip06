@@ -45,7 +45,7 @@ import {
 } from '../helpers/routeHelpers';
 
 import { storeToken } from '../actions/auth';
-import { getUserInfo } from '../actions/user';
+import { getUserInfo, setWalkthroughComplete } from '../actions/user';
 
 import { userPropType } from './propTypes';
 import {
@@ -309,11 +309,19 @@ const RootStackScreen = ({ authToken, walkthroughComplete, currentUser }) => {
   const dispatch = useDispatch();
 
   const getToken = async () => {
-    // const tokenString = await SecureStore.getItemAsync('token');
-    const tokenString = await SecureStore.deleteItemAsync('token');
+    const tokenString = await SecureStore.getItemAsync('token');
+    const isWalkthroughComplete = await SecureStore.getItemAsync(
+      'walkthroughComplete'
+    );
+
+    // FOR DEV PURPOSES ONLY
+    // const tokenString = await SecureStore.deleteItemAsync('token');
 
     if (tokenString) {
       dispatch(storeToken(tokenString));
+    }
+    if (isWalkthroughComplete) {
+      dispatch(setWalkthroughComplete());
     }
   };
 

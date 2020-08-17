@@ -40,6 +40,7 @@ const Comments = ({
   commentFeed,
   updateReplyCheck,
   currentUser,
+  fetching,
 }) => {
   const dispatch = useDispatch();
 
@@ -154,6 +155,15 @@ const Comments = ({
     setFeed(updatedFeed);
   };
 
+  const handleRefresh = () => {
+    dispatch(
+      getCommentFeed({
+        parentId,
+        feedType: route.params.type,
+      })
+    );
+  };
+
   useLayoutEffect(() => {
     // UPDATE HEADERTITLE (ALL HEADER TITLES ARE SET INSIDE ROUTES.JS)
     navigation.setParams({
@@ -192,6 +202,8 @@ const Comments = ({
     <ContainerView
       onPress={handleRemoveKeyboard}
       headerHeight={route.params.headerHeight}
+      onKeyboardShow={() => setKeyboardActive(true)}
+      onKeyboardHide={() => setKeyboardActive(false)}
     >
       <SelectionModal
         showModal={showCommentOptions}
@@ -213,6 +225,8 @@ const Comments = ({
             onDeletePress={() => handleDeleteComment()}
           />
         )}
+        onRefresh={handleRefresh}
+        refreshing={fetching}
         keyExtractor={(item) => item._id}
       />
       <FooterView
@@ -224,8 +238,6 @@ const Comments = ({
           onComposePress={handleComposePress}
           onCommentChange={(text) => setComment(text)}
           commentValue={comment}
-          onKeyboardShow={() => setKeyboardActive(true)}
-          onKeyboardHide={() => setKeyboardActive(false)}
         />
       </FooterView>
     </ContainerView>

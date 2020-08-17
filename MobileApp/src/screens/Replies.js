@@ -137,6 +137,10 @@ const Replies = ({ route, navigation, replyFeed, currentUser, fetching }) => {
     />
   );
 
+  const handleRefresh = () => {
+    dispatch(getReplyFeed({ parentId: route.params.comment._id }));
+  };
+
   useLayoutEffect(() => {
     // UPDATE HEADERTITLE (ALL HEADER TITLES ARE SET INSIDE ROUTES.JS)
     navigation.setParams({
@@ -162,6 +166,8 @@ const Replies = ({ route, navigation, replyFeed, currentUser, fetching }) => {
     <ContainerView
       onPress={handleRemoveKeyboard}
       headerHeight={route.params.headerHeight}
+      onKeyboardShow={() => setKeyboardActive(true)}
+      onKeyboardHide={() => setKeyboardActive(false)}
     >
       <SelectionModal
         showModal={showReplyOptions}
@@ -185,6 +191,8 @@ const Replies = ({ route, navigation, replyFeed, currentUser, fetching }) => {
             onDeletePress={() => handleDeleteReply(item)}
           />
         )}
+        onRefresh={handleRefresh}
+        refreshing={fetching}
         keyExtractor={(item) => item._id}
       />
       <FooterView
@@ -196,8 +204,6 @@ const Replies = ({ route, navigation, replyFeed, currentUser, fetching }) => {
           onComposePress={handleComposePress}
           onCommentChange={(text) => setReply(text)}
           commentValue={reply}
-          onKeyboardShow={() => setKeyboardActive(true)}
-          onKeyboardHide={() => setKeyboardActive(false)}
         />
       </FooterView>
     </ContainerView>

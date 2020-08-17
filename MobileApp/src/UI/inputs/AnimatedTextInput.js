@@ -96,7 +96,10 @@ const AnimatedTextInput = ({ options }) => {
       activeOpacity={1}
       onPress={() => options.onPress(options.type)}
     >
-      <Animated.View style={containerStyles} pointerEvents="none">
+      <Animated.View
+        style={containerStyles}
+        pointerEvents={options.active ? 'auto' : 'none'}
+      >
         <Image style={styles.icon} source={renderIcon(options.type)} />
         <Text
           text={options.placeholder}
@@ -110,6 +113,7 @@ const AnimatedTextInput = ({ options }) => {
           onChangeText={options.onChangeText}
           secureTextEntry={options.isPassword}
           keyboardType={options.keyboardType}
+          onSubmitEditing={options.removeKeyboard}
           autoCapitalize="none"
           autoCorrect={false}
         />

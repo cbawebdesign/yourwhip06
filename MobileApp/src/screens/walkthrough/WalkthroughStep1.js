@@ -10,7 +10,7 @@ import TitleBodyTextView from '../../UI/views/TitleBodyTextView';
 import DualTextButtonView from '../../UI/views/footer/DualTextButtonView';
 import { CustomText as Text, TITLE_FONT } from '../../UI/text/CustomText';
 
-import { walkthroughComplete } from '../../actions/user';
+import { setWalkthroughComplete } from '../../actions/user';
 
 import styles from './styles';
 
@@ -27,7 +27,7 @@ const WalkthroughStep1 = ({ route, navigation }) => {
   const dispatch = useDispatch();
 
   const handleSkip = () => {
-    dispatch(walkthroughComplete());
+    dispatch(setWalkthroughComplete());
   };
 
   const handleNext = () => {

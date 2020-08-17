@@ -12,7 +12,7 @@ import DualTextButtonView from '../../UI/views/footer/DualTextButtonView';
 import { CustomText as Text, TITLE_FONT } from '../../UI/text/CustomText';
 import { SELECTIONS } from '../../helpers/dataHelper';
 
-import { walkthroughComplete } from '../../actions/user';
+import { setWalkthroughComplete } from '../../actions/user';
 
 import styles from './styles';
 
@@ -27,11 +27,11 @@ const WalkthroughStep2 = ({ route }) => {
   const [selections, setSelections] = useState(SELECTIONS);
 
   const handleSkip = () => {
-    dispatch(walkthroughComplete());
+    dispatch(setWalkthroughComplete());
   };
 
   const handleNext = () => {
-    dispatch(walkthroughComplete());
+    dispatch(setWalkthroughComplete());
   };
 
   const handleItemPress = (item) => {

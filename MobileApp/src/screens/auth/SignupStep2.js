@@ -8,6 +8,7 @@ import {
   ImageBackground,
   Platform,
 } from 'react-native';
+import * as Location from 'expo-location';
 
 import ContainerView from '../../UI/views/ContainerView';
 import PersonalDisplayView from '../../UI/views/PersonalDisplayView';
@@ -57,6 +58,8 @@ const SignUpStep2 = ({
   const [birthdayActive, setbirthdayActive] = useState(false);
   const [genderActive, setgenderActive] = useState(false);
   const [locationActive, setlocationActive] = useState(false);
+  const [address, setAddress] = useState(null);
+  const [locationError, setLocationError] = useState(null);
 
   const inputBlockOptions = [
     {
@@ -81,9 +84,9 @@ const SignUpStep2 = ({
       icon: 'location',
       type: 'LOCATION',
       placeholder: 'Location',
-      onChangeText: (text) => handleInputChange(text, 'LOCATION'),
       value: location,
       active: locationActive,
+      hasModalInput: true,
       onPress: () => handleInputPress('LOCATION'),
     },
   ];
@@ -106,6 +109,32 @@ const SignUpStep2 = ({
         title: 'None provided',
         icon: arrowRightIcon,
         onPress: () => handleGenderSelect('None provided'),
+      },
+    ],
+  };
+
+  const locationOptions = {
+    title: 'Your location',
+    body:
+      locationError ||
+      `Your location will be set to: ${address}. Do you want to use this location?`,
+    buttonStyle: 'horizontal',
+    buttons: [
+      {
+        title: 'Accept',
+        icon: arrowRightIcon,
+        onPress: () => {
+          setLocation(address);
+          setlocationActive(false);
+        },
+      },
+      {
+        title: 'Remove',
+        icon: arrowRightIcon,
+        onPress: () => {
+          setLocation();
+          setlocationActive(false);
+        },
       },
     ],
   };
@@ -133,16 +162,6 @@ const SignUpStep2 = ({
         setbirthdayActive(false);
         setgenderActive(false);
         setlocationActive(true);
-        break;
-      default:
-        break;
-    }
-  };
-
-  const handleInputChange = (text, type) => {
-    switch (type) {
-      case 'LOCATION':
-        setLocation(text);
         break;
       default:
         break;
@@ -199,7 +218,25 @@ const SignUpStep2 = ({
     setgenderActive(false);
   };
 
+  const getLocationPermissions = async () => {
+    const { status } = await Location.requestPermissionsAsync();
+
+    if (status !== 'granted') {
+      setLocationError('Permission to access location was denied');
+    }
+
+    const locationObject = await Location.getCurrentPositionAsync({});
+    const addressObject = await Location.reverseGeocodeAsync({
+      latitude: locationObject.coords.latitude,
+      longitude: locationObject.coords.longitude,
+    });
+
+    setAddress(`${addressObject[0].city}, ${addressObject[0].country}`);
+  };
+
   useEffect(() => {
+    getLocationPermissions();
+
     navigation.setParams({
       ...route.params,
       title: fromScreen === 'SETTINGS' ? 'Edit Profile' : 'Signup (Step 2)',
@@ -240,6 +277,15 @@ const SignUpStep2 = ({
           onModalDismissPress={() => {
             setgenderActive(false);
             setGender(null);
+          }}
+        />
+        <SelectionModal
+          showModal={locationActive}
+          options={locationOptions}
+          timeout={500}
+          onModalDismissPress={() => {
+            setlocationActive(false);
+            setLocation(null);
           }}
         />
         <ScrollView

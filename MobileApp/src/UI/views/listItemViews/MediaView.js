@@ -158,7 +158,7 @@ const MediaView = ({ media, caption, itemInView, enableAutoPlay }) => {
           return null;
         })
       )}
-      {!(remoteVideoUri || localVideoUri) && (
+      {!(remoteVideoUri || localVideoUri) && caption !== '' && (
         <LinearGradient
           pointerEvents="none"
           style={styles.captionGradientView}

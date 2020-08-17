@@ -143,7 +143,6 @@ export function* logout() {
       yield put({ type: LOGOUT_ERROR, error: result.error });
     } else {
       SecureStore.deleteItemAsync('token');
-      // SecureStore.deleteItemAsync('user');
 
       yield put({ type: LOGOUT_RESULT, result });
       yield put({ type: RESET_USER });
