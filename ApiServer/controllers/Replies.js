@@ -33,6 +33,7 @@ exports.likeReplyPress = async (req, res) => {
   );
 
   if (hasLikeByUser) {
+    // REMOVE LIKE
     reply.likes = reply.likes.filter(
       (item) => item.createdBy.toString() !== user._id.toString()
     );
@@ -40,6 +41,13 @@ exports.likeReplyPress = async (req, res) => {
     try {
       await generalHelper.deleteLikeAndActivityFromRequest(req);
       await reply.save();
+
+      // DELETE ACTIVITY
+      req.activityType = 'LIKE_REPLY';
+
+      if (!result) {
+        throw new Error('An error occurred deleting the like reply activity');
+      }
 
       res.status(HttpStatus.OK).send({ success: 'Like successfully removed' });
     } catch (error) {

@@ -30,6 +30,7 @@ exports.likeImagePress = async (req, res) => {
   );
 
   if (hasLikeByUser) {
+    // REMOVE LIKE
     image.likes = image.likes.filter(
       (item) => item.createdBy.toString() !== user._id.toString()
     );
@@ -37,6 +38,14 @@ exports.likeImagePress = async (req, res) => {
     try {
       await generalHelper.deleteLikeAndActivityFromRequest(req);
       await image.save();
+
+      // DELETE ACTIVITY
+      req.activityType = 'LIKE_IMAGE';
+      const result = await activityHelper.deleteActivityFromRequest(req);
+
+      if (!result) {
+        throw new Error('An error occurred deleting the like image activity');
+      }
 
       res.status(HttpStatus.OK).send({ success: 'Like successfully removed' });
     } catch (error) {

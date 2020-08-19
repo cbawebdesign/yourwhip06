@@ -53,6 +53,7 @@ exports.likeCommentPress = async (req, res) => {
   );
 
   if (hasLikeByUser) {
+    //REMOVE LIKE
     comment.likes = comment.likes.filter(
       (item) => item.createdBy.toString() !== user._id.toString()
     );
@@ -60,6 +61,14 @@ exports.likeCommentPress = async (req, res) => {
     try {
       await generalHelper.deleteLikeAndActivityFromRequest(req);
       await comment.save();
+
+      // DELETE ACTIVITY
+      req.activityType = 'LIKE_COMMENT';
+      const result = await activityHelper.deleteActivityFromRequest(req);
+
+      if (!result) {
+        throw new Error('An error occurred deleting the like comment activity');
+      }
 
       // RETURN NEW LIST WITH UPDATED COMMENTS
       const comments = await commentHelper.getCommentsFromRequest(req);
@@ -165,7 +174,19 @@ exports.deleteComment = async (req, res) => {
   const { parentId, commentId, fromScreen, type } = req.body;
 
   try {
+    // DELETE COMMENT
     await commentHelper.deleteOneCommentFromRequest(req);
+
+    // DELETE ACTIVITY
+    req.activityType = type === 'POST' ? 'POST_COMMENT' : 'IMAGE_COMMENT';
+    req.id = parentId;
+    const result = await activityHelper.deleteActivityFromRequest(req);
+
+    if (!result) {
+      throw new Error(
+        `An error occurred deleting the ${type.toLowerCase()} comment activity`
+      );
+    }
 
     req.commentType = `${type}_COMMENT`;
     const comments = await commentHelper.getCommentsFromRequest(req);

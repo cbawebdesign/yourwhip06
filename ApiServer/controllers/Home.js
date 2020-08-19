@@ -34,6 +34,7 @@ exports.likePostPress = async (req, res) => {
   );
 
   if (hasLikeByUser) {
+    // REMOVE LIKE
     post.likes = post.likes.filter(
       (item) => item.createdBy.toString() !== user._id.toString()
     );
@@ -41,6 +42,14 @@ exports.likePostPress = async (req, res) => {
     try {
       await generalHelper.deleteLikeAndActivityFromRequest(req);
       await post.save();
+
+      // DELETE ACITIVITY
+      req.activityType = 'LIKE_POST';
+      const result = await activityHelper.deleteActivityFromRequest(req);
+
+      if (!result) {
+        throw new Error('An error occurred deleting the like post activity');
+      }
 
       res.status(HttpStatus.OK).send({
         fromScreen,
@@ -124,8 +133,9 @@ exports.compose = async (req, res) => {
 
     await postHelper.buildPostFromRequest(req);
 
-    // CURRENTLY PASSING BACK ALL EXISTING POSTS
-    // TODO: update with passing userId
+    // CURRENTLY PASSING BACK LIMITED NUMBER OF POSTS
+    // LIMITED BASED ON PAGINATION_LIMIT CONSTANT MOBILE APP
+    // TODO: get posts for specific user
     const postsList = await postHelper.getPostsFromRequest(req);
 
     res.status(HttpStatus.OK).send(postsList);

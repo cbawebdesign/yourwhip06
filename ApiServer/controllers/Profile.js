@@ -50,6 +50,7 @@ exports.followUserPress = async (req, res) => {
         });
       }
 
+      // REMOVE FOLLOWER ID FROM FOLLOWERS AND FOLLOWING OBJECTS
       followedUser.followers = followedUser.followers.filter(
         (item) => item.user.toString() !== currentUser._id.toString()
       );
@@ -59,6 +60,14 @@ exports.followUserPress = async (req, res) => {
 
       const resultFollowedUser = await followedUser.save();
       const resultCurrentUser = await currentUser.save();
+
+      // DELETE FOLLOW ACTIVITY
+      req.activityType = 'FOLLOW';
+      const result = await activityhelper.deleteActivityFromRequest(req);
+
+      if (!result) {
+        throw new Error('An error occured while deleting the follow activity');
+      }
 
       req.findCurrentUser = true;
       const updatedUser = await userHelper.findOneUserFromRequest(req);
