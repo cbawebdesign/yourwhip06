@@ -8,6 +8,7 @@ import SelectionModal from '../UI/modals/SelectionModal';
 import CommentListItem from '../UI/lists/CommentListItem';
 import FooterView from '../UI/views/footer/FooterView';
 import CommentComposeView from '../UI/views/CommentComposeView';
+import EmptyListText from '../UI/text/EmptyListText';
 
 import { onLikePressHelper, onDeleteHelper } from '../helpers/socialHelpers';
 
@@ -137,6 +138,10 @@ const Replies = ({ route, navigation, replyFeed, currentUser, fetching }) => {
     />
   );
 
+  const renderEmptyListText = () => (
+    <EmptyListText text="Be the first to leave a reply" />
+  );
+
   const handleRefresh = () => {
     dispatch(getReplyFeed({ parentId: route.params.comment._id }));
   };
@@ -191,6 +196,7 @@ const Replies = ({ route, navigation, replyFeed, currentUser, fetching }) => {
             onDeletePress={() => handleDeleteReply(item)}
           />
         )}
+        ListEmptyComponent={renderEmptyListText()}
         onRefresh={handleRefresh}
         refreshing={fetching}
         keyExtractor={(item) => item._id}

@@ -14,8 +14,8 @@ const ImagePickerButton = ({
   videoDuration,
 }) => {
   const getDuration = () => {
-    const minutes = 0;
-    const seconds = Math.ceil(videoDuration);
+    const minutes = Math.floor(videoDuration / 60);
+    const seconds = Math.ceil(videoDuration - minutes * 60);
 
     return `${minutes}:${seconds < 10 ? `0${seconds}` : `${seconds}`}`;
   };

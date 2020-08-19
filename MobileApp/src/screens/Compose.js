@@ -13,6 +13,8 @@ import TextInputModal from '../UI/modals/TextInputModal';
 import { getGalleryFeed } from '../actions/galleries';
 import { composePost } from '../actions/home';
 
+import { PAGINATION_LIMIT } from '../config/constants';
+
 import styles from './styles';
 
 const arrowRightIcon = require('../../assets/icons/arrowRight.png');
@@ -193,6 +195,7 @@ const Compose = ({ route, navigation, galleryFeed }) => {
         caption,
         media,
         gallery: { type: saveToGalleryType, name: galleryName },
+        limit: PAGINATION_LIMIT,
       })
     );
     navigation.goBack();

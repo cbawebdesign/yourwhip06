@@ -43,8 +43,8 @@ export const animatedTextInputStyles = EStyleSheet.create({
   },
   input: {
     position: 'absolute',
-    width: VIEW_WIDTH - 200,
-    marginLeft: 90,
+    width: VIEW_WIDTH - 210,
+    marginLeft: 100,
     fontSize: 12,
     color: '$black',
   },

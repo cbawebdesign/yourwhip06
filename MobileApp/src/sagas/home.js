@@ -72,6 +72,7 @@ export function* composePost(action) {
   formData.append('caption', action.data.caption);
   formData.append('parentId', action.data.sharedPostId);
   formData.append('imageId', action.data.sharedImageId);
+  formData.append('limit', action.data.limit);
 
   if (action.data.gallery) {
     formData.append('galleryType', action.data.gallery.type);

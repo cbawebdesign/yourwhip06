@@ -69,7 +69,6 @@ const Explore = ({
   const [imageShown, setImageShown] = useState([]);
   const [currentItem, setCurrentItem] = useState(null);
   const [shareMessage, setShareMessage] = useState('');
-  const [heightItemsInView, setHeightItemsInView] = useState(0);
   const [viewableItems, setViewableItems] = useState([]);
 
   const postOptions = {
@@ -280,7 +279,9 @@ const Explore = ({
   };
 
   const onViewRef = useRef((itemsInView) => {
-    setViewableItems(itemsInView.viewableItems);
+    if (itemsInView.viewableItems !== viewableItems) {
+      setViewableItems(itemsInView.viewableItems);
+    }
   }).current;
   const viewConfigRef = React.useRef({ viewAreaCoveragePercentThreshold: 50 })
     .current;
@@ -293,6 +294,33 @@ const Explore = ({
     dispatch(getHomeFeed(count, PAGINATION_LIMIT));
   };
   const handleLoadMoreThrottled = useRef(debounce(500, handleLoadMore)).current;
+
+  const renderItem = ({ item }) => (
+    <ExploreListItem
+      item={item}
+      currentUser={currentUser}
+      onPress={() => {
+        if (item.sharedImage) {
+          // SHOW IMAGE MODAL FOR SHARED IMAGES
+          setCurrentItem(item.sharedImage);
+          setShowImage(true);
+          setImageShown([item.sharedImage]);
+        } else {
+          handlePress(item.sharedPost || item);
+        }
+      }}
+      onCommentsPress={() => handleCommentsPress(item)}
+      onLikePress={() => handleLikePress(item)}
+      onSharePress={() => handleSharePress(item)}
+      onProfilePress={(type) => handleProfilePress(type, item)}
+      enableOptions={item.createdBy._id === currentUser._id}
+      onOptionsPress={() => handlePostOptionsPress(item)}
+      onDeletePress={() => handleDeletePost('EXPLORE')}
+      itemInView={viewableItems.some(
+        (viewable) => viewable.item._id === item._id
+      )}
+    />
+  );
 
   useEffect(() => {
     // REFETCH ALFTER USER EDITS PROFILE IMAGE
@@ -362,6 +390,7 @@ const Explore = ({
           onModalDismissPress={() => setShowShareModal(false)}
           onChangeText={(text) => setShareMessage(text)}
           descriptionValue={shareMessage}
+          keyboardShow={keyboardShow}
         />
       )}
       <PhotoModal
@@ -381,32 +410,7 @@ const Explore = ({
       <FlatList
         contentContainerStyle={[styles.contentContainer, { paddingBottom }]}
         data={feed}
-        renderItem={({ item }) => (
-          <ExploreListItem
-            item={item}
-            currentUser={currentUser}
-            onPress={() => {
-              if (item.sharedImage) {
-                // SHOW IMAGE MODAL FOR SHARED IMAGES
-                setCurrentItem(item.sharedImage);
-                setShowImage(true);
-                setImageShown([item.sharedImage]);
-              } else {
-                handlePress(item.sharedPost || item);
-              }
-            }}
-            onCommentsPress={() => handleCommentsPress(item)}
-            onLikePress={() => handleLikePress(item)}
-            onSharePress={() => handleSharePress(item)}
-            onProfilePress={(type) => handleProfilePress(type, item)}
-            enableOptions={item.createdBy._id === currentUser._id}
-            onOptionsPress={() => handlePostOptionsPress(item)}
-            onDeletePress={() => handleDeletePost('EXPLORE')}
-            itemInView={viewableItems.some(
-              (viewable) => viewable.item._id === item._id
-            )}
-          />
-        )}
+        renderItem={renderItem}
         scrollIndicatorInsets={{ right: 1 }}
         onScroll={({ nativeEvent }) => {
           if (isCloseToBottom(nativeEvent)) {

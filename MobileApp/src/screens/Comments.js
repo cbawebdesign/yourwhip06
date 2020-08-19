@@ -8,6 +8,7 @@ import SelectionModal from '../UI/modals/SelectionModal';
 import CommentListItem from '../UI/lists/CommentListItem';
 import FooterView from '../UI/views/footer/FooterView';
 import CommentComposeView from '../UI/views/CommentComposeView';
+import EmptyListText from '../UI/text/EmptyListText';
 
 import {
   onLikePressHelper,
@@ -164,6 +165,10 @@ const Comments = ({
     );
   };
 
+  const renderEmptyListText = () => (
+    <EmptyListText text="Be the first to leave a comment" />
+  );
+
   useLayoutEffect(() => {
     // UPDATE HEADERTITLE (ALL HEADER TITLES ARE SET INSIDE ROUTES.JS)
     navigation.setParams({
@@ -225,6 +230,7 @@ const Comments = ({
             onDeletePress={() => handleDeleteComment()}
           />
         )}
+        ListEmptyComponent={renderEmptyListText()}
         onRefresh={handleRefresh}
         refreshing={fetching}
         keyExtractor={(item) => item._id}

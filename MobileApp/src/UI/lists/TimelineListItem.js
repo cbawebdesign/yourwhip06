@@ -40,6 +40,7 @@ const TimelineListItem = ({ item, currentUser, onProfilePress }) => {
       case 'share':
         return shareIcon;
       case 'POST_COMMENT':
+      case 'IMAGE_COMMENT':
         return commentIcon;
       case 'REPLY':
         return repliesIcon;
@@ -70,6 +71,8 @@ const TimelineListItem = ({ item, currentUser, onProfilePress }) => {
         return 'shared one of your images';
       case 'POST_COMMENT':
         return 'commented on your post';
+      case 'IMAGE_COMMENT':
+        return 'commented on your image';
       case 'REPLY':
         return 'replied to your comment';
       case 'LIKE_REPLY':
