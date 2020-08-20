@@ -1,20 +1,23 @@
-const Activity = require('../models/Activity');
+const HttpStatus = require('http-status-codes/index');
 
-exports.getFeed = (req, res, next) => {
-  const { user } = req;
+const activityHelper = require('../helpers/activities');
 
-  Activity.find({ user_receiver: user })
-    .populate('user_action')
-    .sort('-dateTime')
-    .exec((err, timelineFeed) => {
-      if (err) {
-        return next(err);
-      }
+exports.getFeed = async (req, res) => {
+  const { skip } = req.params;
 
-      const feedData = getFeedData(timelineFeed);
+  try {
+    const timelineFeed = await activityHelper.getActivitiesFromRequest(req);
 
-      res.send(feedData);
-    });
+    if (!timelineFeed) {
+      throw new Error('An error occurred getting the timeline feed');
+    }
+
+    const activities = getFeedData(timelineFeed);
+
+    res.status(HttpStatus.OK).send({ activities, skip });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const getFeedData = (feed) => {

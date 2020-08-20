@@ -12,6 +12,8 @@ import EmptyListText from '../UI/text/EmptyListText';
 
 import { onLikePressHelper, onDeleteHelper } from '../helpers/socialHelpers';
 
+import { useKeyboardState } from '../config/hooks';
+
 import {
   getReplyFeed,
   composeNewReply,
@@ -30,14 +32,13 @@ import styles from './styles';
 
 const Replies = ({ route, navigation, replyFeed, currentUser, fetching }) => {
   const dispatch = useDispatch();
+  const { keyboardShowing } = useKeyboardState();
 
   const [comment, setComment] = useState(null);
   const [feed, setFeed] = useState([]);
-  const [getFeed, setGetFeed] = useState(false);
   const [reply, setReply] = useState('');
   const [showReplyOptions, setShowReplyOptions] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
-  const [keyboardActive, setKeyboardActive] = useState(false);
 
   const replyOptions = {
     title: 'Delete reply',
@@ -171,8 +172,6 @@ const Replies = ({ route, navigation, replyFeed, currentUser, fetching }) => {
     <ContainerView
       onPress={handleRemoveKeyboard}
       headerHeight={route.params.headerHeight}
-      onKeyboardShow={() => setKeyboardActive(true)}
-      onKeyboardHide={() => setKeyboardActive(false)}
     >
       <SelectionModal
         showModal={showReplyOptions}
@@ -204,7 +203,7 @@ const Replies = ({ route, navigation, replyFeed, currentUser, fetching }) => {
       <FooterView
         color="transparent"
         hasGradient
-        keyboardActive={keyboardActive}
+        keyboardActive={keyboardShowing}
       >
         <CommentComposeView
           onComposePress={handleComposePress}
@@ -218,7 +217,7 @@ const Replies = ({ route, navigation, replyFeed, currentUser, fetching }) => {
 
 Replies.propTypes = {
   route: PropTypes.shape({
-    params: PropTypes.object.isRequired,
+    params: PropTypes.instanceOf(Object),
   }).isRequired,
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,

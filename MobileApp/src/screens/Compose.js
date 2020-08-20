@@ -14,6 +14,7 @@ import { getGalleryFeed } from '../actions/galleries';
 import { composePost } from '../actions/home';
 
 import { PAGINATION_LIMIT } from '../config/constants';
+import { useKeyboardState } from '../config/hooks';
 
 import styles from './styles';
 
@@ -21,6 +22,7 @@ const arrowRightIcon = require('../../assets/icons/arrowRight.png');
 
 const Compose = ({ route, navigation, galleryFeed }) => {
   const dispatch = useDispatch();
+  const { keyboardShowing } = useKeyboardState();
 
   const [media, setMedia] = useState(null);
   const [showMoreModal, setShowMoreModal] = useState(false);
@@ -36,7 +38,6 @@ const Compose = ({ route, navigation, galleryFeed }) => {
   const [preventContinue, setPreventContinue] = useState(false);
   const [saveToGalleryType, setSaveToGalleryType] = useState('');
   const [galleryName, setGalleryName] = useState(null);
-  const [keyboardActive, setKeyboardActive] = useState(false);
 
   const alertOptions = {
     title: 'Please note',
@@ -206,6 +207,10 @@ const Compose = ({ route, navigation, galleryFeed }) => {
 
   const handleGallerySavePress = () => {
     if (galleryName === '' || !galleryName) {
+      if (!media && /^ *$/.test(description)) {
+        setPreventContinue(true);
+      }
+
       setErrorMessage(
         'Please provide a name in order to save your new gallery'
       );
@@ -270,8 +275,6 @@ const Compose = ({ route, navigation, galleryFeed }) => {
       hasGradient
       onPress={() => Keyboard.dismiss()}
       headerHeight={route.params.headerHeight}
-      onKeyboardShow={() => setKeyboardActive(true)}
-      onKeyboardHide={() => setKeyboardActive(false)}
     >
       <SelectionModal
         showModal={showAlertModal}
@@ -315,7 +318,7 @@ const Compose = ({ route, navigation, galleryFeed }) => {
         />
         <View style={styles.emptyView} />
       </ScrollView>
-      <FooterView backgroundColor="white" keyboardActive={keyboardActive}>
+      <FooterView backgroundColor="white" keyboardActive={keyboardShowing}>
         <ComposeControlsView
           onPhotoPress={() => setShowImageTypeModal(true)}
           onCameraPress={handleCameraPress}

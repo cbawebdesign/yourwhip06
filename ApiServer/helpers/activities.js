@@ -1,5 +1,24 @@
 const Activity = require('../models/Activity');
 
+exports.getActivitiesFromRequest = async (req) => {
+  const { user } = req;
+  const skip = Number(req.params.skip);
+  const limit = Number(req.params.limit);
+
+  try {
+    const result = await Activity.find({ user_receiver: user }, null, {
+      skip,
+      limit,
+    })
+      .populate('user_action')
+      .sort('-dateTime');
+
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 exports.buildActivityFromRequest = async (req) => {
   const { user, post, comment, image, activityType, createdBy } = req;
 

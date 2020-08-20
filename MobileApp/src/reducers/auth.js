@@ -25,10 +25,11 @@ import {
   VALIDATE_CODE,
   LOGOUT,
   DELETE_ACCOUNT,
+  ROUTE_CHECKS_COMPLETE,
 } from '../actions/auth';
 
 const initialState = {
-  fetching: false,
+  fetching: true,
   error: null,
   success: null,
   firstName: '',
@@ -41,6 +42,11 @@ const initialState = {
 
 const authState = (state = initialState, action) => {
   switch (action.type) {
+    case ROUTE_CHECKS_COMPLETE:
+      return {
+        ...state,
+        fetching: false,
+      };
     case STORE_TOKEN:
       return {
         ...state,

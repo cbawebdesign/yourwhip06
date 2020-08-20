@@ -9,6 +9,30 @@ const initialState = {
   error: null,
   success: null,
   timelineFeed: [],
+  endOfList: false,
+};
+
+const updateList = (list) => {
+  const updatedList = [];
+  let prevTitle;
+  let prevData;
+
+  list.forEach((item, index) => {
+    let dataArray;
+
+    if (prevTitle === item.title) {
+      dataArray = [...prevData, ...item.data];
+      updatedList[index - 1] = { title: item.title, data: dataArray };
+    } else {
+      dataArray = item.data;
+      updatedList.push({ title: item.title, data: dataArray });
+    }
+
+    prevTitle = item.title;
+    prevData = dataArray;
+  });
+
+  return updatedList;
 };
 
 const timelineState = (state = initialState, action) => {
@@ -22,7 +46,11 @@ const timelineState = (state = initialState, action) => {
       return {
         ...state,
         fetching: false,
-        timelineFeed: action.result,
+        timelineFeed:
+          action.result.skip === '0'
+            ? action.result.activities
+            : updateList([...state.timelineFeed, ...action.result.activities]),
+        endOfList: action.result.activities.length === 0,
         error: null,
       };
     case TIMELINE_FEED_ERROR:

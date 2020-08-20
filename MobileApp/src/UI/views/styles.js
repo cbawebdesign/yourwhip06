@@ -296,6 +296,7 @@ export const profileInfoViewStyles = EStyleSheet.create({
   container: {
     flex: 1,
     width: VIEW_WIDTH - 50,
+    padding: 25,
     backgroundColor: '$white',
     alignSelf: 'center',
     shadowColor: '$black',
@@ -314,21 +315,19 @@ export const profileInfoViewStyles = EStyleSheet.create({
   },
   doubleLabelView: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignSelf: 'flex-end',
+    justifyContent: 'flex-start',
+    alignSelf: 'center',
+    paddingBottom: 25,
   },
   descriptionView: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    padding: 25,
-    paddingRight: 0,
   },
   name: {
     width: VIEW_WIDTH - 50 - 50,
     fontSize: 25,
-    padding: 25,
     paddingTop: 18,
   },
   gradientView: {
@@ -340,7 +339,6 @@ export const profileInfoViewStyles = EStyleSheet.create({
   locationView: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center',
   },
   emailView: {
     flex: 1,
@@ -356,11 +354,13 @@ export const profileInfoViewStyles = EStyleSheet.create({
   emailIcon: {
     fontSize: 12,
   },
+  editIcon: {
+    alignSelf: 'flex-end',
+  },
   label: {
     fontSize: 10,
     opacity: 0.4,
     letterSpacing: 1,
-    paddingRight: 25,
   },
   email: {
     flex: 1,

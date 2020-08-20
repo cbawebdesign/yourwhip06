@@ -3,8 +3,8 @@ import { put, call, select } from 'redux-saga/effects';
 import { TIMELINE_FEED_RESULT, TIMELINE_FEED_ERROR } from '../actions/timeline';
 import { API_HOST } from '../config/constants';
 
-const fetchTimelineFeed = (token) =>
-  fetch(`${API_HOST}/get-timeline-feed/`, {
+const fetchTimelineFeed = ({ action, token }) =>
+  fetch(`${API_HOST}/get-timeline-feed/${action.skip}/${action.limit}`, {
     method: 'get',
     headers: {
       Authorization: `Bearer ${token}`,
@@ -13,11 +13,11 @@ const fetchTimelineFeed = (token) =>
     },
   });
 
-export function* getTimelineFeed() {
+export function* getTimelineFeed(action) {
   const token = yield select((state) => state.auth.authToken);
 
   try {
-    const response = yield call(fetchTimelineFeed, token);
+    const response = yield call(fetchTimelineFeed, { action, token });
     const result = yield response.json();
 
     if (result.error) {

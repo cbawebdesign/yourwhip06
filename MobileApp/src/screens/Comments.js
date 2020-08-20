@@ -15,6 +15,7 @@ import {
   onNewCommentHelper,
   onDeleteHelper,
 } from '../helpers/socialHelpers';
+import { useKeyboardState } from '../config/hooks';
 
 import {
   getCommentFeed,
@@ -44,6 +45,7 @@ const Comments = ({
   fetching,
 }) => {
   const dispatch = useDispatch();
+  const { keyboardShowing } = useKeyboardState();
 
   const parentId = route.params.post
     ? route.params.post._id
@@ -53,7 +55,6 @@ const Comments = ({
   const [comment, setComment] = useState('');
   const [showCommentOptions, setShowCommentOptions] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
-  const [keyboardActive, setKeyboardActive] = useState(false);
 
   const commentOptions = {
     title: 'Delete comment',
@@ -207,8 +208,6 @@ const Comments = ({
     <ContainerView
       onPress={handleRemoveKeyboard}
       headerHeight={route.params.headerHeight}
-      onKeyboardShow={() => setKeyboardActive(true)}
-      onKeyboardHide={() => setKeyboardActive(false)}
     >
       <SelectionModal
         showModal={showCommentOptions}
@@ -238,7 +237,7 @@ const Comments = ({
       <FooterView
         color="transparent"
         hasGradient
-        keyboardActive={keyboardActive}
+        keyboardActive={keyboardShowing}
       >
         <CommentComposeView
           onComposePress={handleComposePress}

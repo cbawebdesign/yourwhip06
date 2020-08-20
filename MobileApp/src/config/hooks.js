@@ -1,27 +1,48 @@
-// import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Keyboard, AppState, Platform } from 'react-native';
 
-// // Hook
-// function useOnScreen(ref, rootMargin = '0px') {
-//   // State and setter for storing whether element is visible
-//   const [isIntersecting, setIntersecting] = useState(false);
+export const useKeyboardState = () => {
+  const [keyboardShowing, setKeyboardShowing] = useState(false);
+  const [onKeyboardShow, setOnkeyboardShow] = useState(null);
+  const [onKeyboardHide, setOnkeyboardHide] = useState(null);
 
-//   useEffect(() => {
-//     const observer = new IntersectionObserver(
-//       ([entry]) => {
-//         // Update our state when observer callback fires
-//         setIntersecting(entry.isIntersecting);
-//       },
-//       {
-//         rootMargin,
-//       }
-//     );
-//     if (ref.current) {
-//       observer.observe(ref.current);
-//     }
-//     return () => {
-//       observer.unobserve(ref.current);
-//     };
-//   }, []); // Empty array ensures that effect is only run on mount and unmount
+  const keyboardShow = (event) => {
+    setKeyboardShowing(true);
+    setOnkeyboardShow(event);
+    setOnkeyboardHide(null);
+  };
 
-//   return isIntersecting;
-// }
+  const keyboardHide = (event) => {
+    setKeyboardShowing(false);
+    setOnkeyboardShow(null);
+    setOnkeyboardHide(event);
+  };
+
+  useEffect(() => {
+    const name = Platform.OS === 'ios' ? 'Will' : 'Did';
+
+    AppState.addEventListener = Keyboard.addListener(
+      `keyboard${name}Show`,
+      keyboardShow
+    );
+    AppState.addEventListener = Keyboard.addListener(
+      `keyboard${name}Hide`,
+      keyboardHide
+    );
+
+    return () => {
+      AppState.removeEventListener = Keyboard.removeListener(
+        `keyboard${name}Show`,
+        keyboardShow
+      );
+      AppState.removeEventListener = Keyboard.removeListener(
+        `keyboard${name}Hide`,
+        keyboardHide
+      );
+    };
+  });
+
+  return { keyboardShowing, onKeyboardShow, onKeyboardHide };
+};
+
+export default useKeyboardState;

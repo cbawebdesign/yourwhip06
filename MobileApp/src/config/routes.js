@@ -44,7 +44,7 @@ import {
   getHeaderLeftHelper,
 } from '../helpers/routeHelpers';
 
-import { storeToken } from '../actions/auth';
+import { storeToken, routeChecksComplete } from '../actions/auth';
 import { getUserInfo, setWalkthroughComplete } from '../actions/user';
 
 import { userPropType } from './propTypes';
@@ -323,6 +323,9 @@ const RootStackScreen = ({ authToken, walkthroughComplete, currentUser }) => {
     if (isWalkthroughComplete) {
       dispatch(setWalkthroughComplete());
     }
+
+    // DISABLE LOADER
+    dispatch(routeChecksComplete());
   };
 
   useEffect(() => {

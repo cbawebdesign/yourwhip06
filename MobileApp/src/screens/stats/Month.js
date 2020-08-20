@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View } from 'react-native';
+import PropTypes from 'prop-types';
+import { View, ScrollView, RefreshControl } from 'react-native';
 import { useDispatch, connect } from 'react-redux';
 import { useSafeArea } from 'react-native-safe-area-context';
 
@@ -16,7 +17,7 @@ import styles from './styles';
 
 // DISPLAYS THE MONTH TAB SCREEN
 
-const Month = ({ currentUser, stats }) => {
+const Month = ({ currentUser, stats, fetching }) => {
   const dispatch = useDispatch();
 
   const [monthIndex, setMonthIndex] = useState(0);
@@ -59,6 +60,9 @@ const Month = ({ currentUser, stats }) => {
       y: item.followersCount,
     }));
   };
+  const handleRefresh = () => {
+    getDataForSelectedMonth();
+  };
 
   useEffect(() => {
     getDataForSelectedMonth();
@@ -70,33 +74,41 @@ const Month = ({ currentUser, stats }) => {
 
   return (
     <View style={styles.container}>
-      <HighlightScrollView
-        onIndexChange={handleIndexChange}
-        type="month"
-        startDate={currentUser.dateTime}
-      />
-      <StatsDataView
-        likesActive={likesActive}
-        followersActive={followersActive}
-        onPress={handleViewPress}
-        dataSet={{
-          likesAbsolute: stats.likesCount,
-          followersAbsolute: stats.followersCount,
-          likesGrowth: stats.likesGrowth,
-          followersGrowth: stats.followersGrowth,
-        }}
-      />
-      <LinearGradient
-        style={[
-          styles.gradientView,
-          { height: styles.$gradientViewHeight + useSafeArea().bottom },
-        ]}
-        colors={[styles.$gradientColorFrom, styles.$gradientColorTo]}
-        start={[0, 0]}
-        end={[1, 1]}
+      <ScrollView
+        contentContainerStyle={styles.container}
+        refreshControl={
+          <RefreshControl refreshing={fetching} onRefresh={handleRefresh} />
+        }
+        refreshing={fetching}
       >
-        <LineChart dataSet={getChartData()} />
-      </LinearGradient>
+        <HighlightScrollView
+          onIndexChange={handleIndexChange}
+          type="month"
+          startDate={currentUser.dateTime}
+        />
+        <StatsDataView
+          likesActive={likesActive}
+          followersActive={followersActive}
+          onPress={handleViewPress}
+          dataSet={{
+            likesAbsolute: stats.likesCount,
+            followersAbsolute: stats.followersCount,
+            likesGrowth: stats.likesGrowth,
+            followersGrowth: stats.followersGrowth,
+          }}
+        />
+        <LinearGradient
+          style={[
+            styles.gradientView,
+            { height: styles.$gradientViewHeight + useSafeArea().bottom },
+          ]}
+          colors={[styles.$gradientColorFrom, styles.$gradientColorTo]}
+          start={[0, 0]}
+          end={[1, 1]}
+        >
+          <LineChart dataSet={getChartData()} />
+        </LinearGradient>
+      </ScrollView>
     </View>
   );
 };
@@ -108,15 +120,17 @@ Month.defaultProps = {
 Month.propTypes = {
   currentUser: userPropType,
   stats: statsPropType.isRequired,
+  fetching: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => {
   const { user } = state.user;
-  const { stats } = state.stats;
+  const { stats, fetching } = state.stats;
 
   return {
     currentUser: user,
     stats,
+    fetching,
   };
 };
 

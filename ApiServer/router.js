@@ -72,7 +72,7 @@ app.get('/get-gallery-feed/', auth, Gallery.getFeed);
 app.get('/get-profile/:userId/:skip/:limit', auth, Profile.getProfile);
 
 // TIMELINE
-app.get('/get-timeline-feed', auth, Timeline.getFeed);
+app.get('/get-timeline-feed/:skip/:limit', auth, Timeline.getFeed);
 
 // PEOPLE / USER
 app.post('/edit-profile/', auth, uploads.uploadProfileImage, Users.editProfile);

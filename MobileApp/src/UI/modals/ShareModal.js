@@ -6,13 +6,13 @@ import {
   TouchableWithoutFeedback,
   TextInput,
   Platform,
-  AppState,
-  Keyboard,
 } from 'react-native';
 import { useSafeArea } from 'react-native-safe-area-context';
 
 import TextButton from '../buttons/TextButton';
 import { CustomText as Text, TITLE_FONT, BODY_FONT } from '../text/CustomText';
+
+import { useKeyboardState } from '../../config/hooks';
 
 import { modalStyles as styles } from './styles';
 
@@ -34,40 +34,15 @@ const ShareModal = ({
   descriptionValue,
 }) => {
   const safeAreaBottom = 8 + useSafeArea().bottom;
+  const { onKeyboardShow } = useKeyboardState();
 
   const [paddingBottom, setPaddingBottom] = useState(safeAreaBottom);
 
-  const keyboardShow = (event) => {
-    setPaddingBottom(event.endCoordinates.height);
-  };
-
-  const keyboardHide = () => {
-    setPaddingBottom(safeAreaBottom);
-  };
-
   useEffect(() => {
-    const name = Platform.OS === 'ios' ? 'Will' : 'Did';
-
-    AppState.addEventListener = Keyboard.addListener(
-      `keyboard${name}Show`,
-      keyboardShow
-    );
-    AppState.addEventListener = Keyboard.addListener(
-      `keyboard${name}Hide`,
-      keyboardHide
-    );
-
-    return () => {
-      AppState.removeEventListener = Keyboard.removeListener(
-        `keyboard${name}Show`,
-        keyboardShow
-      );
-      AppState.removeEventListener = Keyboard.removeListener(
-        `keyboard${name}Hide`,
-        keyboardHide
-      );
-    };
-  });
+    if (onKeyboardShow) {
+      setPaddingBottom(onKeyboardShow.endCoordinates.height);
+    }
+  }, [onKeyboardShow]);
 
   return (
     <View style={styles.centeredView}>

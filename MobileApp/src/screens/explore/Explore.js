@@ -10,6 +10,7 @@ import PhotoModal from '../../UI/modals/PhotoModal';
 import ExploreListItem from '../../UI/lists/ExploreListItem';
 import ShareModal from '../../UI/modals/ShareModal';
 import SelectionModal from '../../UI/modals/SelectionModal';
+import { CustomText as Text, BODY_FONT } from '../../UI/text/CustomText';
 
 import {
   onLikePressHelper,
@@ -53,6 +54,7 @@ const Explore = ({
   route,
   navigation,
   homeFeed,
+  endOfList,
   currentUser,
   commentsUpdateCheck,
   newLikeCheck,
@@ -291,6 +293,7 @@ const Explore = ({
   };
 
   const handleLoadMore = (count) => {
+    console.log('passing');
     dispatch(getHomeFeed(count, PAGINATION_LIMIT));
   };
   const handleLoadMoreThrottled = useRef(debounce(500, handleLoadMore)).current;
@@ -390,7 +393,6 @@ const Explore = ({
           onModalDismissPress={() => setShowShareModal(false)}
           onChangeText={(text) => setShareMessage(text)}
           descriptionValue={shareMessage}
-          keyboardShow={keyboardShow}
         />
       )}
       <PhotoModal
@@ -413,13 +415,22 @@ const Explore = ({
         renderItem={renderItem}
         scrollIndicatorInsets={{ right: 1 }}
         onScroll={({ nativeEvent }) => {
+          if (fetching || endOfList) return;
+
           if (isCloseToBottom(nativeEvent)) {
             handleLoadMoreThrottled(homeFeed.length);
           }
         }}
+        ListFooterComponent={() => (
+          <Text
+            text={endOfList ? 'End of list' : ''}
+            fontFamily={BODY_FONT}
+            style={styles.endOfList}
+          />
+        )}
         onViewableItemsChanged={onViewRef}
         viewabilityConfig={viewConfigRef}
-        onRefresh={handleRefresh}
+        onRreefresh={handleRefresh}
         refreshing={fetching}
         keyExtractor={(item) => item._id}
       />
@@ -442,6 +453,7 @@ Explore.propTypes = {
   }).isRequired,
   currentUser: userPropType,
   homeFeed: PropTypes.arrayOf(exploreItemPropType).isRequired,
+  endOfList: PropTypes.bool.isRequired,
   commentsUpdateCheck: PropTypes.shape({
     fromScreen: PropTypes.string,
     id: PropTypes.string.isRequired,
@@ -457,13 +469,14 @@ Explore.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const { homeFeed, deletedPost, fetching } = state.home;
+  const { homeFeed, endOfList, deletedPost, fetching } = state.home;
   const { user } = state.user;
   const { commentsUpdateCheck } = state.comments;
   const { newLikeCheck } = state.likes;
 
   return {
     homeFeed,
+    endOfList,
     currentUser: user,
     commentsUpdateCheck,
     newLikeCheck,

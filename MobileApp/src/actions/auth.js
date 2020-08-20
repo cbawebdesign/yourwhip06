@@ -35,6 +35,7 @@ export const DELETE_ACCOUNT_RESULT = 'DELETE_ACCOUNT_RESULT';
 export const DELETE_ACCOUNT_ERROR = 'DELETE_ACCOUNT_ERROR';
 
 export const RESET_MESSAGES = 'RESET_MESSAGES';
+export const ROUTE_CHECKS_COMPLETE = 'ROUTE_CHECKS_COMPLETE';
 
 export const login = (email, password) => ({
   type: LOGIN,
@@ -78,6 +79,10 @@ export const resetPassword = (password) => ({
 
 export const resetMessages = () => ({
   type: RESET_MESSAGES,
+});
+
+export const routeChecksComplete = () => ({
+  type: ROUTE_CHECKS_COMPLETE,
 });
 
 export const deleteAccount = (userId) => ({

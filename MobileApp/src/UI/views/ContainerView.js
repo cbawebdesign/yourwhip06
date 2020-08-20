@@ -1,11 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
   Platform,
-  Keyboard,
-  AppState,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -34,45 +32,10 @@ const ContainerView = ({
   backgroundColor,
   loadingOptions,
   headerHeight,
-  onKeyboardShow,
-  onKeyboardHide,
 }) => {
   const BG_COLOR = hasGradient
     ? [styles.$gradientColorFrom, styles.$gradientColorTo]
     : [backgroundColor, backgroundColor];
-
-  useEffect(() => {
-    const name = Platform.OS === 'ios' ? 'Will' : 'Did';
-
-    if (onKeyboardShow) {
-      AppState.addEventListener = Keyboard.addListener(
-        `keyboard${name}Show`,
-        onKeyboardShow
-      );
-    }
-
-    if (onKeyboardHide) {
-      AppState.addEventListener = Keyboard.addListener(
-        `keyboard${name}Hide`,
-        onKeyboardHide
-      );
-    }
-
-    return () => {
-      if (onKeyboardShow) {
-        AppState.removeEventListener = Keyboard.removeListener(
-          `keyboard${name}Show`,
-          onKeyboardShow
-        );
-      }
-      if (onKeyboardHide) {
-        AppState.removeEventListener = Keyboard.removeListener(
-          `keyboard${name}Hide`,
-          onKeyboardHide
-        );
-      }
-    };
-  });
 
   return (
     <KeyboardAvoidingView
@@ -108,8 +71,6 @@ ContainerView.defaultProps = {
   backgroundColor: '#DDDDDD',
   loadingOptions: null,
   headerHeight: 0,
-  onKeyboardShow: null,
-  onKeyboardHide: null,
 };
 
 ContainerView.propTypes = {
@@ -123,8 +84,6 @@ ContainerView.propTypes = {
     hideSpinner: PropTypes.bool,
   }),
   headerHeight: PropTypes.number,
-  onKeyboardShow: PropTypes.func,
-  onKeyboardHide: PropTypes.func,
 };
 
 export default ContainerView;

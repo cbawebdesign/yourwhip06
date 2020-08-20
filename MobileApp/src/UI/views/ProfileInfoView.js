@@ -39,6 +39,7 @@ const ProfileInfoView = ({
         <Text
           text={email}
           fontFamily={TITLE_FONT}
+          numberOfLines={2}
           style={[styles.label, styles.email]}
         />
       </View>
@@ -50,7 +51,7 @@ const ProfileInfoView = ({
         style={styles.description}
       />
       {isCurrentUser && (
-        <View style={{ alignSelf: 'flex-end' }}>
+        <View style={styles.editIcon}>
           <IconButton icon={editIcon} onPress={onEditDescription} size={14} />
         </View>
       )}

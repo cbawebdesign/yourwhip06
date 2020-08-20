@@ -7,7 +7,7 @@ const styles = EStyleSheet.create({
   $innerBackgroundColor: '$white',
   $background: '$backgroundGray',
   $dark: '$black',
-  $authProfileImage: { flex: 7 },
+  $authProfileImage: { flex: 6.8 },
 
   $navigationInnerContainer: {
     flexWrap: 'wrap',
@@ -61,6 +61,10 @@ const styles = EStyleSheet.create({
     textTransform: 'uppercase',
     opacity: 0.5,
     alignSelf: 'flex-start',
+  },
+  endOfList: {
+    flex: 1,
+    textAlign: 'center',
   },
 
   // SROLLVIEW

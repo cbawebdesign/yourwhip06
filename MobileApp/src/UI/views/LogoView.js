@@ -1,8 +1,10 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Image, Keyboard, AppState, Animated, Platform } from 'react-native';
+import { Image, Animated } from 'react-native';
 
 import { CustomText as Text, TITLE_FONT } from '../text/CustomText';
+
+import { useKeyboardState } from '../../config/hooks';
 
 import { logoViewStyles as styles } from './styles';
 
@@ -10,10 +12,10 @@ const Logo = require('../../../assets/images/logo.png');
 
 const ANIMATION_DURATION = 300;
 
-let logoViewScale;
-
 const LogoView = ({ title }) => {
-  logoViewScale = useRef(new Animated.Value(styles.$viewScaleLarge)).current;
+  const { onKeyboardShow } = useKeyboardState();
+  const logoViewScale = useRef(new Animated.Value(styles.$viewScaleLarge))
+    .current;
 
   const keyboardShow = () => {
     Animated.timing(logoViewScale, {
@@ -32,28 +34,12 @@ const LogoView = ({ title }) => {
   };
 
   useEffect(() => {
-    const name = Platform.OS === 'ios' ? 'Will' : 'Did';
-
-    AppState.addEventListener = Keyboard.addListener(
-      `keyboard${name}Show`,
-      keyboardShow
-    );
-    AppState.addEventListener = Keyboard.addListener(
-      `keyboard${name}Hide`,
-      keyboardHide
-    );
-
-    return () => {
-      AppState.removeEventListener = Keyboard.removeListener(
-        `keyboard${name}Show`,
-        keyboardShow
-      );
-      AppState.removeEventListener = Keyboard.removeListener(
-        `keyboard${name}Hide`,
-        keyboardHide
-      );
-    };
-  });
+    if (onKeyboardShow) {
+      keyboardShow();
+    } else {
+      keyboardHide();
+    }
+  }, [onKeyboardShow]);
 
   return (
     <Animated.View

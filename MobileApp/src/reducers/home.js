@@ -16,6 +16,7 @@ const initialState = {
   success: null,
   fetching: true,
   homeFeed: [],
+  endOfList: false,
   deletedPost: null,
 };
 
@@ -28,6 +29,7 @@ const homeState = (state = initialState, action) => {
           action.result.skip === '0'
             ? action.result.posts
             : [...state.homeFeed, ...action.result.posts],
+        endOfList: action.result.posts.length === 0,
         fetching: false,
         error: null,
       };
