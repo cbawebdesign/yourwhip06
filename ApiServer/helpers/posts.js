@@ -6,8 +6,6 @@ exports.getPostsFromRequest = async (req) => {
   const skip = Number(req.params.skip);
   const limit = Number(req.params.limit) || Number(req.body.limit);
 
-  console.log('limit', req.homeFeedItemsCount);
-
   const posts = await Post.find({}, null, {
     skip,
     limit,

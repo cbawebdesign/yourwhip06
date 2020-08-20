@@ -64,8 +64,6 @@ exports.likeReplyPress = async (req, res) => {
       reply.likes.push(newLike);
       await reply.save();
 
-      console.log(reply);
-
       res.status(HttpStatus.OK).send({ success: 'Like successfully created' });
     } catch (error) {
       console.log('26', error);
