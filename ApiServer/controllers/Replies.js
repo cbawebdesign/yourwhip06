@@ -128,7 +128,7 @@ exports.deleteReply = async (req, res) => {
       success: 'Reply deleted successfully',
       id: parentId,
       replyId: commentId,
-      action: 'DELETE_COMMENT',
+      action: 'DELETE_REPLY',
       replies,
     });
   } catch (error) {

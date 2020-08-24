@@ -24,7 +24,7 @@ exports.cloudinaryUploader = async (
       },
       async (error, result) => {
         if (error) {
-          promise.reject(new Error(error));
+          promise.reject(new Error(error.message));
         }
 
         const image = new Image({

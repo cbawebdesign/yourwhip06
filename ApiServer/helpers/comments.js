@@ -1,5 +1,4 @@
 const Comment = require('../models/Comment');
-const Reply = require('../models/Reply');
 
 exports.buildCommentFromRequest = async (req) => {
   const { user, post, image, comment, commentType } = req;
