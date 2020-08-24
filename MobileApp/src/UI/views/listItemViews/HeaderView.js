@@ -68,7 +68,7 @@ const HeaderView = ({
       </View>
 
       {enableOptions && !isSharedItem && (
-        <IconButton icon={moreIcon} onPress={onOptionsPress} />
+        <IconButton icon={moreIcon} size={18} onPress={onOptionsPress} />
       )}
     </View>
   </View>

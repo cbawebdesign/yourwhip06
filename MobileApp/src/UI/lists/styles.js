@@ -29,7 +29,7 @@ export const exploreListItemStyles = EStyleSheet.create({
     height: 25,
   },
   bodyText: {
-    fontSize: 18,
+    fontSize: 16,
     opacity: 0.7,
     marginBottom: 50,
     alignSelf: 'flex-start',
@@ -47,7 +47,7 @@ export const commentListItemStyles = EStyleSheet.create({
     marginLeft: 40,
     marginRight: 25,
     opacity: 0.8,
-    fontSize: 18,
+    fontSize: 16,
   },
   descriptionView: {
     height: 45,

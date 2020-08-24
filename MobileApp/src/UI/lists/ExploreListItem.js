@@ -152,7 +152,12 @@ const ExploreListItem = ({
             <Text
               text={item.description}
               fontFamily={BODY_FONT}
-              style={styles.bodyText}
+              style={[
+                styles.bodyText,
+                !postHasMedia &&
+                  !sharedPost &&
+                  !sharedImage && { marginBottom: 25 },
+              ]}
             />
           </View>
         ) : (

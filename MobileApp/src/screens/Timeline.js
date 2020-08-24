@@ -106,7 +106,7 @@ const Timeline = ({
         ListEmptyComponent={renderEmptyListText()}
         ListFooterComponent={() => (
           <Text
-            text={endOfList ? 'End of list' : ''}
+            text={endOfList ? 'You reached the end...' : ''}
             fontFamily={BODY_FONT}
             style={styles.endOfList}
           />

@@ -247,9 +247,9 @@ const Compose = ({ route, navigation, galleryFeed }) => {
       !route.params.selection.some((item) => item.file.mediaType === 'video') &&
       !route.params.selection.every(
         (item) =>
-          item.localUri.includes('JPG') ||
-          item.localUri.includes('JPEG') ||
-          item.localUri.includes('PNG')
+          item.localUri.toLowerCase().includes('jpg') ||
+          item.localUri.toLowerCase().includes('jpeg') ||
+          item.localUri.toLowerCase().includes('png')
       )
     ) {
       setErrorMessage(

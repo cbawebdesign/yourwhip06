@@ -422,14 +422,14 @@ const Explore = ({
         }}
         ListFooterComponent={() => (
           <Text
-            text={endOfList && feed.length > 0 ? 'End of list' : ''}
+            text={endOfList && feed.length > 0 ? 'You reached the end...' : ''}
             fontFamily={BODY_FONT}
             style={styles.endOfList}
           />
         )}
         onViewableItemsChanged={onViewRef}
         viewabilityConfig={viewConfigRef}
-        onRreefresh={handleRefresh}
+        onRefresh={handleRefresh}
         refreshing={fetching}
         keyExtractor={(item) => item._id}
       />

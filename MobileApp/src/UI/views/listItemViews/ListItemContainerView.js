@@ -30,7 +30,6 @@ const ListItemContainerView = ({
   isComment,
   isReply,
   getListItemViewHeight,
-  enableNarrow,
 }) => (
   <TouchableOpacity
     onPress={onPress}

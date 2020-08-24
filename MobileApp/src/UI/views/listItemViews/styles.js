@@ -1,7 +1,14 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Dimensions, Platform } from 'react-native';
 
+import {
+  OUTER_CONTAINER_MARGIN_LEFT_RIGHT,
+  INNER_CONTAINER_MARGIN_LEFT_RIGHT,
+} from '../../../config/constants';
+
 const VIEW_WIDTH = Dimensions.get('window').width;
+
+// const MARGIN_LEFT_RIGHT = 32;
 
 export const headerViewStyles = EStyleSheet.create({
   $gradientColorFrom: '$primary1',
@@ -77,26 +84,30 @@ export const multiTextViewStyles = EStyleSheet.create({
 });
 
 export const mediaViewStyles = EStyleSheet.create({
-  $smallImageWidth: (VIEW_WIDTH - 32) / 3,
-  $smallImageHeight: (VIEW_WIDTH - 32) / 3,
-  $singleLargeImageWidth: VIEW_WIDTH - 32,
-  $singleLargeImageHeight: ((VIEW_WIDTH - 32) / 3) * 2,
-  $doubleImageWidth: (VIEW_WIDTH - 32) / 2,
-  $doubleImageHeight: ((VIEW_WIDTH - 32) / 3) * 2,
-  $multipleLargeImageWidth: ((VIEW_WIDTH - 32) / 3) * 2,
-  $multipleLargeImageHeight: ((VIEW_WIDTH - 32) / 3) * 2,
+  $smallImageWidth: (VIEW_WIDTH - OUTER_CONTAINER_MARGIN_LEFT_RIGHT) / 3,
+  $smallImageHeight: (VIEW_WIDTH - OUTER_CONTAINER_MARGIN_LEFT_RIGHT) / 3,
+  $singleLargeImageWidth: VIEW_WIDTH - OUTER_CONTAINER_MARGIN_LEFT_RIGHT,
+  $singleLargeImageHeight:
+    ((VIEW_WIDTH - OUTER_CONTAINER_MARGIN_LEFT_RIGHT) / 3) * 2,
+  $doubleImageWidth: (VIEW_WIDTH - OUTER_CONTAINER_MARGIN_LEFT_RIGHT) / 2,
+  $doubleImageHeight:
+    ((VIEW_WIDTH - OUTER_CONTAINER_MARGIN_LEFT_RIGHT) / 3) * 2,
+  $multipleLargeImageWidth:
+    ((VIEW_WIDTH - OUTER_CONTAINER_MARGIN_LEFT_RIGHT) / 3) * 2,
+  $multipleLargeImageHeight:
+    ((VIEW_WIDTH - OUTER_CONTAINER_MARGIN_LEFT_RIGHT) / 3) * 2,
 
   container: {
     flexWrap: 'wrap',
     height: '$singleLargeImageHeight',
-    width: VIEW_WIDTH - 32,
+    width: VIEW_WIDTH - OUTER_CONTAINER_MARGIN_LEFT_RIGHT,
   },
   video: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     height: '$singleLargeImageHeight',
-    width: VIEW_WIDTH - 32,
+    width: VIEW_WIDTH - OUTER_CONTAINER_MARGIN_LEFT_RIGHT,
   },
   image: {
     resizeMode: 'cover',
@@ -205,7 +216,7 @@ export const listItemContainerViewStyles = EStyleSheet.create({
   innerContainer: {
     flex: 1,
     alignItems: 'center',
-    width: VIEW_WIDTH - 50,
+    width: VIEW_WIDTH - INNER_CONTAINER_MARGIN_LEFT_RIGHT,
     backgroundColor: '$white',
     shadowColor: '$black',
     shadowOffset: {
