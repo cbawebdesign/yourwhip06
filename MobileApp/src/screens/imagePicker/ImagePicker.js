@@ -133,6 +133,7 @@ const ImagePicker = ({ route, navigation }) => {
             color="black"
             uppercase
             opacity={1}
+            disabled={selection.length === 0}
           />
         </FooterView>
       )}

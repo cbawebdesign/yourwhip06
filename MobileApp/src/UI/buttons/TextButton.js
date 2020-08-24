@@ -23,8 +23,9 @@ const TextButton = ({
   uppercase,
   opacity,
   textShadow,
+  disabled,
 }) => (
-  <TouchableOpacity onPress={onPress} activeOpacity={0.8}>
+  <TouchableOpacity onPress={onPress} activeOpacity={0.8} disabled={disabled}>
     <View style={styles.container}>
       <Text
         text={text}
@@ -35,7 +36,7 @@ const TextButton = ({
             fontSize,
             color,
             textTransform: uppercase ? 'uppercase' : 'none',
-            opacity: opacity || 0.5,
+            opacity: disabled ? 0.2 : opacity || 0.5,
             textShadowColor: textShadow
               ? 'rgba(0, 0, 0, 1)'
               : 'rgba(0, 0, 0, 0)',

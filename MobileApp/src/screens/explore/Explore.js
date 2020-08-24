@@ -293,7 +293,6 @@ const Explore = ({
   };
 
   const handleLoadMore = (count) => {
-    console.log('passing');
     dispatch(getHomeFeed(count, PAGINATION_LIMIT));
   };
   const handleLoadMoreThrottled = useRef(debounce(500, handleLoadMore)).current;
@@ -423,7 +422,7 @@ const Explore = ({
         }}
         ListFooterComponent={() => (
           <Text
-            text={endOfList ? 'End of list' : ''}
+            text={endOfList && feed.length > 0 ? 'End of list' : ''}
             fontFamily={BODY_FONT}
             style={styles.endOfList}
           />

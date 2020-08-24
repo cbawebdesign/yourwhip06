@@ -65,6 +65,7 @@ const styles = EStyleSheet.create({
   endOfList: {
     flex: 1,
     textAlign: 'center',
+    paddingBottom: 12,
   },
 
   // SROLLVIEW

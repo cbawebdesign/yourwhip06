@@ -222,6 +222,49 @@ const Compose = ({ route, navigation, galleryFeed }) => {
     setShowNewGalleryModal(false);
   };
 
+  const doInvalideFileTypeCheck = () => {
+    // 1. PREVENT SIMULTANEOUS PHOTO + VIDEO UPLOAD
+    // 2. ALSO PREVENT NON JPG/JPEG/PNG UPLOADS DUE TO FREE CLOUDINARY
+    //    MEMBERSHIP FILE SIZE RESTRICTIONS
+    if (
+      route.params.selection &&
+      route.params.selection.length > 1 &&
+      route.params.selection.some((item) => item.file.mediaType === 'video')
+    ) {
+      setErrorMessage(
+        'When composing a post with video type media, your post can contain no more than one item at a time.'
+      );
+      setMedia(null);
+      setPreventContinue(true);
+      setShowAlertModal(true);
+
+      return true;
+    }
+
+    if (
+      route.params.selection &&
+      route.params.selection.length > 0 &&
+      !route.params.selection.some((item) => item.file.mediaType === 'video') &&
+      !route.params.selection.every(
+        (item) =>
+          item.localUri.includes('JPG') ||
+          item.localUri.includes('JPEG') ||
+          item.localUri.includes('PNG')
+      )
+    ) {
+      setErrorMessage(
+        'The app only supports images of type JPG, JPEG and PNG. One ore more images in your selection do not meet this requirement.'
+      );
+      setMedia(null);
+      setPreventContinue(true);
+      setShowAlertModal(true);
+
+      return true;
+    }
+
+    return false;
+  };
+
   const hideModal = () => {
     setPreventContinue(false);
     setShowAlertModal(false);
@@ -230,25 +273,18 @@ const Compose = ({ route, navigation, galleryFeed }) => {
     setShowNewGalleryModal(false);
     setShowExistingGalleryModal(false);
     setGalleryName(null);
+    setErrorMessage('');
   };
 
   useEffect(() => {
-    // SET MEDIA STATE BASED ON UPLOADED MEDIA TYPE
     if (route.params) {
-      // PREVENT SIMULTANEOUS PHOTO + VIDEO UPLOAD
-      // ELSE SET MEDIA STATE
-      if (
-        route.params.selection &&
-        route.params.selection.length > 1 &&
-        route.params.selection.some((item) => item.file.mediaType === 'video')
-      ) {
-        setErrorMessage(
-          'When composing a post with video type media, your post can contain no more than one item at a time'
-        );
-        setMedia(null);
-        setPreventContinue(true);
-        setShowAlertModal(true);
-      } else if (route.params.photo) {
+      // CHECK FOR INVALIDE FILE TYPES
+      // SET MEDIA STATE BASED ON UPLOADED MEDIA TYPE
+      if (doInvalideFileTypeCheck()) {
+        return;
+      }
+
+      if (route.params.photo) {
         setMedia({ type: 'photo', images: [{ file: route.params.photo }] });
       } else if (
         route.params.selection &&

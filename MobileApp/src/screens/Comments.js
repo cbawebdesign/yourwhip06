@@ -145,7 +145,7 @@ const Comments = ({
   };
 
   const updateReplyButtonView = () => {
-    // ADD NEW REPLY ON RETURN FROM 'REPLIES'
+    // UPDATE REPLY COUNT ON RETURN FROM 'REPLIES'
     const updatedFeed = onNewCommentHelper(
       currentUser._id,
       commentFeed,

@@ -122,7 +122,9 @@ const Replies = ({ route, navigation, replyFeed, currentUser, fetching }) => {
 
     // REMOVE COMMENT FROM LOCAL FEED STATE
     const feedCopy = [...feed];
-    const updatedFeed = feedCopy.filter((item) => item._id !== currentItem._id);
+    const updatedFeed = feedCopy.filter(
+      (feedItem) => feedItem._id !== currentItem._id
+    );
     setFeed(updatedFeed);
 
     setShowReplyOptions(false);

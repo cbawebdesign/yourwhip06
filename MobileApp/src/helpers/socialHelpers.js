@@ -63,7 +63,7 @@ export const onNewCommentHelper = (
         commentsUpdateCheck.action === 'DELETE_REPLY'
       ) {
         feedCopy[index][type] = feedCopy[index][type].filter(
-          (el) => el._id !== itemId
+          (el) => (el._id ? el._id : el) !== itemId
         );
       } else {
         feedCopy[index][type].push({
