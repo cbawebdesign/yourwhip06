@@ -35,8 +35,9 @@ const ComposeView = ({
     media &&
     (media.type === 'video' ||
       (media.images &&
-        (media.images[0].localUri.includes('mp4') ||
-          media.images[0].localUri.includes('MOV'))));
+        media.images[0].localUri &&
+        (media.images[0].localUri.toLowerCase().includes('mp4') ||
+          media.images[0].localUri.toLowerCase().includes('mov'))));
 
   return (
     <View style={styles.container}>

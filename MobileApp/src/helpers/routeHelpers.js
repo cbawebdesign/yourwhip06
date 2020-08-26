@@ -73,12 +73,6 @@ export const getHeaderTitleHelper = (route, navigation) => {
     childStack.state &&
     childStack.state.routes[childStack.state.index];
 
-  // console.log('route', route);
-  // console.log('routename', routeName);
-  // console.log('stack', stack);
-  // console.log('childstack', childStack);
-  // console.log('grandchild', grandchildStack);
-
   switch (routeName) {
     case 'Start':
     case 'Main':
@@ -209,9 +203,6 @@ export const getHeaderLeftHelper = (route, navigation) => {
     childStack.state &&
     childStack.state.routes[childStack.state.index];
 
-  // console.log(routeName);
-  // console.log(grandchildStack);
-
   switch (routeName) {
     case 'Start':
     case 'Main':
@@ -319,10 +310,6 @@ export const getHeaderRightHelper = (route, navigation, currentUser) => {
     childstack &&
     childstack.state &&
     childstack.state.routes[childstack.state.index].name;
-
-  // console.log('rn', routeName);
-  // console.log('stack', stack);
-  // console.log('screen', screen);
 
   switch (routeName) {
     case 'Start':

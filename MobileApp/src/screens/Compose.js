@@ -222,12 +222,11 @@ const Compose = ({ route, navigation, galleryFeed }) => {
     setShowNewGalleryModal(false);
   };
 
-  const doInvalideFileTypeCheck = () => {
+  const hasInvalidSelection = () => {
+    if (!route.params.selection) return false;
+
     // 1. PREVENT SIMULTANEOUS PHOTO + VIDEO UPLOAD
-    // 2. ALSO PREVENT NON JPG/JPEG/PNG UPLOADS DUE TO FREE CLOUDINARY
-    //    MEMBERSHIP FILE SIZE RESTRICTIONS
     if (
-      route.params.selection &&
       route.params.selection.length > 1 &&
       route.params.selection.some((item) => item.file.mediaType === 'video')
     ) {
@@ -241,19 +240,27 @@ const Compose = ({ route, navigation, galleryFeed }) => {
       return true;
     }
 
-    if (
-      route.params.selection &&
-      route.params.selection.length > 0 &&
-      !route.params.selection.some((item) => item.file.mediaType === 'video') &&
-      !route.params.selection.every(
-        (item) =>
+    // 2. PREVENT NON JPG/JPEG/PNG UPLOADS DUE TO FREE CLOUDINARY
+    //    MEMBERSHIP FILE SIZE RESTRICTIONS
+    const exts = [];
+    route.params.selection.forEach((item) => {
+      if (
+        !(
           item.localUri.toLowerCase().includes('jpg') ||
           item.localUri.toLowerCase().includes('jpeg') ||
           item.localUri.toLowerCase().includes('png')
-      )
-    ) {
+        )
+      ) {
+        const splt = item.localUri.split('.');
+        exts.push(splt[1]);
+      }
+    });
+
+    if (exts.length > 0) {
       setErrorMessage(
-        'The app only supports images of type JPG, JPEG and PNG. One ore more images in your selection do not meet this requirement.'
+        `The app only supports images of type JPG, JPEG and PNG. Your selection includes the following non-supported extentions: ${exts
+          .join(', ')
+          .toUpperCase()}.`
       );
       setMedia(null);
       setPreventContinue(true);
@@ -278,23 +285,32 @@ const Compose = ({ route, navigation, galleryFeed }) => {
 
   useEffect(() => {
     if (route.params) {
-      // CHECK FOR INVALIDE FILE TYPES
-      // SET MEDIA STATE BASED ON UPLOADED MEDIA TYPE
-      if (doInvalideFileTypeCheck()) {
-        return;
-      }
-
       if (route.params.photo) {
+        // MEDIA TYPE IS CAMERA PHOTO
         setMedia({ type: 'photo', images: [{ file: route.params.photo }] });
+      } else if (route.params.video) {
+        // MEDiA TYPE IS CAMERA VIDEO
+        setMedia({ type: 'video', video: route.params.video });
       } else if (
         route.params.selection &&
-        route.params.selection.some((item) => item.localUri.includes('MP4'))
+        route.params.selection.length === 1 &&
+        route.params.selection.some(
+          (item) =>
+            item.localUri.toLowerCase().includes('mp4') ||
+            item.localUri.toLowerCase().includes('mov')
+        )
       ) {
+        // MEDIA TYPE IS MEDIA LIBRARY VIDEO
         setMedia({ type: 'video', images: route.params.selection });
       } else if (route.params.selection) {
+        // MEDIA TYPE IS MEDIA LIBRARY IMAGE
+        // CHECK FOR INVALIDE FILE TYPES
+        // SET MEDIA STATE BASED ON UPLOADED MEDIA TYPE
+        if (hasInvalidSelection()) {
+          return;
+        }
+
         setMedia({ type: 'photo', images: route.params.selection });
-      } else if (route.params.video) {
-        setMedia({ type: 'video', video: route.params.video });
       }
     }
   }, [route]);

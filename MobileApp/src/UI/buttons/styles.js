@@ -116,13 +116,17 @@ export const albumButtonStyles = EStyleSheet.create({
     height: (VIEW_WIDTH - 16) / 3,
     marginLeft: 4,
     marginBottom: 4,
+    paddingLeft: 4,
+    paddingRight: 4,
   },
   title: {
     textAlign: 'center',
-    fontSize: 12,
+    fontSize: 10,
     paddingBottom: 12,
   },
-  assetCount: {},
+  assetCount: {
+    fontSize: 14,
+  },
 });
 
 export default {
