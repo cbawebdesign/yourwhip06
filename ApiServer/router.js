@@ -1,7 +1,7 @@
 const express = require('express');
 
 const Authentication = require('./controllers/Authentication');
-const Home = require('./controllers/Home');
+const Home = require('./controllers/Posts');
 const Detail = require('./controllers/Detail');
 const Comments = require('./controllers/Comments');
 const Replies = require('./controllers/Replies');
