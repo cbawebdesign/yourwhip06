@@ -107,6 +107,12 @@ exports.signupStep1 = async (req, res) => {
 
 exports.signupStep2 = async (req, res) => {
   try {
+    console.log('1', req.file);
+    if (req.file) {
+      const image = await imageHelper.saveProfileImageFromRequest(req);
+      console.log('2', image);
+      req.profileImage = image.image;
+    }
     const newUser = await userHelper.buildUserFromRequest(req);
 
     if (!newUser) {
@@ -250,11 +256,9 @@ exports.deleteAccount = async (req, res) => {
       });
     }
 
-    res
-      .status(HttpStatus.OK)
-      .send({
-        success: `Your account has been successfully deleted for user ${deletedUser.firtName} ${deletedUser.lastName}`,
-      });
+    res.status(HttpStatus.OK).send({
+      success: `The account for user ${deletedUser.firstName} ${deletedUser.lastName} has been successfully deleted`,
+    });
   } catch (error) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
       error: `An error occured deleting the account with id: ${req.body.userId}`,

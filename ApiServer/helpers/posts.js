@@ -1,6 +1,4 @@
 const Post = require('../models/Post');
-const User = require('../models/User');
-const Activity = require('../models/Activity');
 
 exports.getPostsFromRequest = async (req) => {
   const skip = Number(req.params.skip);

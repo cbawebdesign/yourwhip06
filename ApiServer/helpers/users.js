@@ -13,13 +13,14 @@ exports.buildUserFromRequest = async (req) => {
     location,
     description,
   } = req.body;
-  const imagePath = req.file ? req.file.path : '';
+  const { profileImage } = req;
+  console.log('3', profileImage);
   const user = new User({
     firstName,
     lastName,
     email,
     password,
-    profileImage: imagePath,
+    profileImage,
     birthday: birthday === 'undefined' || birthday === 'null' ? null : birthday,
     gender: gender === 'undefined' || gender === 'null' ? null : gender,
     location: location === 'undefined' || location === 'null' ? null : location,

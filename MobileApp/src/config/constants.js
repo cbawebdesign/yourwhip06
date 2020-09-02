@@ -1,7 +1,7 @@
 const DEVELOPMENT_API_HOST = 'http://localhost:4000';
 const PRODUCTION_API_HOST = 'https://react-native-share.herokuapp.com';
 
-const development = false;
+const development = true;
 
 export const API_HOST = development
   ? DEVELOPMENT_API_HOST
