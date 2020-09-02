@@ -1,13 +1,7 @@
 const HttpStatus = require('http-status-codes/index');
-const cloudinary = require('cloudinary').v2;
 
 const userHelper = require('../helpers/users');
 const imageHelper = require('../helpers/images');
-
-const uploads = require('../middleware/upload');
-
-const CLOUDINARY = require('../constants').CLOUDINARY;
-const Image = require('../models/Image');
 
 exports.getRecommended = async (req, res) => {
   const currentUser = req.user;

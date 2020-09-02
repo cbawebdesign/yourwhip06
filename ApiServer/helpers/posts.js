@@ -174,9 +174,18 @@ exports.getOnePostFromRequest = async (req) => {
 };
 
 exports.getPostsByUserFromRequest = async (req) => {
-  const userId = req.body.userId ? req.body.userId : req.params.userId;
+  let userId;
+
   const skip = Number(req.params.skip);
   const limit = Number(req.params.limit);
+
+  if (req.body.userId) {
+    userId = req.body.userId;
+  } else if (req.params.userId) {
+    userId = req.params.userId;
+  } else {
+    userId = req.user._id;
+  }
 
   try {
     const posts = await Post.find({ createdBy: { _id: userId } }, null, {
@@ -267,10 +276,8 @@ exports.deleteOnePostFromRequest = async (req) => {
 };
 
 exports.deletePostsFromRequest = async (req) => {
-  const { userId } = req.body;
-
   try {
-    const result = await Post.deleteMany({ createdBy: { _id: userId } });
+    const result = await Post.deleteMany({ createdBy: { _id: req.user._id } });
 
     return result;
   } catch (error) {

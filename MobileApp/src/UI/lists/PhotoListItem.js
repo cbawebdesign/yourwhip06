@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import PhotoPropType from '../../propTypes/photo';
 import ListItemContainerView from '../views/listItemViews/ListItemContainerView';
 import FeedSocialView from '../views/listItemViews/FeedSocialView';
 import MediaView from '../views/listItemViews/MediaView';
+
+import { imageItemPropType } from '../../config/propTypes';
 
 import { photoListItemStyles as styles } from './styles';
 
@@ -38,7 +39,7 @@ const PhotoListItem = ({
 };
 
 PhotoListItem.propTypes = {
-  item: PhotoPropType.isRequired,
+  item: imageItemPropType.isRequired,
   currentUser: PropTypes.objectOf(PropTypes.any).isRequired,
   onPress: PropTypes.func.isRequired,
   onLikePress: PropTypes.func.isRequired,

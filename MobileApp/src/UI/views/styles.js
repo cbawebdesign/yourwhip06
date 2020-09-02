@@ -1,6 +1,8 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Dimensions } from 'react-native';
 
+import { OUTER_CONTAINER_MARGIN_LEFT_RIGHT } from '../../config/constants';
+
 const VIEW_WIDTH = Dimensions.get('window').width;
 
 export const containerViewStyles = EStyleSheet.create({
@@ -26,12 +28,12 @@ export const logoViewStyles = EStyleSheet.create({
     alignItems: 'center',
   },
   logo: {
-    width: 65,
-    height: 78,
+    width: 100,
+    height: 100,
     margin: 47,
   },
   title: {
-    color: '$black',
+    color: '$white',
     fontSize: 24,
     letterSpacing: 20,
   },
@@ -209,7 +211,7 @@ export const composeViewStyles = EStyleSheet.create({
     position: 'absolute',
     top: 0,
     right: 0,
-    width: VIEW_WIDTH - 32,
+    width: VIEW_WIDTH - OUTER_CONTAINER_MARGIN_LEFT_RIGHT,
     padding: 25,
     zIndex: 999,
   },
@@ -226,6 +228,7 @@ export const composeViewStyles = EStyleSheet.create({
   inputTop: {
     paddingTop: 25,
     paddingBottom: 25,
+    fontSize: 16,
   },
   mediaView: {
     alignSelf: 'center',

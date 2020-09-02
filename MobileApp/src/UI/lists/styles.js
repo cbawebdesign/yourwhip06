@@ -1,5 +1,5 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Dimensions } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 
 const VIEW_WIDTH = Dimensions.get('window').width;
 
@@ -12,11 +12,13 @@ export const exploreListItemStyles = EStyleSheet.create({
     shadowColor: 'black',
     shadowOffset: {
       width: 5,
-      height: 5,
+      height: 0,
     },
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: '$backgroundGray',
     shadowOpacity: 0.25,
     shadowRadius: 5,
-    elevation: 15,
+    elevation: 5,
   },
   bodyTextView: {
     alignSelf: 'flex-start',

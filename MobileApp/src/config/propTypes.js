@@ -118,6 +118,19 @@ export const exploreItemPropType = PropTypes.shape({
   ),
 });
 
+export const commentItemPropType = PropTypes.shape({
+  createdBy: userPropType,
+  dateTime: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    .isRequired,
+  description: PropTypes.string.isRequired,
+  likes: PropTypes.arrayOf(PropTypes.any).isRequired,
+  post: PropTypes.string,
+  comment: PropTypes.string,
+  image: PropTypes.string,
+  replies: PropTypes.arrayOf(PropTypes.any).isRequired,
+  _id: PropTypes.string.isRequired,
+});
+
 export const galleryItemPropType = PropTypes.shape({
   createdBy: userPropType.isRequired,
   dateTime: PropTypes.string.isRequired,
@@ -133,6 +146,14 @@ export const timeLinePropType = PropTypes.shape({
   activity: PropTypes.string.isRequired,
   post: PropTypes.string,
   dateTime: PropTypes.string.isRequired,
+});
+
+export const imageItemPropType = PropTypes.shape({
+  // id: PropTypes.number.isRequired,
+  image: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  // likes: PropTypes.number.isRequired,
+  // comments: PropTypes.number.isRequired,
+  // shares: PropTypes.number.isRequired,
 });
 
 // STATS

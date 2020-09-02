@@ -132,6 +132,18 @@ exports.deleteActivityFromRequest = async (req) => {
 
     return result;
   } catch (error) {
-    console.log(error);
+    console.log('46', error);
+  }
+};
+
+exports.deleteActivitiesFromRequest = async (req) => {
+  const user_action = req.user._id;
+
+  try {
+    const result = await Activity.deleteMany({ user_action });
+
+    return result;
+  } catch (error) {
+    console.log('47', error);
   }
 };

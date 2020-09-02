@@ -10,7 +10,7 @@ export const API_HOST = development
 // CHANGE POST AUTO-DELETE SETTINGS
 // IF 'TRUE', POSTS WILL EXPIRE AFTER 24 HOURS
 // EXPIRY TIME CAN BE MODIFIED FROM BACKEND ONLY
-export const ENABLE_POST_SELF_DESTRUCT = true;
+export const ENABLE_POST_SELF_DESTRUCT = false;
 
 // CHANGE INNER & OUTER MARGINS LEFT / RIGHT
 // FOR LIST ITEM BLOCKS ON ALL SCREENS
@@ -64,7 +64,7 @@ export const REPLIES = 'Replies';
 
 // CHANGE COLOR SETTINGS
 export const COLORS = {
-  primary1: '#C65230',
+  primary1: '#FD7E7E',
   primary2: '#FDD87E',
   backgroundGray: '#DDDDDD',
   black: '#020202',

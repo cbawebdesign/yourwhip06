@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import auth from './auth';
 import user from './user';
 import likes from './likes';
-import home from './home';
+import home from './posts';
 import detail from './detail';
 import comments from './comments';
 import replies from './replies';

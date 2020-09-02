@@ -6,6 +6,7 @@ const userHelper = require('../helpers/users');
 const generalHelper = require('../helpers/general');
 const postHelper = require('../helpers/posts');
 const imageHelper = require('../helpers/images');
+const activityHelper = require('../helpers/activities');
 
 const sendCodeEmail = require('../emails/recoveryCodeEmail');
 
@@ -219,8 +220,21 @@ exports.resetPassword = async (req, res) => {
 
 exports.deleteAccount = async (req, res) => {
   try {
+    // DELETE USER ACTIVITIES
+    const deleteActivitiesResult = await activityHelper.deleteActivitiesFromRequest(
+      req
+    );
+
+    if (!deleteActivitiesResult) {
+      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
+        error: `An error occurred deleting activities linked to the account`,
+      });
+    }
+
+    // DELETE USER
     const deletedUser = await userHelper.deleteUserFromRequest(req);
 
+    // DELETE USER POSTS
     const postsByUser = await postHelper.getPostsByUserFromRequest(req);
     postsByUser.forEach(async (post) => {
       req.postId = post._id;
@@ -238,7 +252,9 @@ exports.deleteAccount = async (req, res) => {
 
     res
       .status(HttpStatus.OK)
-      .send({ success: 'Your account has been successfully deleted' });
+      .send({
+        success: `Your account has been successfully deleted for user ${deletedUser.firtName} ${deletedUser.lastName}`,
+      });
   } catch (error) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
       error: `An error occured deleting the account with id: ${req.body.userId}`,

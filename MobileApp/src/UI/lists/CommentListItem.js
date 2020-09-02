@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { View, Animated } from 'react-native';
 
-import CommentPropType from '../../propTypes/comment';
 import ListItemContainerView from '../views/listItemViews/ListItemContainerView';
 import { CustomText as Text, BODY_FONT } from '../text/CustomText';
 import HeaderView from '../views/listItemViews/HeaderView';
 import CommentSocialView from '../views/listItemViews/CommentSocialView';
+
+import { commentItemPropType } from '../../config/propTypes';
 
 import { commentListItemStyles as styles } from './styles';
 
@@ -104,7 +105,7 @@ CommentListItem.defaultProps = {
 };
 
 CommentListItem.propTypes = {
-  item: CommentPropType.isRequired,
+  item: commentItemPropType.isRequired,
   onLikePress: PropTypes.func.isRequired,
   onReplyPress: PropTypes.func.isRequired,
   onProfilePress: PropTypes.func.isRequired,

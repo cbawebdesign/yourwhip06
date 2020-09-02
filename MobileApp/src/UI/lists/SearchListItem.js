@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes, { shape } from 'prop-types';
 import { View, Image, TouchableOpacity } from 'react-native';
 
-import UserPropTypes from '../../propTypes/user';
 import { CustomText as Text, TITLE_FONT } from '../text/CustomText';
 
 import { searchListItemStyles as styles } from './styles';
