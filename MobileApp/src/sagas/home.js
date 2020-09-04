@@ -8,7 +8,7 @@ import {
   DELETE_POST_RESULT,
   DELETE_POST_ERROR,
 } from '../actions/home';
-import { API_HOST, ENABLE_POST_SELF_DESTRUCT } from '../config/constants';
+import { API_HOST } from '../config/constants';
 
 const fetchHomeFeed = ({ action, token }) =>
   fetch(`${API_HOST}/get-home-feed/${action.skip}/${action.limit}`, {
@@ -49,7 +49,10 @@ export function* getHomeFeed(action) {
   const token = yield select((state) => state.auth.authToken);
 
   try {
-    const response = yield call(fetchHomeFeed, { action, token });
+    const response = yield call(fetchHomeFeed, {
+      action,
+      token,
+    });
     const result = yield response.json();
 
     if (result.error) {
@@ -67,7 +70,6 @@ export function* composePost(action) {
 
   const formData = new FormData();
 
-  formData.append('shouldExpire', ENABLE_POST_SELF_DESTRUCT);
   formData.append('description', action.data.description);
   formData.append('caption', action.data.caption);
   formData.append('parentId', action.data.sharedPostId);
@@ -107,7 +109,10 @@ export function* composePost(action) {
   }
 
   try {
-    const response = yield call(fetchCompose, { data: formData, token });
+    const response = yield call(fetchCompose, {
+      data: formData,
+      token,
+    });
     const result = yield response.json();
 
     if (result.error) {

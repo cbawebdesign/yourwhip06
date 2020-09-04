@@ -16,10 +16,17 @@ import { SETTINGS_ITEMS } from '../helpers/dataHelper';
 import { userPropType } from '../config/propTypes';
 
 import { logout, deleteAccount, resetMessages } from '../actions/auth';
+import { enableSuggestions } from '../actions/user';
 
 import styles from './styles';
 
-const Settings = ({ route, navigation, currentUser, fetching }) => {
+const Settings = ({
+  route,
+  navigation,
+  currentUser,
+  appSettings,
+  fetching,
+}) => {
   const dispatch = useDispatch();
   const paddingBottom = useSafeArea().bottom;
 
@@ -35,6 +42,12 @@ const Settings = ({ route, navigation, currentUser, fetching }) => {
         onPress: () => {
           setShowModal(false);
           dispatch(deleteAccount(currentUser._id));
+        },
+      },
+      {
+        title: 'Cancel',
+        onPress: () => {
+          setShowModal(false);
         },
       },
     ],
@@ -57,6 +70,20 @@ const Settings = ({ route, navigation, currentUser, fetching }) => {
     dispatch(resetMessages());
     dispatch(logout());
   };
+
+  const handleToggleSuggestions = (value) => {
+    dispatch(enableSuggestions(value));
+  };
+
+  if (!currentUser) {
+    return (
+      <ContainerView
+        touchEnabled={false}
+        headerHeight={route.params.headerHeight}
+        loadingOptions={{ loading: fetching }}
+      />
+    );
+  }
 
   return (
     <ContainerView
@@ -81,6 +108,12 @@ const Settings = ({ route, navigation, currentUser, fetching }) => {
             bottomMargin={section.data.length === index + 1}
             item={item}
             onPress={() => handlePress(item)}
+            toggleSuggestions={handleToggleSuggestions}
+            enableSuggestionsValue={currentUser.enableSuggestions}
+            hide={
+              item.display === 'ENABLE_SUGGESTIONS' &&
+              !appSettings.enableSuggestionsControl
+            }
           />
         )}
         renderSectionHeader={({ section: { title } }) => (
@@ -119,15 +152,19 @@ Settings.propTypes = {
     navigate: PropTypes.func.isRequired,
   }).isRequired,
   currentUser: userPropType,
+  appSettings: PropTypes.shape({
+    enableSuggestionsControl: PropTypes.bool.isRequired,
+  }),
   fetching: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => {
-  const { user } = state.user;
+  const { user, appSettings } = state.user;
   const { fetching } = state.auth;
 
   return {
     currentUser: user,
+    appSettings,
     fetching,
   };
 };

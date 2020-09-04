@@ -2,6 +2,21 @@ const HttpStatus = require('http-status-codes/index');
 
 const userHelper = require('../helpers/users');
 const imageHelper = require('../helpers/images');
+const CONFIG = require('../constants');
+
+exports.getUserInfo = async (req, res) => {
+  const user = await userHelper.findOneUserFromRequest(req);
+  const app = { enableSuggestionsControl: CONFIG.ENABLE_CONTROL_SUGGESTIONS };
+
+  if (!user) {
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
+      error:
+        'An error occurred while retrieving the user or the user does not exist',
+    });
+  }
+
+  res.status(HttpStatus.OK).send({ user, app });
+};
 
 exports.updateInterests = async (req, res) => {
   const currentUser = req.user;
@@ -14,6 +29,21 @@ exports.updateInterests = async (req, res) => {
     res.status(HttpStatus.OK).send(currentUser.interests);
   } catch (error) {
     console.log('46', error);
+  }
+};
+
+exports.enableSuggestions = async (req, res) => {
+  const currentUser = req.user;
+  const { enableSuggestions } = req.body;
+
+  currentUser.enableSuggestions = enableSuggestions;
+
+  try {
+    await currentUser.save();
+
+    res.status(HttpStatus.OK).send(currentUser.enableSuggestions);
+  } catch (error) {
+    console.log('47', error);
   }
 };
 

@@ -211,19 +211,26 @@ export const timelineListItemStyles = EStyleSheet.create({
 });
 
 export const settingsListItemStyles = EStyleSheet.create({
-  $containerHeight: 60,
+  $containerHeight: 70,
+  $switchMargin: { marginTop: 50 },
+  $activeBackground: '$primary1',
+  $inactiveBackground: '$backgroundGray',
 
   icon: {
-    width: 25,
-    height: 25,
+    width: 20,
+    height: 20,
     marginRight: 25,
     marginLeft: 25,
     tintColor: '$black',
   },
   title: {
-    width: VIEW_WIDTH - 100 - 75 - 75,
-    fontSize: 12,
+    flex: 1,
+    fontSize: 14,
     textAlign: 'left',
+  },
+  rightSideItem: {
+    paddingLeft: 12,
+    paddingRight: 12,
   },
   linked: {
     width: 50,

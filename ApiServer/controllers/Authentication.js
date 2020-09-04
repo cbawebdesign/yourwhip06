@@ -10,19 +10,6 @@ const activityHelper = require('../helpers/activities');
 
 const sendCodeEmail = require('../emails/recoveryCodeEmail');
 
-exports.getUserInfo = async (req, res) => {
-  const user = await userHelper.findOneUserFromRequest(req);
-
-  if (!user) {
-    res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
-      error:
-        'An error occurred while retrieving the user or the user does not exist',
-    });
-  }
-
-  res.status(HttpStatus.OK).send({ user });
-};
-
 exports.login = async (req, res) => {
   try {
     const user = await User.findByCredentials(req, res);

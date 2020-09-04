@@ -79,18 +79,29 @@ export const SETTINGS_ITEMS = [
         title: 'Edit Profile',
         icon: profile,
         navigateTo: 'Signup (Step 2)',
+        type: 'NAVIGATE',
       },
       {
         id: 1,
         title: 'Change Password',
         icon: password,
         navigateTo: 'Password',
+        type: 'NAVIGATE',
       },
       {
         id: 2,
         title: 'Remove Account',
         icon: deleteIcon,
         navigateTo: '',
+        type: 'NAVIGATE',
+      },
+      {
+        id: 3,
+        title: 'Use my selected interest to suggest new people and posts',
+        icon: profile,
+        navigateTo: '',
+        type: 'SWITCH',
+        display: 'ENABLE_SUGGESTIONS',
       },
     ],
   },
@@ -103,7 +114,7 @@ export const SETTINGS_ITEMS = [
   //       icon: instagram,
   //       navigateTo: null,
   //       isLinked: true,
-  //       isSocial: true,
+  //       type: 'SOCIAL'
   //     },
   //     {
   //       id: 3,
@@ -111,7 +122,7 @@ export const SETTINGS_ITEMS = [
   //       icon: twitter,
   //       navigateTo: null,
   //       isLinked: false,
-  //       isSocial: true,
+  //       type: 'SOCIAL'
   //     },
   //     {
   //       id: 4,
@@ -119,7 +130,7 @@ export const SETTINGS_ITEMS = [
   //       icon: facebook,
   //       navigateTo: null,
   //       isLinked: false,
-  //       isSocial: true,
+  //       type: 'SOCIAL'
   //     },
   //     {
   //       id: 5,
@@ -127,7 +138,7 @@ export const SETTINGS_ITEMS = [
   //       icon: linkedin,
   //       navigateTo: null,
   //       isLinked: true,
-  //       isSocial: true,
+  //       type: 'SOCIAL'
   //     },
   //     {
   //       id: 6,
@@ -135,7 +146,7 @@ export const SETTINGS_ITEMS = [
   //       icon: pinterest,
   //       navigateTo: null,
   //       isLinked: false,
-  //       isSocial: true,
+  //       type: 'SOCIAL'
   //     },
   //   ],
   // },

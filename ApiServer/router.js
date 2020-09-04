@@ -17,7 +17,6 @@ const uploads = require('./middleware/upload');
 const app = express();
 
 // AUTHENTICATION
-app.get('/get-user-info/', auth, Authentication.getUserInfo);
 app.post('/login/', Authentication.login);
 app.post('/signup-step1/', Authentication.signupStep1);
 app.post(
@@ -36,7 +35,7 @@ app.post('/share-post', auth, Home.sharePost);
 app.post('/follow-user-press/', auth, Profile.followUserPress);
 
 // HOME
-app.get('/get-home-feed/:skip/:limit', auth, Home.getFeed);
+app.get('/get-home-feed/:skip/:limit/', auth, Home.getFeed);
 app.post('/compose-post/', auth, uploads.uploadImage, Home.compose);
 app.post('/delete-post/', auth, Home.deletePost);
 
@@ -75,7 +74,9 @@ app.get('/get-profile/:userId/:skip/:limit', auth, Profile.getProfile);
 app.get('/get-timeline-feed/:skip/:limit', auth, Timeline.getFeed);
 
 // PEOPLE / USER
+app.get('/get-user-info/', auth, Users.getUserInfo);
 app.post('/update-interests/', auth, Users.updateInterests);
+app.post('/enable-suggestions/', auth, Users.enableSuggestions);
 app.post('/edit-profile/', auth, uploads.uploadProfileImage, Users.editProfile);
 app.get('/get-recommended-users/', auth, Users.getRecommended);
 app.post('/remove-user-press', auth, Users.removeUserPress);

@@ -6,6 +6,10 @@ export const UPDATE_INTERESTS = 'UPDATE_INTERESTS';
 export const UPDATE_INTERESTS_RESULT = 'UPDATE_INTERESTS_RESULT';
 export const UPDATE_INTERESTS_ERROR = 'UPDATE_INTERESTS_ERROR';
 
+export const ENABLE_SUGGESTIONS = 'ENABLE_SUGGESTIONS';
+export const ENABLE_SUGGESTIONS_RESULT = 'ENABLE_SUGGESTIONS_RESULT';
+export const ENABLE_SUGGESTIONS_ERROR = 'ENABLE_SUGGESTIONS_ERROR';
+
 export const WALKTHROUGH_COMPLETE = 'WALKTHROUGH_COMPLETE';
 
 export const GET_RECOMMENDED_USERS = 'GET_RECOMMENDED_USERS';
@@ -34,6 +38,11 @@ export const getUserInfo = (token) => ({
 export const updateInterests = (interests) => ({
   type: UPDATE_INTERESTS,
   interests,
+});
+
+export const enableSuggestions = (enable) => ({
+  type: ENABLE_SUGGESTIONS,
+  enableSuggestions: enable,
 });
 
 export const setWalkthroughComplete = () => ({

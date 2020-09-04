@@ -1,77 +1,163 @@
 const Post = require('../models/Post');
+const CONFIG = require('../constants');
 
 exports.getPostsFromRequest = async (req) => {
   const skip = Number(req.params.skip);
   const limit = Number(req.params.limit) || Number(req.body.limit);
+  const enableSuggestions = CONFIG.ENABLE_CONTROL_SUGGESTIONS
+    ? req.user.enableSuggestions
+    : CONFIG.ENABLE_SUGGESTIONS;
+  const { following } = req.user;
 
-  const posts = await Post.find({}, null, {
-    skip,
-    limit,
-  })
-    .populate('createdBy')
-    .populate('comments')
-    .populate('images')
-    .populate('likes')
-    .populate('shares')
-    .populate({
-      path: 'images',
-      populate: {
-        path: 'likes',
+  let posts;
+
+  if (enableSuggestions) {
+    posts = await Post.find(
+      {
+        createdBy: {
+          $in: following,
+        },
       },
-    })
-    .populate({
-      path: 'images',
-      populate: {
-        path: 'comments',
-      },
-    })
-    // SHARED POST
-    .populate('sharedPost')
-    .populate({
-      path: 'sharedPost',
-      populate: {
+      null,
+      {
+        skip,
+        limit,
+      }
+    )
+      .populate('createdBy')
+      .populate('comments')
+      .populate('images')
+      .populate('likes')
+      .populate('shares')
+      .populate({
         path: 'images',
-      },
+        populate: {
+          path: 'likes',
+        },
+      })
+      .populate({
+        path: 'images',
+        populate: {
+          path: 'comments',
+        },
+      })
+      // SHARED POST
+      .populate('sharedPost')
+      .populate({
+        path: 'sharedPost',
+        populate: {
+          path: 'images',
+        },
+      })
+      .populate({
+        path: 'sharedPost',
+        populate: {
+          path: 'createdBy',
+        },
+      })
+      .populate({
+        path: 'sharedPost',
+        populate: {
+          path: 'shares',
+        },
+      })
+      // SHARED IMAGE
+      .populate('sharedImage')
+      .populate({
+        path: 'sharedImage',
+        populate: {
+          path: 'createdBy',
+        },
+      })
+      .populate({
+        path: 'sharedImage',
+        populate: {
+          path: 'likes',
+        },
+      })
+      .populate({
+        path: 'sharedImage',
+        populate: {
+          path: 'comments',
+        },
+      })
+      .populate({
+        path: 'sharedImage',
+        populate: {
+          path: 'shares',
+        },
+      })
+      .sort('-dateTime');
+  } else {
+    posts = await Post.find({}, null, {
+      skip,
+      limit,
     })
-    .populate({
-      path: 'sharedPost',
-      populate: {
-        path: 'createdBy',
-      },
-    })
-    .populate({
-      path: 'sharedPost',
-      populate: {
-        path: 'shares',
-      },
-    })
-    // SHARED IMAGE
-    .populate('sharedImage')
-    .populate({
-      path: 'sharedImage',
-      populate: {
-        path: 'createdBy',
-      },
-    })
-    .populate({
-      path: 'sharedImage',
-      populate: {
-        path: 'likes',
-      },
-    })
-    .populate({
-      path: 'sharedImage',
-      populate: {
-        path: 'comments',
-      },
-    })
-    .populate({
-      path: 'sharedImage',
-      populate: {
-        path: 'shares',
-      },
-    })
-    .sort('-dateTime');
+      .populate('createdBy')
+      .populate('comments')
+      .populate('images')
+      .populate('likes')
+      .populate('shares')
+      .populate({
+        path: 'images',
+        populate: {
+          path: 'likes',
+        },
+      })
+      .populate({
+        path: 'images',
+        populate: {
+          path: 'comments',
+        },
+      })
+      // SHARED POST
+      .populate('sharedPost')
+      .populate({
+        path: 'sharedPost',
+        populate: {
+          path: 'images',
+        },
+      })
+      .populate({
+        path: 'sharedPost',
+        populate: {
+          path: 'createdBy',
+        },
+      })
+      .populate({
+        path: 'sharedPost',
+        populate: {
+          path: 'shares',
+        },
+      })
+      // SHARED IMAGE
+      .populate('sharedImage')
+      .populate({
+        path: 'sharedImage',
+        populate: {
+          path: 'createdBy',
+        },
+      })
+      .populate({
+        path: 'sharedImage',
+        populate: {
+          path: 'likes',
+        },
+      })
+      .populate({
+        path: 'sharedImage',
+        populate: {
+          path: 'comments',
+        },
+      })
+      .populate({
+        path: 'sharedImage',
+        populate: {
+          path: 'shares',
+        },
+      })
+      .sort('-dateTime');
+  }
 
   if (!posts) {
     throw new Error(
@@ -84,7 +170,7 @@ exports.getPostsFromRequest = async (req) => {
 
 exports.buildPostFromRequest = async (req) => {
   const { user, images, sharedPost, sharedImage } = req;
-  const { description, caption, shouldExpire } = req.body;
+  const { description, caption } = req.body;
 
   const post = new Post({
     createdBy: user._id,
@@ -93,7 +179,7 @@ exports.buildPostFromRequest = async (req) => {
     images,
     sharedPost,
     sharedImage,
-    shouldExpire,
+    shouldExpire: CONFIG.ENABLE_POST_SELF_DESTRUCT,
   });
 
   const result = await post.save();

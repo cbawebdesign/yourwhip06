@@ -4,6 +4,8 @@ import {
   USER_INFO_RESULT,
   USER_INFO_ERROR,
   UPDATE_INTERESTS_RESULT,
+  ENABLE_SUGGESTIONS_RESULT,
+  ENABLE_SUGGESTIONS_ERROR,
   UPDATE_INTERESTS_ERROR,
   RECOMMENDED_USERS_RESULT,
   RECOMMENDED_USERS_ERROR,
@@ -37,6 +39,19 @@ const fetchUpdateInterests = ({ action, token }) =>
     },
     body: JSON.stringify({
       interests: action.interests,
+    }),
+  });
+
+const fetchenableSuggestions = ({ token, action }) =>
+  fetch(`${API_HOST}/enable-suggestions/`, {
+    method: 'post',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      enableSuggestions: action.enableSuggestions,
     }),
   });
 
@@ -114,6 +129,24 @@ export function* updateInterests(action) {
     }
   } catch (e) {
     yield put({ type: UPDATE_INTERESTS_ERROR, error: e.message });
+  }
+}
+
+export function* enableSuggestions(action) {
+  const token = yield select((state) => state.auth.authToken);
+
+  try {
+    const response = yield call(fetchenableSuggestions, { action, token });
+    const result = yield response.json();
+
+    // NO NEED TO STORE INTEREST IN APP STATE FOR THE MOMENT
+    if (result.error) {
+      yield put({ type: ENABLE_SUGGESTIONS_ERROR, error: result.error });
+    } else {
+      yield put({ type: ENABLE_SUGGESTIONS_RESULT, result });
+    }
+  } catch (e) {
+    yield put({ type: ENABLE_SUGGESTIONS_ERROR, error: e.message });
   }
 }
 

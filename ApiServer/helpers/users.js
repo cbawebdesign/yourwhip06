@@ -1,6 +1,5 @@
 const User = require('../models/User');
-const Post = require('../models/Post');
-const Comment = require('../models/Comment');
+const CONFIG = require('../constants');
 
 exports.buildUserFromRequest = async (req) => {
   const {
@@ -72,6 +71,10 @@ exports.findOneUserFromRequest = async (req) => {
 
 exports.findUsersFromRequest = async (req) => {
   const { user, friendsAndRemovedIds } = req;
+  const enableSuggestions = CONFIG.ENABLE_CONTROL_SUGGESTIONS
+    ? user.enableSuggestions
+    : CONFIG.ENABLE_SUGGESTIONS;
+  const { interests } = req.user;
   const searchInput =
     req.params && req.params.searchInput
       ? req.params.searchInput.toLowerCase()
@@ -101,7 +104,17 @@ exports.findUsersFromRequest = async (req) => {
 
       return users;
     } else {
-      users = await User.find({ _id: { $nin: excludeIds } });
+      if (enableSuggestions) {
+        console.log(interests);
+        users = await User.find({
+          _id: { $nin: excludeIds },
+          interests: { $in: interests },
+        });
+      } else {
+        users = await User.find({ _id: { $nin: excludeIds } });
+      }
+
+      console.log(users);
 
       return users;
     }
