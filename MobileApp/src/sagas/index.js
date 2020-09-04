@@ -23,6 +23,7 @@ import {
 
 import {
   GET_USER_INFO,
+  UPDATE_INTERESTS,
   GET_RECOMMENDED_USERS,
   REMOVE_USER_PRESS,
   EDIT_PROFILE,
@@ -30,6 +31,7 @@ import {
 } from '../actions/user';
 import {
   getUserInfo,
+  updateInterests,
   getRecommendedUsers,
   removeUserPress,
   editProfile,
@@ -135,6 +137,7 @@ export default function* rootSaga() {
   yield takeEvery(GET_GALLERY_FEED, getGalleryFeed);
 
   // PEOPLE / USER
+  yield takeEvery(UPDATE_INTERESTS, updateInterests);
   yield takeEvery(EDIT_PROFILE, editProfile);
   yield takeEvery(GET_RECOMMENDED_USERS, getRecommendedUsers);
   yield takeEvery(REMOVE_USER_PRESS, removeUserPress);

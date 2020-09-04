@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import { useSafeArea } from 'react-native-safe-area-context';
-import { useDispatch } from 'react-redux';
+import { useDispatch, connect } from 'react-redux';
 
 import ContainerView from '../../UI/views/ContainerView';
 import SelectionScrollView from '../../UI/views/SelectionScrollView';
@@ -10,9 +10,11 @@ import FooterView from '../../UI/views/footer/FooterView';
 import TitleBodyTextView from '../../UI/views/TitleBodyTextView';
 import DualTextButtonView from '../../UI/views/footer/DualTextButtonView';
 import { CustomText as Text, TITLE_FONT } from '../../UI/text/CustomText';
-import { SELECTIONS } from '../../helpers/dataHelper';
 
-import { setWalkthroughComplete } from '../../actions/user';
+import { SELECTIONS } from '../../config/constants';
+import { userPropType } from '../../config/propTypes';
+
+import { setWalkthroughComplete, updateInterests } from '../../actions/user';
 
 import styles from './styles';
 
@@ -21,16 +23,28 @@ import styles from './styles';
 // action. This prevents having to visit the Walkthrough section
 // each time following login.
 
-const WalkthroughStep2 = ({ route }) => {
+const WalkthroughStep2 = ({ route, currentUser }) => {
   const dispatch = useDispatch();
+  const paddingBottom = useSafeArea().bottom;
 
-  const [selections, setSelections] = useState(SELECTIONS);
+  const [selections, setSelections] = useState([]);
 
   const handleSkip = () => {
     dispatch(setWalkthroughComplete());
   };
 
   const handleNext = () => {
+    // PROCESS SELECTION
+    const selectedInterests = [];
+    selections.forEach((section) =>
+      section.forEach((item) => {
+        if (item.selected) {
+          selectedInterests.push(item.title);
+        }
+      })
+    );
+
+    dispatch(updateInterests(selectedInterests));
     dispatch(setWalkthroughComplete());
   };
 
@@ -47,6 +61,33 @@ const WalkthroughStep2 = ({ route }) => {
 
     setSelections(arrayCopy);
   };
+
+  useEffect(() => {
+    // PREPARE SELECTION OPTIONS
+    const list = SELECTIONS.map((section) =>
+      section.map((item) => {
+        const selected =
+          currentUser.interests.findIndex((interest) => interest === item) > -1;
+
+        return {
+          title: item,
+          selected,
+        };
+      })
+    );
+
+    setSelections(list);
+  }, []);
+
+  if (selections.length === 0) {
+    return (
+      <ContainerView
+        hasGradient
+        touchEnabled={false}
+        headerHeight={route.params.headerHeight}
+      />
+    );
+  }
 
   return (
     <ContainerView
@@ -78,7 +119,7 @@ const WalkthroughStep2 = ({ route }) => {
       <View
         style={[
           styles.numberView,
-          { bottom: styles.$bottomMargin + useSafeArea().bottom },
+          { bottom: styles.$bottomMargin + paddingBottom },
         ]}
       >
         <Text text="02" fontFamily={TITLE_FONT} style={styles.number} />
@@ -97,8 +138,17 @@ const WalkthroughStep2 = ({ route }) => {
 
 WalkthroughStep2.propTypes = {
   route: PropTypes.shape({
-    params: PropTypes.object,
+    params: PropTypes.instanceOf(Object),
   }).isRequired,
+  currentUser: userPropType.isRequired,
 };
 
-export default WalkthroughStep2;
+const mapStateToProps = (state) => {
+  const { user } = state.user;
+
+  return {
+    currentUser: user,
+  };
+};
+
+export default connect(mapStateToProps)(WalkthroughStep2);

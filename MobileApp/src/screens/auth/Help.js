@@ -18,7 +18,7 @@ const backgroundImage = require('../../../assets/images/background.png');
 const Help = ({ route, navigation, fetching, error, success }) => {
   const dispatch = useDispatch();
 
-  const [email, setEmail] = useState('henkcorporaal@hotmail.com');
+  const [email, setEmail] = useState('');
   const [emailActive, setEmailActive] = useState(false);
   const [showValidationError, setShowValidationError] = useState(false);
   const [validationError, setValidationError] = useState('');

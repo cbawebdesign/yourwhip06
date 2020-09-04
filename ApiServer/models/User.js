@@ -33,6 +33,7 @@ const userSchema = new Schema(
     location: String,
     profileImage: String,
     description: String,
+    interests: [String],
     dateTime: {
       type: Date,
       required: true,

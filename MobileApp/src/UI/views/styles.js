@@ -207,14 +207,6 @@ export const composeViewStyles = EStyleSheet.create({
     width: VIEW_WIDTH - 60,
     backgroundColor: '$white',
   },
-  galleryView: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    width: VIEW_WIDTH - OUTER_CONTAINER_MARGIN_LEFT_RIGHT,
-    padding: 25,
-    zIndex: 999,
-  },
   descriptionView: {
     height: 140,
   },
@@ -236,6 +228,13 @@ export const composeViewStyles = EStyleSheet.create({
     alignItems: 'center',
     backgroundColor: '$backgroundGray',
     width: VIEW_WIDTH - 32,
+  },
+  galleryView: {
+    position: 'absolute',
+    top: 0,
+    width: VIEW_WIDTH - OUTER_CONTAINER_MARGIN_LEFT_RIGHT,
+    padding: 25,
+    zIndex: 999,
   },
   templateImage: {
     width: VIEW_WIDTH - 210,

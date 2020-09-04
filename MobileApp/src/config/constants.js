@@ -31,6 +31,16 @@ export const ENABLE_LIKE_YOURSELF = true;
 export const PERSONAL_DESCRIPTION =
   'Still pondering on some cool catch-phrase...';
 
+// DISCOVER ITEMS
+export const SELECTIONS = [
+  // TOP LIST
+  ['Food', 'Photography', 'Beauty', 'Music', 'Gardening'],
+  // MIDDLE LIST
+  ['Nature & Science', 'Travel', 'Money & Business', 'Sports'],
+  // BOTTOM LIST
+  ['Health', 'Home & Garden', 'Books', 'Fashion', 'Technology'],
+];
+
 // CHANGE SCREEN TITLES SETTINGS
 export const LOGIN = 'Login';
 export const SIGNUP_STEP_1 = 'Signup (Step 1)';

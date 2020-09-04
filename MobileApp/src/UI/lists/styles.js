@@ -52,7 +52,7 @@ export const commentListItemStyles = EStyleSheet.create({
     fontSize: 16,
   },
   descriptionView: {
-    height: 45,
+    minHeight: 45,
   },
   border: {
     width: VIEW_WIDTH - 40 - 82,

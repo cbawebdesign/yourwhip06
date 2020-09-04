@@ -2,6 +2,8 @@ import * as SecureStore from 'expo-secure-store';
 
 import {
   USER_INFO_RESULT,
+  UPDATE_INTERESTS_RESULT,
+  UPDATE_INTERESTS_ERROR,
   WALKTHROUGH_COMPLETE,
   RECOMMENDED_USERS_RESULT,
   RECOMMENDED_USERS_ERROR,
@@ -51,6 +53,14 @@ const userState = (state = initialState, action) => {
       return {
         ...state,
         user: action.result.user,
+      };
+    case UPDATE_INTERESTS_RESULT:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          interests: action.result,
+        },
       };
     case WALKTHROUGH_COMPLETE:
       SecureStore.setItemAsync('walkthroughComplete', 'true');
@@ -108,6 +118,7 @@ const userState = (state = initialState, action) => {
         editProfileFetching: false,
         user: action.result.user,
       };
+    case UPDATE_INTERESTS_ERROR:
     case RECOMMENDED_USERS_ERROR:
     case REMOVE_USER_PRESS_ERROR:
     case EDIT_PROFILE_ERROR:

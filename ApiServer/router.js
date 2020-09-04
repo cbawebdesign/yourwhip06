@@ -75,6 +75,7 @@ app.get('/get-profile/:userId/:skip/:limit', auth, Profile.getProfile);
 app.get('/get-timeline-feed/:skip/:limit', auth, Timeline.getFeed);
 
 // PEOPLE / USER
+app.post('/update-interests/', auth, Users.updateInterests);
 app.post('/edit-profile/', auth, uploads.uploadProfileImage, Users.editProfile);
 app.get('/get-recommended-users/', auth, Users.getRecommended);
 app.post('/remove-user-press', auth, Users.removeUserPress);

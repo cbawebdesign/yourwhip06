@@ -3,6 +3,8 @@ import { put, call, select } from 'redux-saga/effects';
 import {
   USER_INFO_RESULT,
   USER_INFO_ERROR,
+  UPDATE_INTERESTS_RESULT,
+  UPDATE_INTERESTS_ERROR,
   RECOMMENDED_USERS_RESULT,
   RECOMMENDED_USERS_ERROR,
   REMOVE_USER_PRESS_RESULT,
@@ -23,6 +25,19 @@ const fetchUserInfo = (action) =>
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
+  });
+
+const fetchUpdateInterests = ({ action, token }) =>
+  fetch(`${API_HOST}/update-interests/`, {
+    method: 'post',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      interests: action.interests,
+    }),
   });
 
 const fetchRecommendedUsers = (token) =>
@@ -81,6 +96,24 @@ export function* getUserInfo(action) {
     }
   } catch (e) {
     yield put({ type: USER_INFO_ERROR, error: e.message });
+  }
+}
+
+export function* updateInterests(action) {
+  const token = yield select((state) => state.auth.authToken);
+
+  try {
+    const response = yield call(fetchUpdateInterests, { action, token });
+    const result = yield response.json();
+
+    // NO NEED TO STORE INTEREST IN APP STATE FOR THE MOMENT
+    if (result.error) {
+      yield put({ type: UPDATE_INTERESTS_ERROR, error: result.error });
+    } else {
+      yield put({ type: UPDATE_INTERESTS_RESULT, result });
+    }
+  } catch (e) {
+    yield put({ type: UPDATE_INTERESTS_ERROR, error: e.message });
   }
 }
 

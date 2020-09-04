@@ -3,6 +3,20 @@ const HttpStatus = require('http-status-codes/index');
 const userHelper = require('../helpers/users');
 const imageHelper = require('../helpers/images');
 
+exports.updateInterests = async (req, res) => {
+  const currentUser = req.user;
+
+  currentUser.interests = req.body.interests;
+
+  try {
+    await currentUser.save();
+
+    res.status(HttpStatus.OK).send(currentUser.interests);
+  } catch (error) {
+    console.log('46', error);
+  }
+};
+
 exports.getRecommended = async (req, res) => {
   const currentUser = req.user;
 
