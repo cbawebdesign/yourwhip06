@@ -1,28 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, TouchableOpacity } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { View } from 'react-native';
 
-import { CustomText as Text, BODY_FONT } from '../text/CustomText';
+import { CustomText as Text, BODY_FONT, TITLE_FONT } from './CustomText';
 
 import styles from './styles';
 
 const EmptyListText = ({ text }) => (
   <View style={styles.container}>
-    <Text text={text} fontFamily={BODY_FONT} style={styles.text} />
+    <Text
+      text="Nothing to see here"
+      fontFamily={TITLE_FONT}
+      style={styles.title}
+    />
+    <Text text={text} fontFamily={BODY_FONT} style={styles.body} />
   </View>
 );
 
-// BlockButton.defaultProps = {
-//   fontSize: 10,
-//   color: '#020202',
-// };
-
-// BlockButton.propTypes = {
-//   onPress: PropTypes.func.isRequired,
-//   text: PropTypes.string.isRequired,
-//   fontSize: PropTypes.number,
-//   color: PropTypes.string,
-// };
+EmptyListText.propTypes = {
+  text: PropTypes.string.isRequired,
+};
 
 export default EmptyListText;

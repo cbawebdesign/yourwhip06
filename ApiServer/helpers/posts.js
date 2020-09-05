@@ -15,7 +15,7 @@ exports.getPostsFromRequest = async (req) => {
     posts = await Post.find(
       {
         createdBy: {
-          $in: following,
+          $in: [...following, req.user._id],
         },
       },
       null,

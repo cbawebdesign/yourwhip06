@@ -10,6 +10,7 @@ import PhotoModal from '../../UI/modals/PhotoModal';
 import ExploreListItem from '../../UI/lists/ExploreListItem';
 import ShareModal from '../../UI/modals/ShareModal';
 import SelectionModal from '../../UI/modals/SelectionModal';
+import EmptyListText from '../../UI/text/EmptyListText';
 import { CustomText as Text, BODY_FONT } from '../../UI/text/CustomText';
 
 import {
@@ -324,6 +325,10 @@ const Explore = ({
     />
   );
 
+  const renderEmptyListText = () => (
+    <EmptyListText text="Start following people to see their posts, or disable the 'show posts based on my interest' Setting." />
+  );
+
   useEffect(() => {
     // REFETCH ALFTER USER EDITS PROFILE IMAGE
     dispatch(getHomeFeed(0, PAGINATION_LIMIT));
@@ -420,6 +425,7 @@ const Explore = ({
             handleLoadMoreThrottled(homeFeed.length);
           }
         }}
+        ListEmptyComponent={renderEmptyListText()}
         ListFooterComponent={() => (
           <Text
             text={endOfList && feed.length > 0 ? 'You reached the end...' : ''}

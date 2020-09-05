@@ -7,7 +7,13 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
     padding: 50,
   },
-  text: {
+  title: {
+    fontSize: 16,
+    marginBottom: 25,
+    textTransform: 'uppercase',
+    opacity: 0.5,
+  },
+  body: {
     textAlign: 'center',
     opacity: 0.5,
   },
