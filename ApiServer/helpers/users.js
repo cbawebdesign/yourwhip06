@@ -13,7 +13,6 @@ exports.buildUserFromRequest = async (req) => {
     description,
   } = req.body;
   const { profileImage } = req;
-  console.log('3', profileImage);
   const user = new User({
     firstName,
     lastName,
@@ -105,7 +104,6 @@ exports.findUsersFromRequest = async (req) => {
       return users;
     } else {
       if (enableSuggestions) {
-        console.log(interests);
         users = await User.find({
           _id: { $nin: excludeIds },
           interests: { $in: interests },
@@ -113,8 +111,6 @@ exports.findUsersFromRequest = async (req) => {
       } else {
         users = await User.find({ _id: { $nin: excludeIds } });
       }
-
-      console.log(users);
 
       return users;
     }

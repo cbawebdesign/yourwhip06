@@ -99,7 +99,7 @@ export const SETTINGS_ITEMS = [
         id: 3,
         title: 'Use my selected interest to suggest new people and posts',
         icon: profile,
-        navigateTo: '',
+        navigateTo: null,
         type: 'SWITCH',
         display: 'ENABLE_SUGGESTIONS',
       },

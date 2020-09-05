@@ -94,10 +94,8 @@ exports.signupStep1 = async (req, res) => {
 
 exports.signupStep2 = async (req, res) => {
   try {
-    console.log('1', req.file);
     if (req.file) {
       const image = await imageHelper.saveProfileImageFromRequest(req);
-      console.log('2', image);
       req.profileImage = image.image;
     }
     const newUser = await userHelper.buildUserFromRequest(req);

@@ -25,7 +25,7 @@ const Following = ({ navigation, currentUser }) => {
   };
 
   const renderEmptyListText = () => (
-    <EmptyListText text="This screen shows a list of all users followed by you. You are currently not following any users." />
+    <EmptyListText text="You are currently not following anyone." />
   );
 
   useEffect(() => {}, [currentUser]);

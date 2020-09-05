@@ -30,7 +30,7 @@ const Recommended = ({ navigation, recommendedFeed, currentUser }) => {
   };
 
   const renderEmptyListText = () => (
-    <EmptyListText text="Users are recommended to you based on your interests. Currently, there are no users recommended users that match your interests." />
+    <EmptyListText text="Users are recommended to you based on your interests. Currently, there are no users that share your interests." />
   );
 
   useEffect(() => {}, [recommendedFeed, currentUser]);
