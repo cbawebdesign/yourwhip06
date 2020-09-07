@@ -14,12 +14,14 @@ const sendPasswordResetEmail = function (req, code) {
   });
 
   let mailOptions = {
-    from: 'info@knowlephant.com',
+    from: CONFIG.COMPANY_INFO.app_emailaddress,
     to: email,
-    subject: 'Share App Account Recovery Code',
+    subject: `${app_name} Account Recovery Code`,
     html: `<div style="width: 600px; margin: 0 auto">
-              <h2>Share App</h2>
-              <p>We received a request to reset your Share App password. Enter the
+              <h2>${CONFIG.COMPANY_INFO.app - name} account recovery</h2>
+              <p>We received a request to reset your ${
+                CONFIG.COMPANY_INFO.app_name
+              } password. Enter the
                 following password reset code:
               </p>
               <p style="padding: 20px 0;
@@ -27,14 +29,18 @@ const sendPasswordResetEmail = function (req, code) {
                 width: 100px;
                 text-align: center;
                 border-style: solid;
-                border-width: 1px">${code}
+                border-width: 1px"
+              >
+                ${code}
               </p>
               <p style="margin-top: 50px; font-weight: 900">Didn't request this change?<p>
               <p>If you didn't request a new password you may ingnore this email. The code will become invalid within 24 hours.</p>
               <div style="margin-top: 50px; opacity: 0.3; font-size: 12px; line-heigt: 12px">
                 <hr />
                 <p>This message was sent to ${email} at your request.</p><p>
-                  Share App company name & address<p>
+                  ${CONFIG.COMPANY_INFO.company_name} & ${
+      CONFIG.COMPANY_INFO.address
+    }<p>
               </div>
             </div>`,
   };

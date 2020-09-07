@@ -1,3 +1,16 @@
+import {
+  EXPLORE,
+  PEOPLE,
+  GALLERY,
+  TIMELINE,
+  COMPOSE,
+  CAMERA,
+  PROFILE,
+  STATS,
+  SETTINGS,
+  DISCOVER,
+} from '../config/constants';
+
 const feed = require('../../assets/icons/feed.png');
 const list = require('../../assets/icons/list.png');
 const gallery = require('../../assets/icons/gallery.png');
@@ -11,59 +24,60 @@ const discover = require('../../assets/icons/discover.png');
 
 export const NAVIGATION_ITEMS = [
   {
-    title: 'Feed',
-    navigateTo: 'Explore',
+    title: EXPLORE,
+    navigateTo: EXPLORE,
     icon: feed,
   },
   {
-    title: 'People',
-    navigateTo: 'People',
+    title: PEOPLE,
+    navigateTo: PEOPLE,
     icon: list,
   },
   {
-    title: 'Gallery',
-    navigateTo: 'Gallery',
+    title: GALLERY,
+    navigateTo: GALLERY,
     icon: gallery,
   },
   {
-    title: 'Timeline',
-    navigateTo: 'Timeline',
+    title: TIMELINE,
+    navigateTo: TIMELINE,
     icon: timeline,
   },
   {
-    title: 'Compose',
-    navigateTo: 'Compose',
+    title: COMPOSE,
+    navigateTo: COMPOSE,
     icon: compose,
   },
   {
-    title: 'Capture',
-    navigateTo: 'Camera',
+    title: CAMERA,
+    navigateTo: CAMERA,
     icon: capture,
   },
   {
-    title: 'Profile',
-    navigateTo: 'Profile',
+    title: PROFILE,
+    navigateTo: PROFILE,
     icon: profile,
   },
   {
-    title: 'Stats',
-    navigateTo: 'Stats',
+    title: STATS,
+    navigateTo: STATS,
     icon: stats,
   },
   {
-    title: 'Settings',
-    navigateTo: 'Settings',
+    title: SETTINGS,
+    navigateTo: SETTINGS,
     icon: settings,
   },
   {
-    title: 'Discover',
-    navigateTo: 'Walkthrough',
+    title: DISCOVER,
+    navigateTo: DISCOVER,
     icon: discover,
   },
 ];
 
 const password = require('../../assets/icons/password.png');
 const deleteIcon = require('../../assets/icons/delete.png');
+const suggestions = require('../../assets/icons/suggestions.png');
 // const twitter = require('../../assets/icons/twitter.png');
 // const facebook = require('../../assets/icons/facebook.png');
 // const instagram = require('../../assets/icons/instagram.png');
@@ -98,7 +112,7 @@ export const SETTINGS_ITEMS = [
       {
         id: 3,
         title: 'Use my selected interest to suggest new people and posts',
-        icon: profile,
+        icon: suggestions,
         navigateTo: null,
         type: 'SWITCH',
         display: 'ENABLE_SUGGESTIONS',

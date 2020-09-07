@@ -2,10 +2,17 @@ const dotenv = require('dotenv');
 
 const CONFIG = dotenv.config().parsed;
 
+exports.COMPANY_INFO = {
+  app_name: 'Share App',
+  company_name: 'Share',
+  app_emailaddress: 'info@knowlephant.com',
+  address: 'Compnay address',
+};
+
 // CHANGE POST AUTO-DELETE SETTINGS
 // IF 'TRUE', POSTS WILL EXPIRE AFTER 24 HOURS
 // EXPIRY TIME CAN BE MODIFIED FROM BACKEND ONLY
-exports.ENABLE_POST_SELF_DESTRUCT = false;
+exports.ENABLE_POST_SELF_DESTRUCT = true;
 
 // THIS SETTING ADDS ENABLE SUGGESTIONS CONTROL SWITCH TO USER SETTINS
 // SETTING LETS USER CONTROL SEEING SUGGESTED PEOPLE & POSTS BASED

@@ -26,7 +26,7 @@ export const ENABLE_LIKE_YOURSELF = true;
 export const PERSONAL_DESCRIPTION =
   'Still pondering on some cool catch-phrase...';
 
-// DISCOVER ITEMS
+// DISCOVER SCREEN INTEREST CATEGORIES SETTINGS
 export const SELECTIONS = [
   // TOP LIST
   ['Food', 'Photography', 'Beauty', 'Music', 'Gardening'],

@@ -9,6 +9,7 @@ const galleryHelper = require('../helpers/galleries');
 const generalHelper = require('../helpers/general');
 
 exports.getFeed = async (req, res) => {
+  console.log('passing');
   const { skip } = req.params;
 
   try {
