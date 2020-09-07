@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { View, SectionList } from 'react-native';
+import { View } from 'react-native';
 import { connect, useDispatch } from 'react-redux';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { debounce } from 'throttle-debounce';
+import { AnimatedSectionList, AnimationType } from 'flatlist-intro-animations';
 
 import ContainerView from '../UI/views/ContainerView';
 import TimelineListItem from '../UI/lists/TimelineListItem';
@@ -70,11 +71,13 @@ const Timeline = ({
       touchEnabled={false}
       headerHeight={route.params.headerHeight}
     >
-      <SectionList
+      <AnimatedSectionList
+        focused={!fetching}
         contentContainerStyle={[
           styles.contentContainer,
           { paddingBottom: useSafeArea().bottom },
         ]}
+        animationType={AnimationType.SlideFromRight}
         sections={timelineFeed || []}
         renderItem={({ item }) => (
           <TimelineListItem
@@ -83,15 +86,17 @@ const Timeline = ({
             currentUser={currentUser}
           />
         )}
-        renderSectionHeader={({ section: { title } }) => (
-          <View style={styles.sectionTitleView}>
-            <Text
-              text={title}
-              fontFamily={TITLE_FONT}
-              style={styles.sectionTitle}
-            />
-          </View>
-        )}
+        renderSectionHeader={({ section: { title } }) =>
+          fetching ? null : (
+            <View style={styles.sectionTitleView}>
+              <Text
+                text={title}
+                fontFamily={TITLE_FONT}
+                style={styles.sectionTitle}
+              />
+            </View>
+          )
+        }
         onScroll={({ nativeEvent }) => {
           if (fetching || endOfList) return;
 
@@ -106,7 +111,7 @@ const Timeline = ({
         ListEmptyComponent={renderEmptyListText()}
         ListFooterComponent={() => (
           <Text
-            text={endOfList ? 'You reached the end...' : ''}
+            text={endOfList ? "That's all folks!" : ''}
             fontFamily={BODY_FONT}
             style={styles.endOfList}
           />

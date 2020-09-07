@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
-import { FlatList } from 'react-native';
 import { useSafeArea } from 'react-native-safe-area-context';
+import { AnimatedFlatList, AnimationType } from 'flatlist-intro-animations';
 
 import ContainerView from '../../UI/views/ContainerView';
 import GalleryListItem from '../../UI/lists/GalleryListItem';
@@ -57,12 +57,14 @@ const Gallery = ({ route, navigation, galleryFeed, fetching }) => {
       headerHeight={route.params.headerHeight}
       loadingOptions={{ loading: fetching }}
     >
-      <FlatList
+      <AnimatedFlatList
         contentContainerStyle={[styles.contentContainer, { paddingBottom }]}
         data={feed}
         renderItem={({ item }) => (
           <GalleryListItem item={item} onPress={() => handlePress(item)} />
         )}
+        animationType={AnimationType.Dive}
+        focused
         ListEmptyComponent={renderEmptyListText()}
         keyExtractor={(item) => item._id}
       />

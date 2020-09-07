@@ -53,6 +53,18 @@ exports.deleteOneCommentFromRequest = async (req) => {
   }
 };
 
+exports.deleteCommentsFromRequest = async (req) => {
+  const { user } = req;
+
+  try {
+    const result = await Comment.deleteMany({ createdBy: user._id });
+
+    return result;
+  } catch (error) {
+    console.log('46', error);
+  }
+};
+
 exports.getCommentsFromRequest = async (req) => {
   const { commentType } = req;
   let parentId =

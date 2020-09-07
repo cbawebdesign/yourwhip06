@@ -2,6 +2,8 @@ const dotenv = require('dotenv');
 
 const CONFIG = dotenv.config().parsed;
 
+// CHANGE FOR YOUR COMPANY AND APP INFORMATION
+// USED IN EMAILS SENT BY APP
 exports.COMPANY_INFO = {
   app_name: 'Share App',
   company_name: 'Share',

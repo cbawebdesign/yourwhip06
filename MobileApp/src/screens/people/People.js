@@ -33,7 +33,7 @@ const People = ({ route, fetching }) => {
     <ContainerView
       touchEnabled={false}
       headerHeight={route.params.headerHeight}
-      loadingOptions={{ loading: fetching }}
+      // loadingOptions={{ loading: fetching }}
     >
       <TabBar />
     </ContainerView>

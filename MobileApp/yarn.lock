@@ -3426,6 +3426,11 @@ flat-cache@^2.0.1:
     rimraf "2.6.3"
     write "1.0.3"
 
+flatlist-intro-animations@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/flatlist-intro-animations/-/flatlist-intro-animations-1.2.2.tgz#277af4421e0db2d216a16825baee3e66421a7f86"
+  integrity sha512-Q0WukYtcEQJ8Czk9s27vMy8dEaH72mkHKXlGil4xfj3yDiCjuzGaoDxhoVUAbBYqYhT9iOkfU891clhVkEbbjQ==
+
 flatted@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/flatted/-/flatted-2.0.2.tgz#4575b21e2bcee7434aa9be662f4b7b5f9c2b5138"

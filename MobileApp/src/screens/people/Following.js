@@ -3,6 +3,7 @@ import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { View, FlatList } from 'react-native';
 import { useSafeArea } from 'react-native-safe-area-context';
+import { AnimatedFlatList, AnimationType } from 'flatlist-intro-animations';
 
 import EmptyListText from '../../UI/text/EmptyListText';
 import PeopleListItem from '../../UI/lists/PeopleListItem';
@@ -36,9 +37,10 @@ const Following = ({ navigation, currentUser }) => {
 
   return (
     <View style={styles.container}>
-      <FlatList
+      <AnimatedFlatList
         contentContainerStyle={{ paddingBottom: useSafeArea().bottom }}
         data={currentUser.following}
+        animationType={AnimationType.Dive}
         renderItem={({ item }) => (
           <PeopleListItem
             disableSwipe

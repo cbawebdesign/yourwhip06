@@ -58,7 +58,8 @@ const FeedSocialView = ({
       if (ENABLE_LIKE_ANIMATION_1) {
         lottieRef.current.play(22, 91);
       } else if (ENABLE_LIKE_ANIMATION_2) {
-        lottieRef.current.play(55, 100);
+        // lottieRef.current.play(22, 100);
+        lottieRef.current.play(0, 100);
       }
     }
   }, [hasBeenLiked]);

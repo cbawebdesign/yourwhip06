@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { View, SectionList } from 'react-native';
+import { View } from 'react-native';
 import { connect, useDispatch } from 'react-redux';
 import { useSafeArea } from 'react-native-safe-area-context';
+import { AnimatedSectionList, AnimationType } from 'flatlist-intro-animations';
 
 import ContainerView from '../UI/views/ContainerView';
 import SettingsListItem from '../UI/lists/SettingsListItem';
@@ -97,12 +98,13 @@ const Settings = ({
         timeout={500}
         onModalDismissPress={() => setShowModal(false)}
       />
-      <SectionList
+      <AnimatedSectionList
         contentContainerStyle={[
           styles.contentContainer,
           { paddingBottom: paddingBottom + 25 },
         ]}
         sections={SETTINGS_ITEMS}
+        animationType={AnimationType.Dive}
         renderItem={({ item, index, section }) => (
           <SettingsListItem
             bottomMargin={section.data.length === index + 1}

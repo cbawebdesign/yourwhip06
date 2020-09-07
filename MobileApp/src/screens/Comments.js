@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import PropTypes from 'prop-types';
-import { View, FlatList, Keyboard } from 'react-native';
+import { View, Keyboard } from 'react-native';
 import { useDispatch, connect } from 'react-redux';
+import { AnimatedFlatList, AnimationType } from 'flatlist-intro-animations';
 
 import ContainerView from '../UI/views/ContainerView';
 import SelectionModal from '../UI/modals/SelectionModal';
@@ -214,9 +215,10 @@ const Comments = ({
         onModalDismissPress={() => setShowCommentOptions(false)}
         options={commentOptions}
       />
-      <FlatList
+      <AnimatedFlatList
         contentContainerStyle={styles.contentContainer}
         data={feed}
+        animationType={AnimationType.Dive}
         renderItem={({ item }) => (
           <CommentListItem
             item={item}

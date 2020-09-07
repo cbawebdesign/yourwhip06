@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { View, FlatList } from 'react-native';
+import { View } from 'react-native';
 import { useSafeArea } from 'react-native-safe-area-context';
+import { AnimatedFlatList, AnimationType } from 'flatlist-intro-animations';
 
 import EmptyListText from '../../UI/text/EmptyListText';
 import PeopleListItem from '../../UI/lists/PeopleListItem';
@@ -41,11 +42,13 @@ const Recommended = ({ navigation, recommendedFeed, currentUser }) => {
 
   return (
     <View style={styles.container}>
-      <FlatList
+      <AnimatedFlatList
         contentContainerStyle={[
           styles.contentContainer,
           { paddingBottom: useSafeArea().bottom },
         ]}
+        animationType={AnimationType.Dive}
+        focused
         data={recommendedFeed}
         renderItem={({ item }) => (
           <PeopleListItem

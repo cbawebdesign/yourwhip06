@@ -6,6 +6,7 @@ const userHelper = require('../helpers/users');
 const generalHelper = require('../helpers/general');
 const postHelper = require('../helpers/posts');
 const imageHelper = require('../helpers/images');
+const commentsHelper = require('../helpers/comments');
 const activityHelper = require('../helpers/activities');
 
 const sendCodeEmail = require('../emails/recoveryCodeEmail');
@@ -219,6 +220,14 @@ exports.deleteAccount = async (req, res) => {
     if (!deleteActivitiesResult) {
       return res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
         error: `An error occurred deleting activities linked to the account`,
+      });
+    }
+
+    // DELETE USER COMMENTS
+    const deletedComments = await commentsHelper.deleteCommentsFromRequest(req);
+    if (!deletedComments) {
+      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
+        error: `An error occurred deleting comments linked to the account`,
       });
     }
 

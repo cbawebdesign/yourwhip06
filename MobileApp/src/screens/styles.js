@@ -10,10 +10,8 @@ const styles = EStyleSheet.create({
   $authProfileImage: { flex: 6.8 },
 
   $navigationInnerContainer: {
-    flexWrap: 'wrap',
-    width: VIEW_WIDTH - 100,
     marginTop: 25,
-    flexDirection: 'row',
+    alignSelf: 'center',
   },
 
   container: {

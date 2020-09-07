@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { View, FlatList } from 'react-native';
+import { View } from 'react-native';
 import { useDispatch, connect } from 'react-redux';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { debounce } from 'throttle-debounce';
+import { AnimatedFlatList, AnimationType } from 'flatlist-intro-animations';
 
 import ContainerView from '../../UI/views/ContainerView';
 import PhotoModal from '../../UI/modals/PhotoModal';
@@ -413,10 +414,11 @@ const Explore = ({
         onShareOptionsPress={handleShareOptionsPress}
         shareDescriptionValue={shareMessage}
       />
-      <FlatList
+      <AnimatedFlatList
         contentContainerStyle={[styles.contentContainer, { paddingBottom }]}
         data={feed}
         renderItem={renderItem}
+        animationType={AnimationType.Dive}
         scrollIndicatorInsets={{ right: 1 }}
         onScroll={({ nativeEvent }) => {
           if (fetching || endOfList) return;
@@ -428,7 +430,7 @@ const Explore = ({
         ListEmptyComponent={renderEmptyListText()}
         ListFooterComponent={() => (
           <Text
-            text={endOfList && feed.length > 0 ? 'You reached the end...' : ''}
+            text={endOfList && feed.length > 0 ? "That's all folks!" : ''}
             fontFamily={BODY_FONT}
             style={styles.endOfList}
           />

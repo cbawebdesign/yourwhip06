@@ -2,6 +2,7 @@ import React, { useState, useEffect, useLayoutEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FlatList, Keyboard } from 'react-native';
 import { useDispatch, connect } from 'react-redux';
+import { AnimatedFlatList, AnimationType } from 'flatlist-intro-animations';
 
 import ContainerView from '../UI/views/ContainerView';
 import SelectionModal from '../UI/modals/SelectionModal';
@@ -180,9 +181,10 @@ const Replies = ({ route, navigation, replyFeed, currentUser, fetching }) => {
         onModalDismissPress={() => setShowReplyOptions(false)}
         options={replyOptions}
       />
-      <FlatList
+      <AnimatedFlatList
         contentContainerStyle={styles.contentContainer}
         data={feed}
+        animationType={AnimationType.Dive}
         ListHeaderComponent={renderHeaderComponent()}
         renderItem={({ item }) => (
           <CommentListItem

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { View } from 'react-native';
+import { AnimatedFlatList, AnimationType } from 'flatlist-intro-animations';
 
 import ContainerView from '../UI/views/ContainerView';
 import FooterView from '../UI/views/footer/FooterView';
@@ -60,8 +60,12 @@ const Navigation = ({
       headerHeight={route.params.headerHeight}
       loadingOptions={{ loading: fetching }}
     >
-      <View style={[styles.innerContainer, styles.$navigationInnerContainer]}>
-        {NAVIGATION_ITEMS.map((item, index) => (
+      <AnimatedFlatList
+        contentContainerStyle={styles.$navigationInnerContainer}
+        data={NAVIGATION_ITEMS}
+        animationType={AnimationType.Dive}
+        numColumns={2}
+        renderItem={({ item, index }) => (
           <IconLabelButton
             key={index.toString()}
             icon={item.icon}
@@ -70,8 +74,9 @@ const Navigation = ({
             isVertical
             height={100}
           />
-        ))}
-      </View>
+        )}
+        keyExtractor={(item) => item.title}
+      />
       <FooterView backgroundColor="white">
         <TextButton
           text="Logout"

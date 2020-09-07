@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { View, FlatList } from 'react-native';
+import { View } from 'react-native';
 import { connect, useDispatch } from 'react-redux';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { debounce } from 'throttle-debounce';
+import { AnimatedFlatList, AnimationType } from 'flatlist-intro-animations';
 
 import IconLabelButton from '../UI/buttons/IconLabelButton';
 import ContainerView from '../UI/views/ContainerView';
@@ -358,10 +359,11 @@ const Profile = ({
         inputValue={description}
         multiline
       />
-      <FlatList
+      <AnimatedFlatList
         ListHeaderComponent={renderListHeader()}
         contentContainerStyle={[styles.contentContainer, { paddingBottom }]}
         data={feed || []}
+        animationType={AnimationType.Dive}
         renderItem={({ item }) => (
           <ExploreListItem
             isProfile
