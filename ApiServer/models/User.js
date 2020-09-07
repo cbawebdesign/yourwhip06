@@ -3,6 +3,8 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+const CONFIG = require('../constants');
+
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
@@ -80,10 +82,7 @@ userSchema.pre('save', async function (next) {
 
 userSchema.methods.generateAuthToken = async function () {
   const user = this;
-  const token = await jwt.sign(
-    { _id: user._id },
-    process.env.JWT_KEY || 'LeaverDeaAsSleaf'
-  );
+  const token = await jwt.sign({ _id: user._id }, CONFIG.JWT_KEY);
 
   user.tokens = user.tokens.concat([{ token }]);
   await user.save();

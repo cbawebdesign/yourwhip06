@@ -1,23 +1,6 @@
 const dotenv = require('dotenv');
 
-dotenv.config();
-
-// SET FALSE TO FETCH SECRET KEYS & PASSWORDS FROM YOUR HOSING (HEROKU) SETUP
-// SET TRUE TO FETCH SECRET KEYS & PASSWORDS FROM YOUR LOCALHOST SETUP
-// IF TRUE, MAKE SURE TO UPDATE  VARIABLES BELOW WITH
-// YOUR SECRET KEYS AND PASSWORDS
-const development = true;
-
-const MONGODB_CONNECTION_STRING =
-  'mongodb+srv://henkcorporaal:2ZyEsk30ODqGPL44@share-development.rc1zg.mongodb.net/share_dev?retryWrites=true&w=majority';
-
-const SENDGRID_USERNAME = 'knowlephant';
-const SENDGRID_PASSWORD = 'ILoveElephants88';
-
-const CLOUDINARY_CLOUD_NAME = 'knowlephant';
-const CLOUDINARY_API_KEY = '291472866985434';
-const CLOUDINARY_API_SECRET = 'ZltFjsHGEYoDwydZumuo1PeWuAc';
-const CLOUDINARY_MEDIA_FOLDER = 'ReactNativeShare';
+const CONFIG = dotenv.config().parsed;
 
 // CHANGE POST AUTO-DELETE SETTINGS
 // IF 'TRUE', POSTS WILL EXPIRE AFTER 24 HOURS
@@ -34,25 +17,19 @@ exports.ENABLE_CONTROL_SUGGESTIONS = true;
 exports.ENABLE_SUGGESTIONS = true;
 
 exports.MONGODB = {
-  connectionString: development
-    ? MONGODB_CONNECTION_STRING
-    : process.env.MONGODB_CONNECTION,
+  connectionString: CONFIG.MONGODB_CONNECTION_STRING,
 };
 
 exports.SENDGRID = {
-  username: development ? SENDGRID_USERNAME : process.env.SENDGRID_USERNAME,
-  password: development ? SENDGRID_PASSWORD : process.env.SENDGRID_PASSWORD,
+  username: CONFIG.SENDGRID_USERNAME,
+  password: CONFIG.SENDGRID_PASSWORD,
 };
 
 exports.CLOUDINARY = {
-  cloud_name: development
-    ? CLOUDINARY_CLOUD_NAME
-    : process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: development ? CLOUDINARY_API_KEY : process.env.CLOUDINARY_API_KEY,
-  api_secret: development
-    ? CLOUDINARY_API_SECRET
-    : process.env.CLOUDINARY_API_SECRET,
-  MEDIA_FOLDER: development
-    ? CLOUDINARY_MEDIA_FOLDER
-    : process.env.CLOUDINARY_MEDIA_FOLDER,
+  cloud_name: CONFIG.CLOUDINARY_CLOUD_NAME,
+  api_key: CONFIG.CLOUDINARY_API_KEY,
+  api_secret: CONFIG.CLOUDINARY_API_SECRET,
+  MEDIA_FOLDER: CONFIG.CLOUDINARY_MEDIA_FOLDER,
 };
+
+exports.JWT_KEY = CONFIG.JWT_KEY;
