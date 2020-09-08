@@ -1,5 +1,4 @@
 import {
-  GET_HOME_FEED,
   CREATE_NEW_POST,
   HOME_FEED_RESULT,
   HOME_FEED_ERROR,
@@ -10,6 +9,8 @@ import {
   RESET_DELETE_POST,
 } from '../actions/home';
 import { LOGOUT_RESULT } from '../actions/auth';
+
+import { PAGINATION_LIMIT } from '../config/constants';
 
 const initialState = {
   error: null,
@@ -29,7 +30,7 @@ const homeState = (state = initialState, action) => {
           action.result.skip === '0'
             ? action.result.posts
             : [...state.homeFeed, ...action.result.posts],
-        endOfList: action.result.posts.length === 0,
+        endOfList: action.result.posts.length < PAGINATION_LIMIT,
         fetching: false,
         error: null,
       };

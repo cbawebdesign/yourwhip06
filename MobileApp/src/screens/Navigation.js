@@ -78,6 +78,7 @@ const Navigation = ({
             ? AnimationType.Dive
             : AnimationType.None
         }
+        focused
         numColumns={2}
         renderItem={({ item, index }) => (
           <IconLabelButton
@@ -127,7 +128,6 @@ const mapStateToProps = (state) => {
   return {
     walkthroughComplete,
     currentUser: user,
-
     fetching,
   };
 };

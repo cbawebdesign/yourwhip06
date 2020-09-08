@@ -330,6 +330,14 @@ const Explore = ({
     <EmptyListText text="Start following people to see their posts, or disable the 'show posts based on my interest' Setting." />
   );
 
+  const renderListFooterComponent = () => (
+    <Text
+      text={endOfList && feed.length > 0 ? "That's all folks!" : ''}
+      fontFamily={BODY_FONT}
+      style={styles.endOfList}
+    />
+  );
+
   useEffect(() => {
     // REFETCH ALFTER USER EDITS PROFILE IMAGE
     dispatch(getHomeFeed(0, PAGINATION_LIMIT));
@@ -432,13 +440,7 @@ const Explore = ({
           }
         }}
         ListEmptyComponent={renderEmptyListText()}
-        ListFooterComponent={() => (
-          <Text
-            text={endOfList && feed.length > 0 ? "That's all folks!" : ''}
-            fontFamily={BODY_FONT}
-            style={styles.endOfList}
-          />
-        )}
+        ListFooterComponent={renderListFooterComponent()}
         onViewableItemsChanged={onViewRef}
         viewabilityConfig={viewConfigRef}
         onRefresh={handleRefresh}

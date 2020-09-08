@@ -1,5 +1,7 @@
 import { GET_PROFILE, PROFILE_RESULT, PROFILE_ERROR } from '../actions/profile';
 
+import { PAGINATION_LIMIT } from '../config/constants';
+
 const initialState = {
   error: null,
   success: null,
@@ -10,6 +12,7 @@ const initialState = {
     followersCount: 0,
     postsCount: 0,
   },
+  endOfList: false,
 };
 
 const profileState = (state = initialState, action) => {
@@ -41,6 +44,7 @@ const profileState = (state = initialState, action) => {
           followersCount: action.result.followersCount,
           postsCount: action.result.postsCount,
         },
+        endOfList: action.result.feed.length < PAGINATION_LIMIT,
         fetching: false,
         error: null,
       };

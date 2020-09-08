@@ -55,6 +55,14 @@ const Timeline = ({
     <EmptyListText text="Once people start interacting with your posts, an overview of their actions will appear on this screen" />
   );
 
+  const renderListFooterComponent = () => (
+    <Text
+      text={timelineFeed.length > 0 && endOfList ? "That's all folks!" : ''}
+      fontFamily={BODY_FONT}
+      style={styles.endOfList}
+    />
+  );
+
   useEffect(() => {
     if (!getFeed) {
       dispatch(getTimelineFeed(0, PAGINATION_LIMIT));
@@ -113,13 +121,7 @@ const Timeline = ({
         onRefresh={handleRefresh}
         refreshing={fetching}
         ListEmptyComponent={renderEmptyListText()}
-        ListFooterComponent={() => (
-          <Text
-            text={endOfList ? "That's all folks!" : ''}
-            fontFamily={BODY_FONT}
-            style={styles.endOfList}
-          />
-        )}
+        ListFooterComponent={renderListFooterComponent()}
         keyExtractor={(item) => item._id}
       />
     </ContainerView>

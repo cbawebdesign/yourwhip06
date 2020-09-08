@@ -64,6 +64,7 @@ const styles = EStyleSheet.create({
     flex: 1,
     textAlign: 'center',
     paddingBottom: 12,
+    opacity: 0.5,
   },
 
   // SROLLVIEW

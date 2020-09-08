@@ -13,7 +13,12 @@ import { removeUserPress } from '../../actions/user';
 
 import styles from './styles';
 
-const Recommended = ({ navigation, recommendedFeed, currentUser }) => {
+const Recommended = ({
+  navigation,
+  recommendedFeed,
+  currentUser,
+  fetching,
+}) => {
   const dispatch = useDispatch();
 
   const handleProfilePress = (user) => {
@@ -52,7 +57,7 @@ const Recommended = ({ navigation, recommendedFeed, currentUser }) => {
             ? AnimationType.Dive
             : AnimationType.None
         }
-        focused
+        focused={!fetching}
         data={recommendedFeed}
         renderItem={({ item }) => (
           <PeopleListItem
@@ -76,14 +81,16 @@ Recommended.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
   }).isRequired,
+  fetching: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => {
-  const { recommendedFeed, user } = state.user;
+  const { recommendedFeed, user, fetching } = state.user;
 
   return {
     recommendedFeed,
     currentUser: user,
+    fetching,
   };
 };
 

@@ -16,6 +16,7 @@ import ExploreListItem from '../UI/lists/ExploreListItem';
 import SelectionModal from '../UI/modals/SelectionModal';
 import TextInputModal from '../UI/modals/TextInputModal';
 import ShareModal from '../UI/modals/ShareModal';
+import { CustomText as Text, BODY_FONT } from '../UI/text/CustomText';
 
 import {
   onLikePressHelper,
@@ -53,6 +54,8 @@ const Profile = ({
   currentUser,
   commentsUpdateCheck,
   deletedPost,
+  endOfList,
+  fetching,
 }) => {
   const dispatch = useDispatch();
   const paddingBottom = useSafeArea().bottom;
@@ -271,6 +274,14 @@ const Profile = ({
     </View>
   );
 
+  const renderListFooterComponent = () => (
+    <Text
+      text={endOfList && feed.length > 0 ? "That's all folks!" : ''}
+      fontFamily={BODY_FONT}
+      style={styles.endOfList}
+    />
+  );
+
   const handleLoadMore = (count) => {
     dispatch(getProfile(route.params.user, count, PAGINATION_LIMIT));
   };
@@ -386,7 +397,10 @@ const Profile = ({
             onDeletePress={() => handleDeletePost('PROFILE')}
           />
         )}
+        ListFooterComponent={renderListFooterComponent()}
         onScroll={({ nativeEvent }) => {
+          if (fetching || endOfList) return;
+
           if (isCloseToBottom(nativeEvent)) {
             handleLoadMoreThrottled(userData.profileFeed.length);
           }
@@ -444,11 +458,13 @@ Profile.propTypes = {
     comments: PropTypes.arrayOf(commentPropType),
     action: PropTypes.string.isRequired,
   }),
+  fetching: PropTypes.bool.isRequired,
+  endOfList: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => {
   const { user } = state.user;
-  const { userData, socialData } = state.profile;
+  const { userData, socialData, endOfList, fetching } = state.profile;
   const { commentsUpdateCheck } = state.comments;
   const { deletedPost } = state.home;
 
@@ -456,6 +472,8 @@ const mapStateToProps = (state) => {
     currentUser: user,
     userData,
     socialData,
+    fetching,
+    endOfList,
     commentsUpdateCheck,
     deletedPost,
   };

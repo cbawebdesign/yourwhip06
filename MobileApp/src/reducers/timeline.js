@@ -4,6 +4,8 @@ import {
   TIMELINE_FEED_ERROR,
 } from '../actions/timeline';
 
+import { PAGINATION_LIMIT } from '../config/constants';
+
 const initialState = {
   fetching: false,
   error: null,
@@ -43,6 +45,13 @@ const timelineState = (state = initialState, action) => {
         fetching: true,
       };
     case TIMELINE_FEED_RESULT:
+      if (action.result.length === 0) {
+        return {
+          ...state,
+          fetching: false,
+        };
+      }
+
       return {
         ...state,
         fetching: false,
@@ -50,7 +59,7 @@ const timelineState = (state = initialState, action) => {
           action.result.skip === '0'
             ? action.result.activities
             : updateList([...state.timelineFeed, ...action.result.activities]),
-        endOfList: action.result.activities.length === 0,
+        endOfList: action.result.activities.length < PAGINATION_LIMIT,
         error: null,
       };
     case TIMELINE_FEED_ERROR:
