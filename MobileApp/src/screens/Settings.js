@@ -78,6 +78,8 @@ const Settings = ({
   };
 
   useEffect(() => {
+    if (!currentUser) return;
+
     setUserSettings(currentUser.settings);
   }, []);
 

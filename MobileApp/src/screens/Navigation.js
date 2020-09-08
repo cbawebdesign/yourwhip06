@@ -54,6 +54,16 @@ const Navigation = ({
     }
   }, [walkthroughComplete]);
 
+  if (!currentUser) {
+    return (
+      <ContainerView
+        hasGradient
+        headerHeight={route.params.headerHeight}
+        loadingOptions={{ loading: fetching }}
+      />
+    );
+  }
+
   return (
     <ContainerView
       hasGradient

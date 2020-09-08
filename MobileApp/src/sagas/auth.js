@@ -269,6 +269,7 @@ export function* deleteAccount(action) {
       yield put({ type: DELETE_ACCOUNT_ERROR, error: result.error });
     } else {
       SecureStore.deleteItemAsync('token');
+      SecureStore.deleteItemAsync('walkthroughComplete');
 
       yield put({ type: DELETE_ACCOUNT_RESULT, result });
     }

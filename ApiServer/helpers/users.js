@@ -71,7 +71,7 @@ exports.findOneUserFromRequest = async (req) => {
 exports.findUsersFromRequest = async (req) => {
   const { user, friendsAndRemovedIds } = req;
   const enableSuggestions = CONFIG.ENABLE_CONTROL_SUGGESTIONS
-    ? user.enableSuggestions
+    ? user.settings.enableSuggestions
     : CONFIG.ENABLE_SUGGESTIONS;
   const { interests } = req.user;
   const searchInput =

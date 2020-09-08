@@ -142,8 +142,6 @@ exports.deleteActivitiesFromRequest = async (req) => {
   try {
     const result = await Activity.deleteMany({ user_action });
 
-    console.log('deleted', result);
-
     return result;
   } catch (error) {
     console.log('47', error);

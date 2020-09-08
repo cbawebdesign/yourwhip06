@@ -5,11 +5,13 @@ exports.getPostsFromRequest = async (req) => {
   const skip = Number(req.params.skip);
   const limit = Number(req.params.limit) || Number(req.body.limit);
   const enableSuggestions = CONFIG.ENABLE_CONTROL_SUGGESTIONS
-    ? req.user.enableSuggestions
+    ? req.user.settings.enableSuggestions
     : CONFIG.ENABLE_SUGGESTIONS;
   const { following } = req.user;
 
   let posts;
+
+  console.log(enableSuggestions);
 
   if (enableSuggestions) {
     posts = await Post.find(

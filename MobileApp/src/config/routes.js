@@ -309,13 +309,15 @@ const RootStackScreen = ({ authToken, walkthroughComplete, currentUser }) => {
   const dispatch = useDispatch();
 
   const getToken = async () => {
-    // const tokenString = await SecureStore.getItemAsync('token');
+    const tokenString = await SecureStore.getItemAsync('token');
     const isWalkthroughComplete = await SecureStore.getItemAsync(
       'walkthroughComplete'
     );
 
     // FOR DEV PURPOSES ONLY
-    const tokenString = await SecureStore.deleteItemAsync('token');
+    // const tokenString = await SecureStore.deleteItemAsync('token');
+    // await SecureStore.deleteItemAsync('walkthroughComplete');
+    // END FOR DEV PURPOSES ONLY
 
     if (tokenString) {
       dispatch(storeToken(tokenString));

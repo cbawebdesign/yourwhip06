@@ -9,11 +9,11 @@ import GalleryListItem from '../../UI/lists/GalleryListItem';
 import EmptyListText from '../../UI/text/EmptyListText';
 
 import { getGalleryFeed } from '../../actions/galleries';
-import { galleryItemPropType } from '../../config/propTypes';
+import { galleryItemPropType, userPropType } from '../../config/propTypes';
 
 import styles from '../styles';
 
-const Gallery = ({ route, navigation, galleryFeed, fetching }) => {
+const Gallery = ({ route, navigation, currentUser, galleryFeed, fetching }) => {
   const dispatch = useDispatch();
 
   const paddingBottom = useSafeArea().bottom;
@@ -41,7 +41,7 @@ const Gallery = ({ route, navigation, galleryFeed, fetching }) => {
     }
   }, [galleryFeed]);
 
-  if (!feed) {
+  if (!feed || !currentUser) {
     return (
       <ContainerView
         touchEnabled={false}
@@ -76,6 +76,10 @@ const Gallery = ({ route, navigation, galleryFeed, fetching }) => {
   );
 };
 
+Gallery.defaultProps = {
+  currentUser: null,
+};
+
 Gallery.propTypes = {
   route: PropTypes.shape({
     params: PropTypes.instanceOf(Object),
@@ -83,6 +87,7 @@ Gallery.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
   }).isRequired,
+  currentUser: userPropType,
   galleryFeed: PropTypes.arrayOf(galleryItemPropType).isRequired,
   fetching: PropTypes.bool.isRequired,
 };
