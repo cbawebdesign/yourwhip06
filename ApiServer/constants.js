@@ -43,4 +43,4 @@ exports.CLOUDINARY = {
     process.env.CLOUDINARY_MEDIA_FOLDER || CONFIG.CLOUDINARY_MEDIA_FOLDER,
 };
 
-exports.JWT_KEY = CONFIG.JWT_KEY || process.env.JWT_KEY;
+exports.JWT_KEY = process.env.JWT_KEY || CONFIG.JWT_KEY;
