@@ -313,19 +313,20 @@ export const profileInfoViewStyles = EStyleSheet.create({
   headerView: {
     flex: 1,
     flexDirection: 'row',
-    height: 110,
-  },
-  doubleLabelView: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignSelf: 'center',
-    paddingBottom: 25,
+    marginBottom: 12,
   },
   descriptionView: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
+    marginBottom: 50,
+  },
+  doubleLabelView: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignSelf: 'center',
+    paddingBottom: 25,
   },
   name: {
     width: VIEW_WIDTH - 50 - 50,
@@ -338,15 +339,18 @@ export const profileInfoViewStyles = EStyleSheet.create({
     width: 50,
     height: 50,
   },
+  labelItem: {
+    paddingBottom: 6,
+  },
   locationView: {
-    flex: 1,
+    width: VIEW_WIDTH - 100,
     flexDirection: 'row',
+    alignItems: 'center',
   },
   emailView: {
-    flex: 1,
+    width: VIEW_WIDTH - 100,
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignSelf: 'center',
+    alignItems: 'center',
   },
   locationIcon: {
     width: 12,

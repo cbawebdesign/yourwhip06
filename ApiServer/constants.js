@@ -8,7 +8,7 @@ exports.COMPANY_INFO = {
   app_name: 'Share App',
   company_name: 'Share',
   app_emailaddress: 'info@knowlephant.com',
-  address: 'Compnay address',
+  address: 'Company address',
 };
 
 // CHANGE POST AUTO-DELETE SETTINGS

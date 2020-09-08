@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { View, Animated } from 'react-native';
 
@@ -51,13 +51,16 @@ const ExploreListItem = ({
   const sharedPostHasMedia =
     (sharedPost && (sharedPost.image || sharedPost.images)) ||
     (sharedPost && sharedPost.video !== undefined);
-  const hasVideo = item.images[0] && item.images[0].image.includes('mp4');
+  const hasVideo =
+    item.images[0] &&
+    (item.images[0].image.toLowerCase().includes('mp4') ||
+      item.images[0].image.toLowerCase().includes('mov'));
   const hasDescription = item.description && item.description.length > 0;
   const sharedPostHasVideo =
     sharedPost &&
     sharedPost.images[0] &&
-    sharedPost.images[0].image.substr(sharedPost.images[0].image.length - 3) ===
-      'mp4';
+    (sharedPost.images[0].image.toLowerCase().includes('mp4') ||
+      sharedPost.images[0].image.toLowerCase().includes('mov'));
 
   const handleDeleteItem = () => {
     Animated.timing(opacity, {

@@ -25,25 +25,6 @@ const ProfileInfoView = ({
     <View style={styles.headerView}>
       <Text text={name} fontFamily={TITLE_FONT} style={styles.name} />
     </View>
-    <View style={styles.doubleLabelView}>
-      <View style={styles.locationView}>
-        <Image source={locationIcon} style={styles.locationIcon} />
-        <Text
-          text={location || 'Nowhereland'}
-          fontFamily={TITLE_FONT}
-          style={styles.label}
-        />
-      </View>
-      <View style={styles.emailView}>
-        <Text text="@" fontFamily={TITLE_FONT} style={styles.emailIcon} />
-        <Text
-          text={email}
-          fontFamily={TITLE_FONT}
-          numberOfLines={2}
-          style={[styles.label, styles.email]}
-        />
-      </View>
-    </View>
     <View style={styles.descriptionView}>
       <Text
         text={description}
@@ -55,6 +36,25 @@ const ProfileInfoView = ({
           <IconButton icon={editIcon} onPress={onEditDescription} size={14} />
         </View>
       )}
+    </View>
+    <View style={styles.doubleLabelView}>
+      <View style={[styles.labelItem, styles.locationView]}>
+        <Image source={locationIcon} style={styles.locationIcon} />
+        <Text
+          text={location || 'Nowhereland'}
+          fontFamily={TITLE_FONT}
+          style={styles.label}
+        />
+      </View>
+      <View style={[styles.labelItem, styles.emailView]}>
+        <Text text="@" fontFamily={TITLE_FONT} style={styles.emailIcon} />
+        <Text
+          text={email}
+          fontFamily={TITLE_FONT}
+          numberOfLines={2}
+          style={[styles.label, styles.email]}
+        />
+      </View>
     </View>
   </View>
 );
