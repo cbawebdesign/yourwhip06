@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import { connect, useDispatch } from 'react-redux';
@@ -17,7 +17,7 @@ import { SETTINGS_ITEMS } from '../helpers/dataHelper';
 import { userPropType } from '../config/propTypes';
 
 import { logout, deleteAccount, resetMessages } from '../actions/auth';
-import { enableSuggestions } from '../actions/user';
+import { updateSettings } from '../actions/user';
 
 import styles from './styles';
 
@@ -32,6 +32,7 @@ const Settings = ({
   const paddingBottom = useSafeArea().bottom;
 
   const [showModal, setShowModal] = useState(false);
+  const [userSettings, setUserSettings] = useState(null);
 
   const modalOptions = {
     title: 'Delete Account',
@@ -72,9 +73,13 @@ const Settings = ({
     dispatch(logout());
   };
 
-  const handleToggleSuggestions = (value) => {
-    dispatch(enableSuggestions(value));
+  const handleToggleSettings = (settings) => {
+    dispatch(updateSettings(settings));
   };
+
+  useEffect(() => {
+    setUserSettings(currentUser.settings);
+  }, []);
 
   if (!currentUser) {
     return (
@@ -104,16 +109,20 @@ const Settings = ({
           { paddingBottom: paddingBottom + 25 },
         ]}
         sections={SETTINGS_ITEMS}
-        animationType={AnimationType.Dive}
+        animationType={
+          userSettings && userSettings.enableIntroAnimations
+            ? AnimationType.SlideFromRight
+            : AnimationType.None
+        }
         renderItem={({ item, index, section }) => (
           <SettingsListItem
             bottomMargin={section.data.length === index + 1}
             item={item}
             onPress={() => handlePress(item)}
-            toggleSuggestions={handleToggleSuggestions}
-            enableSuggestionsValue={currentUser.enableSuggestions}
+            toggleSettings={handleToggleSettings}
+            settingsValue={currentUser.settings}
             hide={
-              item.display === 'ENABLE_SUGGESTIONS' &&
+              item.type === 'ENABLE_SUGGESTIONS' &&
               !appSettings.enableSuggestionsControl
             }
           />
@@ -156,7 +165,7 @@ Settings.propTypes = {
   currentUser: userPropType,
   appSettings: PropTypes.shape({
     enableSuggestionsControl: PropTypes.bool.isRequired,
-  }),
+  }).isRequired,
   fetching: PropTypes.bool.isRequired,
 };
 

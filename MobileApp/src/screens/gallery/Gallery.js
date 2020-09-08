@@ -63,7 +63,11 @@ const Gallery = ({ route, navigation, galleryFeed, fetching }) => {
         renderItem={({ item }) => (
           <GalleryListItem item={item} onPress={() => handlePress(item)} />
         )}
-        animationType={AnimationType.Dive}
+        animationType={
+          currentUser.settings.enableIntroAnimations
+            ? AnimationType.Dive
+            : AnimationType.None
+        }
         focused
         ListEmptyComponent={renderEmptyListText()}
         keyExtractor={(item) => item._id}

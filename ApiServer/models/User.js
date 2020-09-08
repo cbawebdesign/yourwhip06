@@ -36,9 +36,15 @@ const userSchema = new Schema(
     profileImage: String,
     description: String,
     interests: [String],
-    enableSuggestions: {
-      type: Boolean,
-      default: false,
+    settings: {
+      enableSuggestions: {
+        type: Boolean,
+        default: false,
+      },
+      enableIntroAnimations: {
+        type: Boolean,
+        default: true,
+      },
     },
     dateTime: {
       type: Date,

@@ -6,9 +6,9 @@ export const UPDATE_INTERESTS = 'UPDATE_INTERESTS';
 export const UPDATE_INTERESTS_RESULT = 'UPDATE_INTERESTS_RESULT';
 export const UPDATE_INTERESTS_ERROR = 'UPDATE_INTERESTS_ERROR';
 
-export const ENABLE_SUGGESTIONS = 'ENABLE_SUGGESTIONS';
-export const ENABLE_SUGGESTIONS_RESULT = 'ENABLE_SUGGESTIONS_RESULT';
-export const ENABLE_SUGGESTIONS_ERROR = 'ENABLE_SUGGESTIONS_ERROR';
+export const UPDATE_SETTINGS = 'UPDATE_SETTINGS';
+export const UPDATE_SETTINGS_RESULT = 'UPDATE_SETTINGS_RESULT';
+export const UPDATE_SETTINGS_ERROR = 'UPDATE_SETTINGS_ERROR';
 
 export const WALKTHROUGH_COMPLETE = 'WALKTHROUGH_COMPLETE';
 
@@ -40,9 +40,9 @@ export const updateInterests = (interests) => ({
   interests,
 });
 
-export const enableSuggestions = (enable) => ({
-  type: ENABLE_SUGGESTIONS,
-  enableSuggestions: enable,
+export const updateSettings = (settings) => ({
+  type: UPDATE_SETTINGS,
+  settings,
 });
 
 export const setWalkthroughComplete = () => ({

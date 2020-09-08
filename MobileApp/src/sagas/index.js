@@ -24,7 +24,7 @@ import {
 import {
   GET_USER_INFO,
   UPDATE_INTERESTS,
-  ENABLE_SUGGESTIONS,
+  UPDATE_SETTINGS,
   GET_RECOMMENDED_USERS,
   REMOVE_USER_PRESS,
   EDIT_PROFILE,
@@ -33,7 +33,7 @@ import {
 import {
   getUserInfo,
   updateInterests,
-  enableSuggestions,
+  updateSettings,
   getRecommendedUsers,
   removeUserPress,
   editProfile,
@@ -140,7 +140,7 @@ export default function* rootSaga() {
 
   // PEOPLE / USER
   yield takeEvery(UPDATE_INTERESTS, updateInterests);
-  yield takeEvery(ENABLE_SUGGESTIONS, enableSuggestions);
+  yield takeEvery(UPDATE_SETTINGS, updateSettings);
   yield takeEvery(EDIT_PROFILE, editProfile);
   yield takeEvery(GET_RECOMMENDED_USERS, getRecommendedUsers);
   yield takeEvery(REMOVE_USER_PRESS, removeUserPress);

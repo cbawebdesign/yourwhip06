@@ -77,7 +77,11 @@ const Timeline = ({
           styles.contentContainer,
           { paddingBottom: useSafeArea().bottom },
         ]}
-        animationType={AnimationType.SlideFromRight}
+        animationType={
+          currentUser.settings.enableIntroAnimations
+            ? AnimationType.SlideFromRight
+            : AnimationType.None
+        }
         sections={timelineFeed || []}
         renderItem={({ item }) => (
           <TimelineListItem

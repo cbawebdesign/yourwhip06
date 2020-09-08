@@ -212,7 +212,6 @@ export const timelineListItemStyles = EStyleSheet.create({
 
 export const settingsListItemStyles = EStyleSheet.create({
   $containerHeight: 70,
-  $switchMargin: { marginTop: 50 },
   $activeBackground: '$primary1',
   $inactiveBackground: '$backgroundGray',
 

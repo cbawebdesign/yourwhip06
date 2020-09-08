@@ -184,7 +184,11 @@ const Replies = ({ route, navigation, replyFeed, currentUser, fetching }) => {
       <AnimatedFlatList
         contentContainerStyle={styles.contentContainer}
         data={feed}
-        animationType={AnimationType.Dive}
+        animationType={
+          currentUser.settings.enableIntroAnimations
+            ? AnimationType.Dive
+            : AnimationType.None
+        }
         ListHeaderComponent={renderHeaderComponent()}
         renderItem={({ item }) => (
           <CommentListItem

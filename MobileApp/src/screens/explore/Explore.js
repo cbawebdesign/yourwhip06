@@ -418,7 +418,11 @@ const Explore = ({
         contentContainerStyle={[styles.contentContainer, { paddingBottom }]}
         data={feed}
         renderItem={renderItem}
-        animationType={AnimationType.Dive}
+        animationType={
+          currentUser.settings.enableIntroAnimations
+            ? AnimationType.Dive
+            : AnimationType.None
+        }
         scrollIndicatorInsets={{ right: 1 }}
         onScroll={({ nativeEvent }) => {
           if (fetching || endOfList) return;

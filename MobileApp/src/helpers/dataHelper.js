@@ -78,6 +78,7 @@ export const NAVIGATION_ITEMS = [
 const password = require('../../assets/icons/password.png');
 const deleteIcon = require('../../assets/icons/delete.png');
 const suggestions = require('../../assets/icons/suggestions.png');
+const animations = require('../../assets/icons/animations.png');
 // const twitter = require('../../assets/icons/twitter.png');
 // const facebook = require('../../assets/icons/facebook.png');
 // const instagram = require('../../assets/icons/instagram.png');
@@ -109,13 +110,24 @@ export const SETTINGS_ITEMS = [
         navigateTo: '',
         type: 'NAVIGATE',
       },
+    ],
+  },
+  {
+    title: 'Personal',
+    data: [
       {
         id: 3,
         title: 'Use my selected interest to suggest new people and posts',
         icon: suggestions,
         navigateTo: null,
-        type: 'SWITCH',
-        display: 'ENABLE_SUGGESTIONS',
+        type: 'ENABLE_SUGGESTIONS',
+      },
+      {
+        id: 4,
+        title: 'Show screen intro animations',
+        icon: animations,
+        navigateTo: null,
+        type: 'ENABLE_INTRO_ANIMATIONS',
       },
     ],
   },

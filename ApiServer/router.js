@@ -76,7 +76,7 @@ app.get('/get-timeline-feed/:skip/:limit', auth, Timeline.getFeed);
 // PEOPLE / USER
 app.get('/get-user-info/', auth, Users.getUserInfo);
 app.post('/update-interests/', auth, Users.updateInterests);
-app.post('/enable-suggestions/', auth, Users.enableSuggestions);
+app.post('/update-settings/', auth, Users.updateSettings);
 app.post('/edit-profile/', auth, uploads.uploadProfileImage, Users.editProfile);
 app.get('/get-recommended-users/', auth, Users.getRecommended);
 app.post('/remove-user-press', auth, Users.removeUserPress);

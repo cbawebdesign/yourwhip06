@@ -14,17 +14,20 @@ const SettingsListItem = ({
   item,
   onPress,
   bottomMargin,
-  enableSuggestionsValue,
-  toggleSuggestions,
+  settingsValue,
+  toggleSettings,
   hide,
 }) => {
-  const [enableSuggestions, setEnableSuggestions] = useState(false);
+  const [userSettings, setUserSettings] = useState({
+    enableSuggestions: false,
+    enableIntroAnimations: false,
+  });
 
   const renderRightSideItem = () => {
     switch (item.type) {
       case 'NAVIGATE':
         return <IconButton icon={arrowRightIcon} onPress={onPress} />;
-      case 'SWITCH':
+      case 'ENABLE_SUGGESTIONS':
         return (
           <Switch
             trackColor={{
@@ -32,10 +35,30 @@ const SettingsListItem = ({
               true: styles.$activeBackground,
             }}
             onValueChange={(value) => {
-              toggleSuggestions(value);
-              setEnableSuggestions(value);
+              const settingsCopy = { ...userSettings };
+              settingsCopy.enableSuggestions = value;
+
+              toggleSettings(settingsCopy);
+              setUserSettings(settingsCopy);
             }}
-            value={enableSuggestions}
+            value={userSettings.enableSuggestions}
+          />
+        );
+      case 'ENABLE_INTRO_ANIMATIONS':
+        return (
+          <Switch
+            trackColor={{
+              false: styles.$inactiveBackground,
+              true: styles.$activeBackground,
+            }}
+            onValueChange={(value) => {
+              const settingsCopy = { ...userSettings };
+              settingsCopy.enableIntroAnimations = value;
+
+              toggleSettings(settingsCopy);
+              setUserSettings(settingsCopy);
+            }}
+            value={userSettings.enableIntroAnimations}
           />
         );
       case 'SOCIAL':
@@ -52,29 +75,35 @@ const SettingsListItem = ({
   };
 
   useEffect(() => {
-    setEnableSuggestions(enableSuggestionsValue);
+    setUserSettings((prev) => ({
+      ...prev,
+      enableSuggestions: settingsValue.enableSuggestions,
+      enableIntroAnimations: settingsValue.enableIntroAnimations,
+    }));
   }, []);
 
   if (hide) return null;
 
   return (
-    <View style={item.type === 'SWITCH' && styles.$switchMargin}>
-      <ListItemContainerView
-        onPress={onPress}
-        height={styles.$containerHeight}
-        marginTop={0}
-        marginBottom={bottomMargin ? 10 : 0}
-        disabled={item.navigateTo === null}
-        row
-      >
-        <Image source={item.icon} style={styles.icon} />
-        <Text text={item.title} fontFamily={BODY_FONT} style={styles.title} />
-        <View style={styles.rightSideItem}>{renderRightSideItem()}</View>
-      </ListItemContainerView>
-    </View>
+    <ListItemContainerView
+      onPress={onPress}
+      height={styles.$containerHeight}
+      marginTop={0}
+      marginBottom={bottomMargin ? 10 : 0}
+      disabled={item.navigateTo === null}
+      row
+    >
+      <Image source={item.icon} style={styles.icon} />
+      <Text text={item.title} fontFamily={BODY_FONT} style={styles.title} />
+      <View style={styles.rightSideItem}>{renderRightSideItem()}</View>
+    </ListItemContainerView>
   );
 };
 
+SettingsListItem.defaultProps = {
+  bottomMargin: false,
+  hide: false,
+};
 SettingsListItem.propTypes = {
   item: PropTypes.shape({
     id: PropTypes.number.isRequired,
@@ -84,6 +113,13 @@ SettingsListItem.propTypes = {
     isLinked: PropTypes.bool,
   }).isRequired,
   onPress: PropTypes.func.isRequired,
+  settingsValue: PropTypes.shape({
+    enableIntroAnimations: PropTypes.bool.isRequired,
+    enableSuggestions: PropTypes.bool.isRequired,
+  }).isRequired,
+  toggleSettings: PropTypes.func.isRequired,
+  bottomMargin: PropTypes.bool,
+  hide: PropTypes.bool,
 };
 
 export default SettingsListItem;

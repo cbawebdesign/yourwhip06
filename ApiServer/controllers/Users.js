@@ -32,16 +32,16 @@ exports.updateInterests = async (req, res) => {
   }
 };
 
-exports.enableSuggestions = async (req, res) => {
+exports.updateSettings = async (req, res) => {
   const currentUser = req.user;
-  const { enableSuggestions } = req.body;
+  const { settings } = req.body;
 
-  currentUser.enableSuggestions = enableSuggestions;
+  currentUser.settings = settings;
 
   try {
     await currentUser.save();
 
-    res.status(HttpStatus.OK).send(currentUser.enableSuggestions);
+    res.status(HttpStatus.OK).send(currentUser.settings);
   } catch (error) {
     console.log('47', error);
   }

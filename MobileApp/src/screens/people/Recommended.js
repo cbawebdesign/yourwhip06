@@ -47,7 +47,11 @@ const Recommended = ({ navigation, recommendedFeed, currentUser }) => {
           styles.contentContainer,
           { paddingBottom: useSafeArea().bottom },
         ]}
-        animationType={AnimationType.Dive}
+        animationType={
+          currentUser.settings.enableIntroAnimations
+            ? AnimationType.Dive
+            : AnimationType.None
+        }
         focused
         data={recommendedFeed}
         renderItem={({ item }) => (

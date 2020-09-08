@@ -11,7 +11,7 @@ import { NAVIGATION_ITEMS } from '../helpers/dataHelper';
 
 import { logout, resetMessages } from '../actions/auth';
 
-import { userPropType } from '../config/propTypes';
+import { userPropType, userSettingsPropType } from '../config/propTypes';
 
 import styles from './styles';
 
@@ -63,7 +63,11 @@ const Navigation = ({
       <AnimatedFlatList
         contentContainerStyle={styles.$navigationInnerContainer}
         data={NAVIGATION_ITEMS}
-        animationType={AnimationType.Dive}
+        animationType={
+          currentUser.settings.enableIntroAnimations
+            ? AnimationType.Dive
+            : AnimationType.None
+        }
         numColumns={2}
         renderItem={({ item, index }) => (
           <IconLabelButton
@@ -113,6 +117,7 @@ const mapStateToProps = (state) => {
   return {
     walkthroughComplete,
     currentUser: user,
+
     fetching,
   };
 };

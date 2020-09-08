@@ -4,8 +4,8 @@ import {
   USER_INFO_RESULT,
   UPDATE_INTERESTS_RESULT,
   UPDATE_INTERESTS_ERROR,
-  ENABLE_SUGGESTIONS_RESULT,
-  ENABLE_SUGGESTIONS_ERROR,
+  UPDATE_SETTINGS_RESULT,
+  UPDATE_SETTINGS_ERROR,
   WALKTHROUGH_COMPLETE,
   RECOMMENDED_USERS_RESULT,
   RECOMMENDED_USERS_ERROR,
@@ -40,12 +40,12 @@ const userState = (state = initialState, action) => {
         ...state,
         editProfileFetching: true,
       };
-    case ENABLE_SUGGESTIONS_RESULT:
+    case UPDATE_SETTINGS_RESULT:
       return {
         ...state,
         user: {
           ...state.user,
-          enableSuggestions: action.result,
+          settings: action.result,
         },
       };
     case GET_RECOMMENDED_USERS:
@@ -131,7 +131,7 @@ const userState = (state = initialState, action) => {
         user: action.result.user,
       };
     case UPDATE_INTERESTS_ERROR:
-    case ENABLE_SUGGESTIONS_ERROR:
+    case UPDATE_SETTINGS_ERROR:
     case RECOMMENDED_USERS_ERROR:
     case REMOVE_USER_PRESS_ERROR:
     case EDIT_PROFILE_ERROR:

@@ -218,7 +218,11 @@ const Comments = ({
       <AnimatedFlatList
         contentContainerStyle={styles.contentContainer}
         data={feed}
-        animationType={AnimationType.Dive}
+        animationType={
+          currentUser.settings.enableIntroAnimations
+            ? AnimationType.Dive
+            : AnimationType.None
+        }
         renderItem={({ item }) => (
           <CommentListItem
             item={item}

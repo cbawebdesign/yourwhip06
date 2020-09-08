@@ -32,6 +32,11 @@ export const userPropType = PropTypes.shape({
   dateTime: PropTypes.string.isRequired,
 });
 
+export const userSettingsPropType = PropTypes.shape({
+  enableSuggestions: PropTypes.bool.isRequired,
+  enableIntroAnimations: PropTypes.bool.isRequired,
+});
+
 // SOCIAL
 export const likePropType = PropTypes.shape({
   _id: PropTypes.string.isRequired,
@@ -149,11 +154,7 @@ export const timeLinePropType = PropTypes.shape({
 });
 
 export const imageItemPropType = PropTypes.shape({
-  // id: PropTypes.number.isRequired,
   image: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  // likes: PropTypes.number.isRequired,
-  // comments: PropTypes.number.isRequired,
-  // shares: PropTypes.number.isRequired,
 });
 
 // STATS
