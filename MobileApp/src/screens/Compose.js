@@ -11,7 +11,7 @@ import SelectionModal from '../UI/modals/SelectionModal';
 import TextInputModal from '../UI/modals/TextInputModal';
 
 import { getGalleryFeed } from '../actions/galleries';
-import { composePost } from '../actions/home';
+import { composePost } from '../actions/posts';
 
 import { PAGINATION_LIMIT } from '../config/constants';
 import { useKeyboardState } from '../config/hooks';

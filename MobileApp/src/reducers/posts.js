@@ -7,7 +7,7 @@ import {
   DELETE_POST_RESULT,
   DELETE_POST_ERROR,
   RESET_DELETE_POST,
-} from '../actions/home';
+} from '../actions/posts';
 import { LOGOUT_RESULT } from '../actions/auth';
 
 import { PAGINATION_LIMIT } from '../config/constants';

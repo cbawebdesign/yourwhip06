@@ -21,7 +21,7 @@ import {
 import { likePostPress } from '../../actions/likes';
 import { likeImagePress, getDetailPost } from '../../actions/detail';
 import { sharePost, shareImage } from '../../actions/shares';
-import { deletePost } from '../../actions/home';
+import { deletePost } from '../../actions/posts';
 import { resetCommentUpdateCheck } from '../../actions/comments';
 
 import styles from '../styles';

@@ -1,5 +1,5 @@
 module.exports = {
-  extends: 'airbnb',
+  extends: ['airbnb', 'prettier'],
   parser: 'babel-eslint',
   env: {
     jest: true,
@@ -10,6 +10,16 @@ module.exports = {
     'react/prop-types': 'off',
     'comma-dangle': 'off',
     'no-underscore-dangle': ['error', { allow: ['_id'] }],
+    'operator-linebreak': [
+      'error',
+      'after',
+      {
+        overrides: {
+          ':': 'before',
+          // '?': 'before',
+        },
+      },
+    ],
   },
   globals: {
     fetch: false,

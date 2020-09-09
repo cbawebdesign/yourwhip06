@@ -46,8 +46,8 @@ import { likePostPress } from './likes';
 import { SHARE_POST_PRESS, SHARE_IMAGE_PRESS } from '../actions/shares';
 import { sharePost, shareImage } from './shares';
 
-import { GET_HOME_FEED, CREATE_NEW_POST, DELETE_POST } from '../actions/home';
-import { getHomeFeed, composePost, deletePost } from './home';
+import { GET_HOME_FEED, CREATE_NEW_POST, DELETE_POST } from '../actions/posts';
+import { getHomeFeed, composePost, deletePost } from './posts';
 
 import { GET_DETAIL_POST, LIKE_IMAGE_PRESS } from '../actions/detail';
 import { getOnePost, likeImagePress } from './detail';

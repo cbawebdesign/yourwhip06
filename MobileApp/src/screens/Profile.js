@@ -30,7 +30,7 @@ import { isCloseToBottom } from '../helpers/scrollHelpers';
 
 import { getProfile, followUserPress } from '../actions/profile';
 import { likePostPress } from '../actions/likes';
-import { deletePost, resetDeletePost } from '../actions/home';
+import { deletePost, resetDeletePost } from '../actions/posts';
 import { resetCommentUpdateCheck } from '../actions/comments';
 import { editProfile } from '../actions/user';
 import { sharePost, shareImage } from '../actions/shares';
@@ -466,7 +466,7 @@ const mapStateToProps = (state) => {
   const { user } = state.user;
   const { userData, socialData, endOfList, fetching } = state.profile;
   const { commentsUpdateCheck } = state.comments;
-  const { deletedPost } = state.home;
+  const { deletedPost } = state.posts;
 
   return {
     currentUser: user,

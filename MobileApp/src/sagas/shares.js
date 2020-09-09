@@ -8,7 +8,7 @@ import {
 } from '../actions/shares';
 import { API_HOST } from '../config/constants';
 
-import { composePost } from './home';
+import { composePost } from './posts';
 
 const fetchSharePost = ({ action, token }) =>
   fetch(`${API_HOST}/share-post/`, {

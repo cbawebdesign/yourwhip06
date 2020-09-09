@@ -7,7 +7,7 @@ import {
   NEW_POST_ERROR,
   DELETE_POST_RESULT,
   DELETE_POST_ERROR,
-} from '../actions/home';
+} from '../actions/posts';
 import { API_HOST } from '../config/constants';
 
 const fetchHomeFeed = ({ action, token }) =>

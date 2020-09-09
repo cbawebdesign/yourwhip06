@@ -11,7 +11,7 @@ import { NAVIGATION_ITEMS } from '../helpers/dataHelper';
 
 import { logout, resetMessages } from '../actions/auth';
 
-import { userPropType, userSettingsPropType } from '../config/propTypes';
+import { userPropType } from '../config/propTypes';
 
 import styles from './styles';
 

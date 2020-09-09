@@ -26,7 +26,7 @@ import {
 } from '../../helpers/socialHelpers';
 import { isCloseToBottom } from '../../helpers/scrollHelpers';
 
-import { getHomeFeed, deletePost, resetDeletePost } from '../../actions/home';
+import { getHomeFeed, deletePost, resetDeletePost } from '../../actions/posts';
 import { likePostPress, resetNewLikeCheck } from '../../actions/likes';
 import { sharePost, shareImage } from '../../actions/shares';
 import { likeImagePress } from '../../actions/detail';
@@ -482,7 +482,7 @@ Explore.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const { homeFeed, endOfList, deletedPost, fetching } = state.home;
+  const { homeFeed, endOfList, deletedPost, fetching } = state.posts;
   const { user } = state.user;
   const { commentsUpdateCheck } = state.comments;
   const { newLikeCheck } = state.likes;
