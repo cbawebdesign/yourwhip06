@@ -8,6 +8,8 @@ const shareHelper = require('../helpers/shares');
 const galleryHelper = require('../helpers/galleries');
 const generalHelper = require('../helpers/general');
 
+const notificationsHelper = require('../helpers/notifications');
+
 exports.getFeed = async (req, res) => {
   const { skip } = req.params;
 

@@ -11,8 +11,6 @@ exports.getPostsFromRequest = async (req) => {
 
   let posts;
 
-  console.log(enableSuggestions);
-
   if (enableSuggestions) {
     posts = await Post.find(
       {
