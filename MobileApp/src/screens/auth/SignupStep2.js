@@ -22,6 +22,7 @@ import { editProfile } from '../../actions/user';
 
 import { userPropType } from '../../config/propTypes';
 import { getMonthHelper } from '../../helpers/dateTimeHelper';
+import { CAMERA, SIGNUP_STEP_2 } from '../../config/constants';
 
 import styles from '../styles';
 
@@ -60,6 +61,7 @@ const SignUpStep2 = ({
   const [locationActive, setlocationActive] = useState(false);
   const [address, setAddress] = useState(null);
   const [locationError, setLocationError] = useState(null);
+  const [showImageTypeModal, setShowImageTypeModal] = useState(false);
 
   const inputBlockOptions = [
     {
@@ -90,6 +92,23 @@ const SignUpStep2 = ({
       onPress: () => handleInputPress('LOCATION'),
     },
   ];
+
+  const imageTypeOptions = {
+    title: 'Make your selection',
+    body: 'Select an image from your album or take a picture',
+    buttons: [
+      {
+        title: 'Select from album',
+        icon: arrowRightIcon,
+        onPress: () => handleSelectionPress('SELECT_FROM_ALBUM'),
+      },
+      {
+        title: 'Take a picture',
+        icon: arrowRightIcon,
+        onPress: () => handleSelectionPress('TAKE_PICTURE'),
+      },
+    ],
+  };
 
   const genderOptions = {
     title: 'Select your gender',
@@ -168,11 +187,32 @@ const SignUpStep2 = ({
     }
   };
 
-  const handlePhotoPress = () => {
-    navigation.navigate('Camera', {
-      type: 'PHOTO',
-      fromScreen: 'Signup (Step 2)',
+  const handleSelectionPress = (type) => {
+    // EMPTY EXISTING PARAMS BEFORE SETTING NEW ONES
+    navigation.setParams({
+      ...route.params,
+      photo: null,
+      selection: null,
+      video: null,
     });
+
+    switch (type) {
+      case 'SELECT_FROM_ALBUM':
+        navigation.navigate('ImagePicker', {
+          fromScreen: SIGNUP_STEP_2,
+        });
+        setShowImageTypeModal(false);
+        break;
+      case 'TAKE_PICTURE':
+        navigation.navigate(CAMERA, {
+          type: 'PHOTO',
+          fromScreen: SIGNUP_STEP_2,
+        });
+        setShowImageTypeModal(false);
+        break;
+      default:
+        break;
+    }
   };
 
   const handleStartPress = () => {
@@ -258,6 +298,11 @@ const SignUpStep2 = ({
         loadingOptions={{ loading: fetching }}
         headerHeight={route.params.headerHeight}
       >
+        <SelectionModal
+          showModal={showImageTypeModal}
+          onModalDismissPress={() => setShowImageTypeModal(false)}
+          options={imageTypeOptions}
+        />
         <DatePickerModal
           showModal={birthdayActive}
           title="Select a date"
@@ -294,7 +339,7 @@ const SignUpStep2 = ({
         >
           <View style={[styles.topView, styles.$authProfileImage]}>
             <PersonalDisplayView
-              onPhotoPress={handlePhotoPress}
+              onPhotoPress={() => setShowImageTypeModal(true)}
               profileImage={
                 photo || (currentUser ? currentUser.profileImage : null)
               }

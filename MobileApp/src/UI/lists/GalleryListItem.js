@@ -42,7 +42,6 @@ const GalleryListItem = ({
   );
 
   useEffect(() => {
-    console.log(item.deleted);
     if (item.deleted) {
       handleDeleteItem();
     }

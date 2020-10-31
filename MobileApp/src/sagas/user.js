@@ -204,6 +204,17 @@ export function* editProfile(action) {
 
   if (
     action.userInfo.profileImage &&
+    action.userInfo.profileImage.localUri &&
+    action.userInfo.profileImage.localUri.length > 0
+  ) {
+    formData.append('profileImage', {
+      uri: action.userInfo.profileImage.localUri,
+      type: 'image/jpg',
+      name: 'profileImage',
+    });
+  }
+  if (
+    action.userInfo.profileImage &&
     action.userInfo.profileImage.uri &&
     action.userInfo.profileImage.uri.length > 0
   ) {

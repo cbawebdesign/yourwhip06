@@ -10,6 +10,8 @@ import TextButton from '../../UI/buttons/TextButton';
 import ImagePickerButton from '../../UI/buttons/ImagePickerButton';
 import AlbumButton from '../../UI/buttons/AlbumButton';
 
+import { SIGNUP_STEP_2, COMPOSE, MEDIA } from '../../config/constants';
+
 import styles from '../styles';
 
 const ImagePicker = ({ route, navigation }) => {
@@ -73,9 +75,11 @@ const ImagePicker = ({ route, navigation }) => {
   };
 
   const handleSelect = () => {
-    navigation.navigate('Compose', {
-      selection,
-    });
+    if (route.params && route.params.fromScreen === SIGNUP_STEP_2) {
+      navigation.navigate(SIGNUP_STEP_2, { photo: selection[0] });
+    } else {
+      navigation.navigate(COMPOSE, { selection });
+    }
   };
 
   const handleGetImages = async (id) => {
@@ -84,7 +88,7 @@ const ImagePicker = ({ route, navigation }) => {
       mediaType: [MediaLibrary.MediaType.photo, MediaLibrary.MediaType.video],
     });
     if (assetsResult) {
-      navigation.navigate('Media', {
+      navigation.navigate(MEDIA, {
         ...route.params,
         assets: assetsResult.assets,
       });

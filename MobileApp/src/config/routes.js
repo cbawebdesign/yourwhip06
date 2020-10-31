@@ -146,6 +146,11 @@ const AuthStackScreen = () => {
         component={Password}
         initialParams={{ headerHeight }}
       />
+      <AuthNavigationStack.Screen
+        name="ImagePicker"
+        component={ImagePickerStackStackScreen}
+        initialParams={{ headerHeight }}
+      />
       <AuthNavigationStack.Screen name={CAMERA} component={Camera} />
     </AuthNavigationStack.Navigator>
   );
@@ -178,12 +183,12 @@ const ImagePickerStackStackScreen = ({ route }) => {
       <ImagePickerStack.Screen
         name={MEDIA_ALBUMS}
         component={ImagePicker}
-        initialParams={{ headerHeight }}
+        initialParams={{ ...route.params, headerHeight }}
       />
       <ImagePickerStack.Screen
         name={MEDIA}
         component={ImagePickerDetail}
-        initialParams={{ headerHeight }}
+        initialParams={{ ...route.params, headerHeight }}
       />
     </ImagePickerStack.Navigator>
   );

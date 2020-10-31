@@ -9,6 +9,8 @@ import FooterView from '../../UI/views/footer/FooterView';
 import TextButton from '../../UI/buttons/TextButton';
 import ImagePickerButton from '../../UI/buttons/ImagePickerButton';
 
+import { SIGNUP_STEP_2, COMPOSE } from '../../config/constants';
+
 import styles from '../styles';
 
 const ImagePickerDetail = ({ route, navigation }) => {
@@ -38,9 +40,11 @@ const ImagePickerDetail = ({ route, navigation }) => {
   };
 
   const handleSelect = () => {
-    navigation.navigate('Compose', {
-      selection,
-    });
+    if (route.params && route.params.fromScreen === SIGNUP_STEP_2) {
+      navigation.navigate(SIGNUP_STEP_2, { selection });
+    } else {
+      navigation.navigate(COMPOSE, { selection });
+    }
   };
 
   return (

@@ -11,9 +11,22 @@ const photoIcon = require('../../../assets/icons/photo.png');
 
 const PersonalDisplayView = ({ onPhotoPress, profileImage }) => {
   const hasProfileImage =
-    profileImage &&
-    (profileImage.length > 0 ||
-      (profileImage.uri && profileImage.uri.length > 1));
+    (profileImage &&
+      (profileImage.length > 0 ||
+        (profileImage && profileImage.uri && profileImage.uri.length > 1))) ||
+    (profileImage && profileImage.localUri && profileImage.localUri.length > 1);
+
+  const getUri = () => {
+    if (profileImage.uri && profileImage.uri.length > 1) {
+      return profileImage.uri;
+    }
+
+    if (profileImage.localUri && profileImage.localUri.length > 1) {
+      return profileImage.localUri;
+    }
+
+    return profileImage;
+  };
 
   return (
     <View style={styles.container}>
@@ -23,11 +36,11 @@ const PersonalDisplayView = ({ onPhotoPress, profileImage }) => {
         end={[1, 1]}
       >
         <View style={styles.innerContainer}>
-          {hasProfileImage === true && (
+          {hasProfileImage && (
             <Image
               style={styles.image}
               source={{
-                uri: profileImage.uri ? profileImage.uri : profileImage,
+                uri: getUri(),
               }}
               resizeMode="cover"
             />
