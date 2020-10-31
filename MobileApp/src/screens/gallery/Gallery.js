@@ -7,8 +7,10 @@ import { AnimatedFlatList, AnimationType } from 'flatlist-intro-animations';
 import ContainerView from '../../UI/views/ContainerView';
 import GalleryListItem from '../../UI/lists/GalleryListItem';
 import EmptyListText from '../../UI/text/EmptyListText';
+import SelectionModal from '../../UI/modals/SelectionModal';
 
-import { getGalleryFeed } from '../../actions/galleries';
+import { getGalleryFeed, deleteGallery } from '../../actions/galleries';
+import { onDeleteHelper } from '../../helpers/socialHelpers';
 import { galleryItemPropType, userPropType } from '../../config/propTypes';
 
 import styles from '../styles';
@@ -20,12 +22,51 @@ const Gallery = ({ route, navigation, currentUser, galleryFeed, fetching }) => {
 
   const [getFeed, setGetFeed] = useState(false);
   const [feed, setFeed] = useState(null);
+  const [showGalleryOptions, setShowGalleryOptions] = useState(false);
+  const [currentItem, setCurrentItem] = useState(null);
+
+  const galleryOptions = {
+    title: 'Delete gallery',
+    body: 'Are you sure you want to delete this gallery?',
+    buttonStyle: 'horizontal',
+    buttons: [
+      {
+        title: 'Cancel',
+        onPress: () => setShowGalleryOptions(false),
+      },
+      {
+        title: 'Delete',
+        onPress: () => {
+          const updatedFeed = onDeleteHelper(feed, currentItem);
+
+          setFeed(updatedFeed);
+          setShowGalleryOptions(false);
+        },
+      },
+    ],
+  };
 
   const handlePress = (item) => {
     navigation.navigate('GalleryDetail', {
       items: item.images,
       name: item.name,
     });
+  };
+
+  const handleGalleryOptionsPress = (item) => {
+    setCurrentItem(item);
+    setShowGalleryOptions(true);
+  };
+
+  const handleDeleteGallery = () => {
+    dispatch(deleteGallery(currentItem._id));
+
+    // REMOVE GALLERY FROM LOCAL FEED STATE
+    const feedCopy = [...feed];
+    const updatedFeed = feedCopy.filter((item) => item._id !== currentItem._id);
+    setFeed(updatedFeed);
+
+    setShowGalleryOptions(false);
   };
 
   const renderEmptyListText = () => (
@@ -57,11 +98,22 @@ const Gallery = ({ route, navigation, currentUser, galleryFeed, fetching }) => {
       headerHeight={route.params.headerHeight}
       loadingOptions={{ loading: fetching }}
     >
+      <SelectionModal
+        showModal={showGalleryOptions}
+        onModalDismissPress={() => setShowGalleryOptions(false)}
+        options={galleryOptions}
+      />
       <AnimatedFlatList
         contentContainerStyle={[styles.contentContainer, { paddingBottom }]}
         data={feed}
         renderItem={({ item }) => (
-          <GalleryListItem item={item} onPress={() => handlePress(item)} />
+          <GalleryListItem
+            item={item}
+            onPress={() => handlePress(item)}
+            enableOptions
+            onOptionsPress={() => handleGalleryOptionsPress(item)}
+            onDeletePress={() => handleDeleteGallery()}
+          />
         )}
         animationType={
           currentUser.settings.enableIntroAnimations

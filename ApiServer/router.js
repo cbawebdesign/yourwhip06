@@ -66,6 +66,7 @@ app.post('/delete-reply/', auth, Replies.deleteReply);
 
 // GALLERY
 app.get('/get-gallery-feed/', auth, Gallery.getFeed);
+app.post('/delete-gallery', auth, Gallery.deleteGallery);
 
 // PROFILE
 app.get('/get-profile/:userId/:skip/:limit', auth, Profile.getProfile);

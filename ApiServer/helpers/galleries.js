@@ -52,6 +52,18 @@ exports.buildGalleryFromRequest = async (req) => {
   return newGallery;
 };
 
+exports.deleteOneGalleryFromRequest = async (req) => {
+  const { galleryId } = req.body;
+
+  try {
+    const result = await Gallery.findByIdAndDelete(galleryId.toString());
+
+    return result;
+  } catch (error) {
+    console.log('46', error);
+  }
+};
+
 exports.updateGalleryFromRequest = async (req) => {
   const { images } = req;
   const { galleryName } = req.body;

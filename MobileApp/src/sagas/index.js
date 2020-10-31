@@ -81,8 +81,8 @@ import {
   deleteReply,
 } from './replies';
 
-import { GET_GALLERY_FEED } from '../actions/galleries';
-import { getGalleryFeed } from './galleries';
+import { GET_GALLERY_FEED, DELETE_GALLERY } from '../actions/galleries';
+import { getGalleryFeed, deleteGallery } from './galleries';
 
 import { GET_TIMELINE_FEED } from '../actions/timeline';
 import { getTimelineFeed } from './timeline';
@@ -137,6 +137,7 @@ export default function* rootSaga() {
 
   // GALLERY
   yield takeEvery(GET_GALLERY_FEED, getGalleryFeed);
+  yield takeEvery(DELETE_GALLERY, deleteGallery);
 
   // PEOPLE / USER
   yield takeEvery(UPDATE_INTERESTS, updateInterests);
