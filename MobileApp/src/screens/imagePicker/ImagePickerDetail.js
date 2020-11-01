@@ -15,6 +15,8 @@ import styles from '../styles';
 
 const ImagePickerDetail = ({ route, navigation }) => {
   const { assets } = route.params;
+  const isProfileImageSelect =
+    route.params.fromScreen && route.params.fromScreen === SIGNUP_STEP_2;
 
   const [selection, setSelection] = useState([]);
 
@@ -23,19 +25,30 @@ const ImagePickerDetail = ({ route, navigation }) => {
   const handleImagePress = async (index) => {
     const isSelected = selection.some((item) => item.index === index);
 
-    if (isSelected) {
+    if (!isProfileImageSelect && isSelected) {
       const newSelection = selection.filter((item) => item.index !== index);
       setSelection(newSelection);
     } else {
       const localUri = await (
         await MediaLibrary.getAssetInfoAsync(assets[index])
       ).localUri;
-      const newSelection = selection.concat({
-        index,
-        file: assets[index],
-        localUri,
-      });
-      setSelection(newSelection);
+
+      if (isProfileImageSelect) {
+        const selectionCopy = [...selection];
+        selectionCopy[0] = {
+          index,
+          file: assets[index],
+          localUri,
+        };
+        setSelection(selectionCopy);
+      } else {
+        const newSelection = selection.concat({
+          index,
+          file: assets[index],
+          localUri,
+        });
+        setSelection(newSelection);
+      }
     }
   };
 
@@ -53,6 +66,7 @@ const ImagePickerDetail = ({ route, navigation }) => {
         {assets.map((item, index) => (
           <ImagePickerButton
             key={item.id}
+            disabled={isProfileImageSelect && item.mediaType === 'video'}
             onPress={() => handleImagePress(index)}
             uri={item.uri}
             selected={selection.some((el) => el.index === index)}

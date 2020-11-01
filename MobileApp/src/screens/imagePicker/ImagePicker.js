@@ -15,6 +15,9 @@ import { SIGNUP_STEP_2, COMPOSE, MEDIA } from '../../config/constants';
 import styles from '../styles';
 
 const ImagePicker = ({ route, navigation }) => {
+  const isProfileImageSelect =
+    route.params.fromScreen && route.params.fromScreen === SIGNUP_STEP_2;
+
   const [albums, setAlbums] = useState(null);
   const [assets, setAssets] = useState(null);
   const [selection, setSelection] = useState([]);
@@ -55,22 +58,35 @@ const ImagePicker = ({ route, navigation }) => {
 
   // NOTE: TO STORE VIDEO FILES, IT'S LOCALURI MUST BE UPLOADED TO SERVER
   // TO STORE IMAGES, IT'S URI CAN BE UPLOADED TO SERVER
+  // NOTE 2: WHEN USED TO SELECT PROFILE IMAGE, ONLY IMAGES CAN BE SELECTED
+  // AND ONLY ONE IMAGE CAN BE SELECTED AT A TIME
   const handleImagePress = async (index) => {
     const isSelected = selection.some((item) => item.index === index);
 
-    if (isSelected) {
+    if (!isProfileImageSelect && isSelected) {
       const newSelection = selection.filter((item) => item.index !== index);
       setSelection(newSelection);
     } else {
       const localUri = await (
         await MediaLibrary.getAssetInfoAsync(assets[index])
       ).localUri;
-      const newSelection = selection.concat({
-        index,
-        file: assets[index],
-        localUri,
-      });
-      setSelection(newSelection);
+
+      if (isProfileImageSelect) {
+        const selectionCopy = [...selection];
+        selectionCopy[0] = {
+          index,
+          file: assets[index],
+          localUri,
+        };
+        setSelection(selectionCopy);
+      } else {
+        const newSelection = selection.concat({
+          index,
+          file: assets[index],
+          localUri,
+        });
+        setSelection(newSelection);
+      }
     }
   };
 
@@ -95,6 +111,8 @@ const ImagePicker = ({ route, navigation }) => {
     }
   };
 
+  console.log(assets);
+
   const renderAlbums = (items) =>
     items.map((item, index) => (
       <AlbumButton
@@ -107,6 +125,7 @@ const ImagePicker = ({ route, navigation }) => {
   const renderImages = (items) =>
     items.map((item, index) => (
       <ImagePickerButton
+        disabled={isProfileImageSelect && item.mediaType === 'video'}
         key={item.id}
         onPress={() => handleImagePress(index)}
         uri={item.uri}
