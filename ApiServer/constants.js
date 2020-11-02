@@ -31,8 +31,7 @@ exports.MONGODB = {
 };
 
 exports.SENDGRID = {
-  username: process.env.SENDGRID_USERNAME || CONFIG.SENDGRID_USERNAME,
-  password: process.env.SENDGRID_PASSWORD || CONFIG.SENDGRID_PASSWORD,
+  api_key: process.env.SENDGRID_APIKEY || CONFIG.SENDGRID_APIKEY,
 };
 
 exports.CLOUDINARY = {

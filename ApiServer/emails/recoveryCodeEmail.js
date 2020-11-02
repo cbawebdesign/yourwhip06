@@ -8,8 +8,7 @@ const sendPasswordResetEmail = function (req, code) {
   let transporter = nodemailer.createTransport({
     service: 'SendGrid',
     auth: {
-      user: CONFIG.SENDGRID.username,
-      pass: CONFIG.SENDGRID.password,
+      api_key: CONFIG.SENDGRID.api,
     },
   });
 
