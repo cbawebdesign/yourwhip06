@@ -16,12 +16,10 @@ const sendPasswordResetEmail = function (req, code) {
   let mailOptions = {
     from: CONFIG.COMPANY_INFO.app_emailaddress,
     to: email,
-    subject: `${app_name} Account Recovery Code`,
+    subject: `${CONFIG.COMPANY_INFO.app_name} Account Recovery Code`,
     html: `<div style="width: 600px; margin: 0 auto">
-              <h2>${CONFIG.COMPANY_INFO.app - name} account recovery</h2>
-              <p>We received a request to reset your ${
-                CONFIG.COMPANY_INFO.app_name
-              } password. Enter the
+              <h2>${CONFIG.COMPANY_INFO.app_name} account recovery</h2>
+              <p>We received a request to reset your ${CONFIG.COMPANY_INFO.app_name} password. Enter the
                 following password reset code:
               </p>
               <p style="padding: 20px 0;
@@ -38,9 +36,7 @@ const sendPasswordResetEmail = function (req, code) {
               <div style="margin-top: 50px; opacity: 0.3; font-size: 12px; line-heigt: 12px">
                 <hr />
                 <p>This message was sent to ${email} at your request.</p><p>
-                  ${CONFIG.COMPANY_INFO.company_name} & ${
-      CONFIG.COMPANY_INFO.address
-    }<p>
+                  ${CONFIG.COMPANY_INFO.company_name} & ${CONFIG.COMPANY_INFO.address}<p>
               </div>
             </div>`,
   };
