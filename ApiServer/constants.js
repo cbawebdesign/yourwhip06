@@ -31,6 +31,7 @@ exports.MONGODB = {
 };
 
 exports.SENDGRID = {
+  app_name: process.env.SENDGRID_APPNAME || CONFIG.SENDGRID_APPNAME,
   api_key: process.env.SENDGRID_APIKEY || CONFIG.SENDGRID_APIKEY,
 };
 
