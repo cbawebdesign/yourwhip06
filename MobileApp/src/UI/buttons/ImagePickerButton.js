@@ -28,7 +28,7 @@ const ImagePickerButton = ({
         style={[
           styles.imagePickerImage,
           {
-            borderWidth: selected ? 8 : 0,
+            borderWidth: selected ? 5 : 0,
             opacity: disabled ? 0.3 : 1,
           },
         ]}

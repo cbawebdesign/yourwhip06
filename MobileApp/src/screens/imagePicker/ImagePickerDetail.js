@@ -54,7 +54,7 @@ const ImagePickerDetail = ({ route, navigation }) => {
 
   const handleSelect = () => {
     if (route.params && route.params.fromScreen === SIGNUP_STEP_2) {
-      navigation.navigate(SIGNUP_STEP_2, { selection });
+      navigation.navigate(SIGNUP_STEP_2, { photo: selection[0] });
     } else {
       navigation.navigate(COMPOSE, { selection });
     }

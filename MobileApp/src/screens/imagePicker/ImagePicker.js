@@ -111,8 +111,6 @@ const ImagePicker = ({ route, navigation }) => {
     }
   };
 
-  console.log(assets);
-
   const renderAlbums = (items) =>
     items.map((item, index) => (
       <AlbumButton
