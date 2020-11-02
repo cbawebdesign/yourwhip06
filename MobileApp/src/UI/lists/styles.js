@@ -22,13 +22,14 @@ export const exploreListItemStyles = EStyleSheet.create({
   },
   bodyTextView: {
     alignSelf: 'flex-start',
-    marginTop: 25,
+    marginTop: 12,
     paddingLeft: 40,
     paddingRight: 25,
-    marginBottom: -25,
+    marginBottom: -37,
+    minHeight: 75,
   },
   emptyBodyView: {
-    height: 25,
+    height: 12,
   },
   bodyText: {
     fontSize: 16,

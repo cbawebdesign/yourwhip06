@@ -76,6 +76,7 @@ const Profile = ({
   const [showShareModal, setShowShareModal] = useState(false);
   const [shareMessage, setShareMessage] = useState('');
   const [imageShown, setImageShown] = useState([]);
+  const [viewableItems, setViewableItems] = useState([]);
 
   const postOptions = {
     title: 'Delete post',
@@ -249,6 +250,14 @@ const Profile = ({
     setFeed(updatedFeed);
   };
 
+  const onViewRef = useRef((itemsInView) => {
+    if (itemsInView.viewableItems !== viewableItems) {
+      setViewableItems(itemsInView.viewableItems);
+    }
+  }).current;
+  const viewConfigRef = React.useRef({ viewAreaCoveragePercentThreshold: 50 })
+    .current;
+
   const renderListHeader = () => (
     <View
       style={[
@@ -395,8 +404,13 @@ const Profile = ({
             enableOptions={currentUser._id === user._id}
             onOptionsPress={() => handlePostOptionsPress(item)}
             onDeletePress={() => handleDeletePost('PROFILE')}
+            itemInView={viewableItems.some(
+              (viewable) => viewable.item._id === item._id
+            )}
           />
         )}
+        onViewableItemsChanged={onViewRef}
+        viewabilityConfig={viewConfigRef}
         ListFooterComponent={renderListFooterComponent()}
         onScroll={({ nativeEvent }) => {
           if (fetching || endOfList) return;
