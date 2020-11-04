@@ -132,7 +132,7 @@ export const termsPar0 = 'Last updated: 04-11-2020';
 export const termsPar1 =
   "Please read this End-User License Agreement (Agreement) carefully before clicking the 'I Agree' button or using the 'React Native Backend App' Application. By clicking the 'I Agree' button, downloading or using the Application, you are agreeing to be bound by the terms and conditions of this Agreement. If you do not agree to the terms of this Agreement, do not click on the 'I Agree' button and do not download or use the Application.";
 export const termsPar1_1 =
-  "We are committed to making this app a save place. Expression that threatens people has the potential to intimidate, exclude or silence others and isn't allowed on this app. This means that there is no tolerance for objectionable content or abusive users on this app. Knowlephant reserves the right to delete any such content and users from this platform at its own descretion.";
+  "We are committed to making this app a save place. Expression that threatens people has the potential to intimidate, exclude or silence others and isn't allowed on this app. This means that there is no tolerance for objectionable content or abusive users on this app. Users have the opportunity to flag objectional content inside the app and Knowlephant reserves the right to delete any such content and users from the app at its own descretion.";
 export const termsPar2 =
   'Knowlephant grants you a revocable, non-exclusive, non-transferable, limited license to download, install and use the Application solely for your personal, non-commercial purposes strictly in accordance with the terms of this Agreement.';
 export const termsPar3 =

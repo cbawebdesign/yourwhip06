@@ -18,7 +18,6 @@ import { exploreListItemStyles as styles } from './styles';
 // onCommentsPress (to navigate to the Comments screen)
 // onLikePress (to process pressing the 'like' button)
 // onSharePress (handles the share press action)
-// enableOptions (display the post options button)
 // onOptionsPress (handle the post options onPress)
 // hideHeader (hides the HeaderView if true)
 // hideMediaView (hides the images / video display view)
@@ -34,7 +33,6 @@ const ExploreListItem = ({
   onLikePress,
   onSharePress,
   onProfilePress,
-  enableOptions,
   onOptionsPress,
   hideHeader,
   hideMediaView,
@@ -77,7 +75,6 @@ const ExploreListItem = ({
         name={`${item.createdBy.firstName} ${item.createdBy.lastName}`}
         dateTime={item.dateTime}
         onProfilePress={onProfilePress}
-        enableOptions={enableOptions}
         onOptionsPress={onOptionsPress}
         onPressDisabled={!onProfilePress}
       />
@@ -207,7 +204,6 @@ ExploreListItem.propTypes = {
   onLikePress: PropTypes.func.isRequired,
   onSharePress: PropTypes.func.isRequired,
   onProfilePress: PropTypes.func,
-  enableOptions: PropTypes.bool.isRequired,
   onOptionsPress: PropTypes.func.isRequired,
   hideHeader: PropTypes.bool,
   hideMediaView: PropTypes.bool,

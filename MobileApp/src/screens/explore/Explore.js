@@ -26,7 +26,12 @@ import {
 } from '../../helpers/socialHelpers';
 import { isCloseToBottom } from '../../helpers/scrollHelpers';
 
-import { getHomeFeed, deletePost, resetDeletePost } from '../../actions/posts';
+import {
+  getHomeFeed,
+  deletePost,
+  resetDeletePost,
+  hidePost,
+} from '../../actions/posts';
 import { likePostPress, resetNewLikeCheck } from '../../actions/likes';
 import { sharePost, shareImage } from '../../actions/shares';
 import { likeImagePress } from '../../actions/detail';
@@ -76,22 +81,39 @@ const Explore = ({
   const [viewableItems, setViewableItems] = useState([]);
 
   const postOptions = {
-    title: 'Delete post',
+    title: 'Post Options',
     body: 'Are you sure you want to delete this post?',
-    buttonStyle: 'horizontal',
     buttons: [
       {
-        title: 'Cancel',
-        onPress: () => setShowPostOptions(false),
-      },
-      {
-        title: 'Delete',
+        title: 'Delete post',
         onPress: () => {
           const updatedFeed = onDeleteHelper(feed, currentItem);
 
           setFeed(updatedFeed);
           setShowPostOptions(false);
         },
+        hide: currentItem && currentItem.createdBy._id !== currentUser._id,
+      },
+      {
+        title: 'Hide post',
+        onPress: () => {
+          dispatch(hidePost(currentItem._id));
+          setShowPostOptions(false);
+        },
+        hide: currentItem && currentItem.createdBy._id === currentUser._id,
+      },
+      {
+        title: 'Hide all posts by this user',
+        onPress: () => {
+          // const updatedFeed = onDeleteHelper(feed, currentItem);
+          // setFeed(updatedFeed);
+          // setShowPostOptions(false);
+        },
+        hide: currentItem && currentItem.createdBy._id === currentUser._id,
+      },
+      {
+        title: 'Cancel',
+        onPress: () => setShowPostOptions(false),
       },
     ],
   };
@@ -317,7 +339,6 @@ const Explore = ({
       onLikePress={() => handleLikePress(item)}
       onSharePress={() => handleSharePress(item)}
       onProfilePress={(type) => handleProfilePress(type, item)}
-      enableOptions={item.createdBy._id === currentUser._id}
       onOptionsPress={() => handlePostOptionsPress(item)}
       onDeletePress={() => handleDeletePost('EXPLORE')}
       itemInView={viewableItems.some(

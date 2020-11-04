@@ -46,8 +46,20 @@ import { likePostPress } from './likes';
 import { SHARE_POST_PRESS, SHARE_IMAGE_PRESS } from '../actions/shares';
 import { sharePost, shareImage } from './shares';
 
-import { GET_HOME_FEED, CREATE_NEW_POST, DELETE_POST } from '../actions/posts';
-import { getHomeFeed, composePost, deletePost } from './posts';
+import {
+  GET_HOME_FEED,
+  CREATE_NEW_POST,
+  DELETE_POST,
+  HIDE_POST,
+  HIDE_POSTS_BY_USER,
+} from '../actions/posts';
+import {
+  getHomeFeed,
+  composePost,
+  deletePost,
+  hidePost,
+  hidePostsByUser,
+} from './posts';
 
 import { GET_DETAIL_POST, LIKE_IMAGE_PRESS } from '../actions/detail';
 import { getOnePost, likeImagePress } from './detail';
@@ -110,7 +122,8 @@ export default function* rootSaga() {
   yield takeEvery(GET_HOME_FEED, getHomeFeed);
   yield takeEvery(CREATE_NEW_POST, composePost);
   yield takeEvery(DELETE_POST, deletePost);
-
+  yield takeEvery(HIDE_POST, hidePost);
+  yield takeEvery(HIDE_POSTS_BY_USER, hidePostsByUser);
   // POST DETAIL
   yield takeEvery(GET_DETAIL_POST, getOnePost);
   yield takeEvery(LIKE_IMAGE_PRESS, likeImagePress);

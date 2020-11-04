@@ -17,7 +17,6 @@ import { headerViewStyles as styles } from './styles';
 // number (to display the photo count number)
 // time (in seconds to calculate the time of creation)
 // onProfilePress (to navigate to the Profile screen)
-// enableOptions (display the post options button)
 // onOptionsPress (handle the post options onPress)
 // onPressDisabled (to disable navigation to the Profile screen)
 // isSharedItem (controls styling of shared items)
@@ -34,7 +33,6 @@ const HeaderView = ({
   onProfilePress,
   onPressDisabled,
   isSharedItem,
-  enableOptions,
   onOptionsPress,
 }) => (
   <View style={styles.container}>
@@ -67,7 +65,7 @@ const HeaderView = ({
         )}
       </View>
 
-      {enableOptions && !isSharedItem && (
+      {!isSharedItem && (
         <IconButton icon={moreIcon} size={18} onPress={onOptionsPress} />
       )}
     </View>
@@ -84,7 +82,6 @@ HeaderView.defaultProps = {
   onOptionsPress: null,
   onPressDisabled: false,
   isSharedItem: false,
-  enableOptions: false,
 };
 
 HeaderView.propTypes = {
@@ -94,7 +91,6 @@ HeaderView.propTypes = {
   showName: PropTypes.bool,
   number: PropTypes.string,
   onProfilePress: PropTypes.func,
-  enableOptions: PropTypes.bool,
   onOptionsPress: PropTypes.func,
   onPressDisabled: PropTypes.bool,
   isSharedItem: PropTypes.bool,

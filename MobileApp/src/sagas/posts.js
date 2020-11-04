@@ -7,6 +7,10 @@ import {
   NEW_POST_ERROR,
   DELETE_POST_RESULT,
   DELETE_POST_ERROR,
+  HIDE_POST_RESULT,
+  HIDE_POST_ERROR,
+  HIDE_POSTS_BY_USER_RESULT,
+  HIDE_POSTS_BY_USER_ERROR,
 } from '../actions/posts';
 import { API_HOST } from '../config/constants';
 
@@ -42,6 +46,32 @@ const fetchDeletePost = ({ action, token }) =>
     body: JSON.stringify({
       postId: action.data.postId,
       fromScreen: action.data.fromScreen,
+    }),
+  });
+
+const fetchHidePost = ({ action, token }) =>
+  fetch(`${API_HOST}/hide-post/`, {
+    method: 'post',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      postId: action.postId,
+    }),
+  });
+
+const fetchHidePostsByUser = ({ action, token }) =>
+  fetch(`${API_HOST}/hide-posts-by-user/`, {
+    method: 'post',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      userId: action.userId,
     }),
   });
 
@@ -139,5 +169,39 @@ export function* deletePost(action) {
     }
   } catch (e) {
     yield put({ type: DELETE_POST_ERROR, error: e.message });
+  }
+}
+
+export function* hidePost(action) {
+  const token = yield select((state) => state.auth.authToken);
+
+  try {
+    const response = yield call(fetchHidePost, { action, token });
+    const result = yield response.json();
+
+    if (result.error) {
+      yield put({ type: HIDE_POST_ERROR, error: result.error });
+    } else {
+      yield put({ type: HIDE_POST_RESULT, result });
+    }
+  } catch (e) {
+    yield put({ type: HIDE_POST_ERROR, error: e.message });
+  }
+}
+
+export function* hidePostsByUser(action) {
+  const token = yield select((state) => state.auth.authToken);
+
+  try {
+    const response = yield call(fetchHidePostsByUser, { action, token });
+    const result = yield response.json();
+
+    if (result.error) {
+      yield put({ type: HIDE_POSTS_BY_USER_ERROR, error: result.error });
+    } else {
+      yield put({ type: HIDE_POST_BY_USER_RESULT, result });
+    }
+  } catch (e) {
+    yield put({ type: HIDE_POSTS_BY_USER_ERROR, error: e.message });
   }
 }

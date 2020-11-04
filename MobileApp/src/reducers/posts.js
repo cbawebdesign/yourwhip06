@@ -7,6 +7,11 @@ import {
   DELETE_POST_RESULT,
   DELETE_POST_ERROR,
   RESET_DELETE_POST,
+  HIDE_POST_RESULT,
+  HIDE_POST_ERROR,
+  HIDE_POSTS_BY_USER_RESULT,
+  HIDE_POSTS_BY_USER_ERROR,
+  HIDE_POSTS_BY_USER,
 } from '../actions/posts';
 import { LOGOUT_RESULT } from '../actions/auth';
 
@@ -28,9 +33,9 @@ const homeState = (state = initialState, action) => {
         ...state,
         homeFeed:
           action.result.skip === '0'
-            ? action.result.posts
-            : [...state.homeFeed, ...action.result.posts],
-        endOfList: action.result.posts.length < PAGINATION_LIMIT,
+            ? action.result.homeFeed
+            : [...state.homeFeed, ...action.result.homeFeed],
+        endOfList: action.result.homeFeed.length < PAGINATION_LIMIT,
         fetching: false,
         error: null,
       };
@@ -56,6 +61,18 @@ const homeState = (state = initialState, action) => {
           (item) => item._id !== action.result.postId
         ),
       };
+    case HIDE_POST_RESULT:
+      return {
+        ...state,
+        homeFeed: action.result,
+        error: null,
+      };
+    case HIDE_POSTS_BY_USER_RESULT:
+      return {
+        ...state,
+        homeFeed: action.result,
+        error: null,
+      };
     case RESET_DELETE_POST:
       return {
         ...state,
@@ -64,6 +81,8 @@ const homeState = (state = initialState, action) => {
     case NEW_POST_ERROR:
     case HOME_FEED_ERROR:
     case DELETE_POST_ERROR:
+    case HIDE_POST_ERROR:
+    case HIDE_POSTS_BY_USER_ERROR:
       return {
         ...state,
         error: action.error,
