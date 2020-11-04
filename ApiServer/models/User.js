@@ -36,6 +36,10 @@ const userSchema = new Schema(
     profileImage: String,
     description: String,
     interests: [String],
+    filters: {
+      hiddenUsers: [String],
+      hiddenPosts: [String],
+    },
     settings: {
       enableSuggestions: {
         type: Boolean,

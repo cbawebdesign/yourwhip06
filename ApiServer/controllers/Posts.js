@@ -9,12 +9,16 @@ const galleryHelper = require('../helpers/galleries');
 const generalHelper = require('../helpers/general');
 
 exports.getFeed = async (req, res) => {
+  const currentUser = req.user;
   const { skip } = req.params;
 
   try {
     const posts = await postHelper.getPostsFromRequest(req);
+    const homeFeed = posts.filter(
+      (post) => !currentUser.filters.hiddenPosts.includes(post._id)
+    );
 
-    res.status(HttpStatus.OK).send({ posts, skip });
+    res.status(HttpStatus.OK).send({ homeFeed, skip });
   } catch (error) {
     console.log('17', error);
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({ error: error.message });
@@ -161,4 +165,21 @@ exports.deletePost = async (req, res) => {
     console.log('21', error);
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({ error: error.message });
   }
+};
+
+exports.hidePost = async (req, res) => {
+  const currentUser = req.user;
+  const { postId } = req.body;
+
+  try {
+    // SET USER MODEL
+    currentUser.filters.hiddenPosts.push(postId);
+    await currentUser.save();
+
+    // UPDATE FEED
+    const posts = await postHelper.getPostsByUserFromRequest(req);
+    const feed = posts.filter((post) => post._id !== postId);
+
+    res.status(HttpStatus.OK).send(feed);
+  } catch (error) {}
 };
