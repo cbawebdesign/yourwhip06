@@ -167,25 +167,32 @@ export function* signupStep1(action) {
   }
 }
 
-export function* signupStep2(action) {
-  const { firstName, lastName, signupEmail, signupPassword } = yield select(
-    (state) => state.auth
-  );
+export function* signupStep3(action) {
+  const {
+    firstName,
+    lastName,
+    signupEmail,
+    signupPassword,
+    birthday,
+    gender,
+    location,
+    profileImage,
+  } = yield select((state) => state.auth.signupData);
 
   const formData = new FormData();
   formData.append('firstName', firstName);
   formData.append('lastName', lastName);
   formData.append('email', signupEmail);
   formData.append('password', signupPassword);
-  if (action.userInfo.birthday) {
-    formData.append('birthday', action.userInfo.birthday.toString());
+  if (birthday) {
+    formData.append('birthday', birthday.toString());
   }
-  formData.append('gender', action.userInfo.gender);
-  formData.append('location', action.userInfo.location);
+  formData.append('gender', gender);
+  formData.append('location', location);
   formData.append('description', PERSONAL_DESCRIPTION);
-  if (action.userInfo.profileImage.uri) {
+  if (profileImage && profileImage.uri) {
     formData.append('profileImage', {
-      uri: action.userInfo.profileImage.uri,
+      uri: profileImage.uri,
       type: 'image/jpg',
       name: 'profileImage',
     });

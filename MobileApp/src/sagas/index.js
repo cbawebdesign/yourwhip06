@@ -3,7 +3,7 @@ import { takeEvery } from 'redux-saga/effects';
 import {
   LOGIN,
   SIGNUP_STEP1,
-  SIGNUP_STEP2,
+  SIGNUP_STEP3,
   LOGOUT,
   REQUEST_CODE,
   VALIDATE_CODE,
@@ -14,7 +14,7 @@ import {
   login,
   logout,
   signupStep1,
-  signupStep2,
+  signupStep3,
   requestCode,
   validateCode,
   resetPassword,
@@ -95,7 +95,7 @@ export default function* rootSaga() {
   yield takeEvery(LOGIN, login);
   yield takeEvery(LOGOUT, logout);
   yield takeEvery(SIGNUP_STEP1, signupStep1);
-  yield takeEvery(SIGNUP_STEP2, signupStep2);
+  yield takeEvery(SIGNUP_STEP3, signupStep3);
   yield takeEvery(GET_USER_INFO, getUserInfo);
   yield takeEvery(REQUEST_CODE, requestCode);
   yield takeEvery(VALIDATE_CODE, validateCode);

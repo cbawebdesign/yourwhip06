@@ -79,11 +79,6 @@ const password = require('../../assets/icons/password.png');
 const deleteIcon = require('../../assets/icons/delete.png');
 const suggestions = require('../../assets/icons/suggestions.png');
 const animations = require('../../assets/icons/animations.png');
-// const twitter = require('../../assets/icons/twitter.png');
-// const facebook = require('../../assets/icons/facebook.png');
-// const instagram = require('../../assets/icons/instagram.png');
-// const linkedin = require('../../assets/icons/linkedin.png');
-// const pinterest = require('../../assets/icons/pinterest.png');
 
 export const SETTINGS_ITEMS = [
   {
@@ -131,49 +126,26 @@ export const SETTINGS_ITEMS = [
       },
     ],
   },
-  // {
-  //   title: 'Linked Accounts',
-  //   data: [
-  //     {
-  //       id: 2,
-  //       title: 'Instagram',
-  //       icon: instagram,
-  //       navigateTo: null,
-  //       isLinked: true,
-  //       type: 'SOCIAL'
-  //     },
-  //     {
-  //       id: 3,
-  //       title: 'Twitter',
-  //       icon: twitter,
-  //       navigateTo: null,
-  //       isLinked: false,
-  //       type: 'SOCIAL'
-  //     },
-  //     {
-  //       id: 4,
-  //       title: 'Facebook',
-  //       icon: facebook,
-  //       navigateTo: null,
-  //       isLinked: false,
-  //       type: 'SOCIAL'
-  //     },
-  //     {
-  //       id: 5,
-  //       title: 'LinkedIn',
-  //       icon: linkedin,
-  //       navigateTo: null,
-  //       isLinked: true,
-  //       type: 'SOCIAL'
-  //     },
-  //     {
-  //       id: 6,
-  //       title: 'Pinterest',
-  //       icon: pinterest,
-  //       navigateTo: null,
-  //       isLinked: false,
-  //       type: 'SOCIAL'
-  //     },
-  //   ],
-  // },
 ];
+
+export const termsPar0 = 'Last updated: 04-11-2020';
+export const termsPar1 =
+  "Please read this End-User License Agreement (Agreement) carefully before clicking the 'I Agree' button or using the 'React Native Backend App' Application. By clicking the 'I Agree' button, downloading or using the Application, you are agreeing to be bound by the terms and conditions of this Agreement. If you do not agree to the terms of this Agreement, do not click on the 'I Agree' button and do not download or use the Application.";
+export const termsPar1_1 =
+  "We are committed to making this app a save place. Expression that threatens people has the potential to intimidate, exclude or silence others and isn't allowed on this app. This means that there is no tolerance for objectionable content or abusive users on this app. Knowlephant reserves the right to delete any such content and users from this platform at its own descretion.";
+export const termsPar2 =
+  'Knowlephant grants you a revocable, non-exclusive, non-transferable, limited license to download, install and use the Application solely for your personal, non-commercial purposes strictly in accordance with the terms of this Agreement.';
+export const termsPar3 =
+  'You agree not to, and you will not permit others to: license, sell, rent, lease, assign, distribute, transmit, host, outsource, disclose or otherwise commercially exploit the Application or make the Application available to any third party.';
+export const termsPar4 =
+  'Knowlephant reserves the right to modify, suspend or discontinue, temporarily or permanently, the Application or any service to which it connects, with or without notice and without liability to you.';
+export const termsPar5 =
+  'This Agreement shall remain in effect until terminated by you or Knowlephant. Knowlephant may, in its sole discretion, at any time and for any or no reason, suspend or terminate this Agreement with or without prior notice.';
+export const termsPar6 =
+  'This Agreement will terminate immediately, without prior notice from Knowlephant, in the event that you fail to comply with any provision of this Agreement. You may also terminate this Agreement by deleting the Application and all copies thereof from your mobile device or from your desktop. Upon termination of this Agreement, you shall cease all use of the Application and delete all copies of the Application from your mobile device or from your desktop.';
+export const termsPar7 =
+  'If any provision of this Agreement is held to be unenforceable or invalid, such provision will be changed and interpreted to accomplish the objectives of such provision to the greatest extent possible under applicable law and the remaining provisions will continue in full force and effect.';
+export const termsPar8 =
+  "Knowlephant reserves the right, at its sole discretion, to modify or replace this Agreement at any time. If a revision is material we will provide at least 30 days' notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.";
+export const termsPar9 =
+  'If you have any questions about this Agreement, please contact us at info@knowlephant.com.';

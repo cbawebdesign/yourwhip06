@@ -41,6 +41,7 @@ export const SELECTIONS = [
 export const LOGIN = 'Login';
 export const SIGNUP_STEP_1 = 'Signup (Step 1)';
 export const SIGNUP_STEP_2 = 'Signup (Step 2)';
+export const SIGNUP_STEP_3 = 'Finish Signing Up';
 export const HELP = 'Help';
 export const CODE = 'Code';
 export const PASSWORD = 'Password';

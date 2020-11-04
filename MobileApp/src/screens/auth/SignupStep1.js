@@ -20,10 +20,10 @@ const backgroundImage = require('../../../assets/images/background.png');
 const SignupStep1 = ({ route, navigation, fetching, error, success }) => {
   const dispatch = useDispatch();
 
-  const [firstName, setFirstname] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [firstName, setFirstname] = useState('test');
+  const [lastName, setLastName] = useState('user');
+  const [email, setEmail] = useState('testuser@test.nl');
+  const [password, setPassword] = useState('qqqqqqqq');
   const [firstNameActive, setFirstNameActive] = useState(false);
   const [lastNameActive, setLastNameActive] = useState(false);
   const [emailActive, setEmailActive] = useState(false);

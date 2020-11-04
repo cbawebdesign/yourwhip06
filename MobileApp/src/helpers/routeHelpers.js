@@ -36,6 +36,7 @@ import {
   COMMENTS,
   SEARCH,
   REPLIES,
+  SIGNUP_STEP_3,
 } from '../config/constants';
 
 const closeIcon = require('../../assets/icons/close.png');
@@ -123,6 +124,23 @@ export const getHeaderTitleHelper = (route, navigation) => {
         return '';
       }
       return { text: childStack.params.title };
+    // case SIGNUP_STEP_3:
+    //   return {
+    //     view: (
+    //       <>
+    //         <Text
+    //           text="Finish Signing Up"
+    //           fontFamily={TITLE_FONT}
+    //           style={styles.header}
+    //         />
+    //         <Text
+    //           text="By tapping 'I agree', you agree to our terms"
+    //           fontFamily={BODY_FONT}
+    //           style={styles.subHeader}
+    //         />
+    //       </>
+    //     ),
+    //   };
     case HELP:
       return {
         view: (
@@ -276,6 +294,7 @@ export const getHeaderLeftHelper = (route, navigation) => {
       );
     case SIGNUP_STEP_1:
     case SIGNUP_STEP_2:
+    case SIGNUP_STEP_3:
     case HELP:
     case CODE:
     case PASSWORD:

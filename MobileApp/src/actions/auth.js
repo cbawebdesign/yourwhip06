@@ -11,6 +11,8 @@ export const SIGNUP_STEP1_RESULT = 'SIGNUP_STEP1_RESULT';
 export const SIGNUP_STEP1_ERROR = 'SIGNUP_STEP1_ERROR';
 
 export const SIGNUP_STEP2 = 'SIGNUP_STEP2';
+
+export const SIGNUP_STEP3 = 'SIGNUP_STEP3';
 export const SIGNUP_RESULT = 'SIGNUP_RESULT';
 export const SIGNUP_ERROR = 'SIGNUP_ERROR';
 
@@ -55,6 +57,10 @@ export const signupStep1 = (data) => ({
 export const signupStep2 = (userInfo) => ({
   type: SIGNUP_STEP2,
   userInfo,
+});
+
+export const signupStep3 = () => ({
+  type: SIGNUP_STEP3,
 });
 
 export const storeToken = (token) => ({

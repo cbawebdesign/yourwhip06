@@ -32,6 +32,7 @@ const initialState = {
   fetching: true,
   error: null,
   success: null,
+  signupData: null,
   firstName: '',
   lastName: '',
   signupEmail: '',
@@ -56,7 +57,6 @@ const authState = (state = initialState, action) => {
     case LOGOUT:
     case DELETE_ACCOUNT:
     case REQUEST_CODE:
-    case SIGNUP_STEP2:
     case RESET_PASSWORD:
     case VALIDATE_CODE:
       return {
@@ -89,6 +89,13 @@ const authState = (state = initialState, action) => {
       return {
         ...state,
         fetching: true,
+        signupData: {
+          ...state.signupData,
+          firstName: action.data.firstName,
+          lastName: action.data.lastName,
+          signupEmail: action.data.email,
+          signupPassword: action.data.password,
+        },
         firstName: action.data.firstName,
         lastName: action.data.lastName,
         signupEmail: action.data.email,
@@ -103,6 +110,19 @@ const authState = (state = initialState, action) => {
           signupStep1Success: action.result.success,
         },
         error: null,
+      };
+    case SIGNUP_STEP2:
+      console.log('reducer', action.userInfo);
+      return {
+        ...state,
+        fetching: false,
+        signupData: {
+          ...state.signupData,
+          birthday: action.userInfo.birthday,
+          gender: action.userInfo.gender,
+          location: action.userInfo.location,
+          profileImage: action.userInfo.profileImage,
+        },
       };
     case SIGNUP_RESULT:
       return {

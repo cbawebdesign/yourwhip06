@@ -22,7 +22,7 @@ import { editProfile } from '../../actions/user';
 
 import { userPropType } from '../../config/propTypes';
 import { getMonthHelper } from '../../helpers/dateTimeHelper';
-import { CAMERA, SIGNUP_STEP_2 } from '../../config/constants';
+import { CAMERA, SIGNUP_STEP_2, SIGNUP_STEP_3 } from '../../config/constants';
 
 import styles from '../styles';
 
@@ -215,28 +215,6 @@ const SignUpStep2 = ({
     }
   };
 
-  const handleStartPress = () => {
-    if (fromScreen === 'SETTINGS') {
-      dispatch(
-        editProfile({
-          profileImage: photo || currentUser.profileImage,
-          birthday,
-          gender,
-          location,
-        })
-      );
-    } else {
-      dispatch(
-        signupStep2({
-          profileImage: photo || '',
-          birthday,
-          gender,
-          location,
-        })
-      );
-    }
-  };
-
   const handleDatePickerSelect = () => {
     if (birthday === null) {
       setBirthday(new Date(Date.now()));
@@ -256,6 +234,29 @@ const SignUpStep2 = ({
   const handleGenderSelect = (type) => {
     setGender(type);
     setgenderActive(false);
+  };
+
+  const handleStartPress = () => {
+    if (fromScreen === 'SETTINGS') {
+      dispatch(
+        editProfile({
+          profileImage: photo || currentUser.profileImage,
+          birthday,
+          gender,
+          location,
+        })
+      );
+    } else {
+      dispatch(
+        signupStep2({
+          profileImage: photo || '',
+          birthday,
+          gender,
+          location,
+        })
+      );
+      navigation.navigate(SIGNUP_STEP_3);
+    }
   };
 
   const getLocationPermissions = async () => {

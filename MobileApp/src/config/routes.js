@@ -12,6 +12,7 @@ import { CustomText as Text, TITLE_FONT } from '../UI/text/CustomText';
 import Login from '../screens/auth/Login';
 import SignupStep1 from '../screens/auth/SignupStep1';
 import SignupStep2 from '../screens/auth/SignupStep2';
+import SignupStep3 from '../screens/auth/SignupStep3';
 import Help from '../screens/auth/Help';
 import Code from '../screens/auth/Code';
 import Password from '../screens/auth/Password';
@@ -52,6 +53,7 @@ import {
   LOGIN,
   SIGNUP_STEP_1,
   SIGNUP_STEP_2,
+  SIGNUP_STEP_3,
   HELP,
   CODE,
   PASSWORD,
@@ -129,6 +131,11 @@ const AuthStackScreen = () => {
       <AuthNavigationStack.Screen
         name={SIGNUP_STEP_2}
         component={SignupStep2}
+        initialParams={{ headerHeight }}
+      />
+      <AuthNavigationStack.Screen
+        name={SIGNUP_STEP_3}
+        component={SignupStep3}
         initialParams={{ headerHeight }}
       />
       <AuthNavigationStack.Screen
