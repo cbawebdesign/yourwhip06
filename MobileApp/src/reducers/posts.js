@@ -11,7 +11,8 @@ import {
   HIDE_POST_ERROR,
   HIDE_POSTS_BY_USER_RESULT,
   HIDE_POSTS_BY_USER_ERROR,
-  HIDE_POSTS_BY_USER,
+  REPORT_POST_RESULT,
+  REPORT_POST_ERROR,
 } from '../actions/posts';
 import { LOGOUT_RESULT } from '../actions/auth';
 
@@ -24,6 +25,7 @@ const initialState = {
   homeFeed: [],
   endOfList: false,
   deletedPost: null,
+  flaggedPostsFeed: [],
 };
 
 const homeState = (state = initialState, action) => {
@@ -73,25 +75,41 @@ const homeState = (state = initialState, action) => {
         homeFeed: action.result,
         error: null,
       };
+    case REPORT_POST_RESULT:
+      return {
+        ...state,
+        flaggedPostsFeed: action.result.flaggedFeed,
+        success: {
+          ...state.success,
+          reportPostSuccess: action.result.success,
+        },
+      };
     case RESET_DELETE_POST:
       return {
         ...state,
         deletedPost: null,
+      };
+    case 'RESET_SUCCESS':
+      return {
+        ...state,
+        success: null,
+      };
+    case LOGOUT_RESULT:
+      return {
+        ...state,
+        homeFeed: [],
       };
     case NEW_POST_ERROR:
     case HOME_FEED_ERROR:
     case DELETE_POST_ERROR:
     case HIDE_POST_ERROR:
     case HIDE_POSTS_BY_USER_ERROR:
+    case REPORT_POST_ERROR:
       return {
         ...state,
         error: action.error,
+        success: null,
         fetching: false,
-      };
-    case LOGOUT_RESULT:
-      return {
-        ...state,
-        homeFeed: [],
       };
     default:
       return state;

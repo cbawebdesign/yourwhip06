@@ -37,9 +37,10 @@ const userSchema = new Schema(
     description: String,
     interests: [String],
     filters: {
-      hiddenUsers: [String],
-      hiddenPosts: [String],
+      hiddenUsers: [String], // ARRAY OF USER IDS
+      hiddenPosts: [String], // ARRAY OF POST IDS
     },
+    reportedBy: [String], // ARRAY OF USER IDS
     settings: {
       enableSuggestions: {
         type: Boolean,

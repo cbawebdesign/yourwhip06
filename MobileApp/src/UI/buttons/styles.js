@@ -53,7 +53,6 @@ export const iconButtonStyles = EStyleSheet.create({
   image: {
     width: 25,
     height: 25,
-    // margin: 12,
     resizeMode: 'cover',
   },
 });
@@ -90,6 +89,9 @@ export const iconLabelButtonStyles = EStyleSheet.create({
   },
   label: {
     letterSpacing: 1,
+  },
+  subtitle: {
+    fontSize: 13,
   },
 });
 

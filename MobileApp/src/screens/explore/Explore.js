@@ -31,6 +31,8 @@ import {
   deletePost,
   resetDeletePost,
   hidePost,
+  hidePostsByUser,
+  reportPost,
 } from '../../actions/posts';
 import { likePostPress, resetNewLikeCheck } from '../../actions/likes';
 import { sharePost, shareImage } from '../../actions/shares';
@@ -67,12 +69,14 @@ const Explore = ({
   newLikeCheck,
   deletedPost,
   fetching,
+  success,
 }) => {
   const dispatch = useDispatch();
   const paddingBottom = useSafeArea().bottom;
 
   const [feed, setFeed] = useState(null);
   const [showPostOptions, setShowPostOptions] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showImage, setShowImage] = useState(false);
   const [imageShown, setImageShown] = useState([]);
@@ -82,38 +86,76 @@ const Explore = ({
 
   const postOptions = {
     title: 'Post Options',
-    body: 'Are you sure you want to delete this post?',
+    body: 'Select one of the options below',
     buttons: [
       {
         title: 'Delete post',
+        subtitle: 'The post will no longer be visible to other users',
         onPress: () => {
           const updatedFeed = onDeleteHelper(feed, currentItem);
 
           setFeed(updatedFeed);
           setShowPostOptions(false);
         },
-        hide: currentItem && currentItem.createdBy._id !== currentUser._id,
+        hide:
+          currentItem &&
+          currentUser &&
+          currentItem.createdBy._id !== currentUser._id,
       },
       {
         title: 'Hide post',
+        subtitle: 'The post will no longer show in your feed',
         onPress: () => {
           dispatch(hidePost(currentItem._id));
           setShowPostOptions(false);
         },
-        hide: currentItem && currentItem.createdBy._id === currentUser._id,
+        hide:
+          currentItem &&
+          currentUser &&
+          currentItem.createdBy._id === currentUser._id,
       },
       {
-        title: 'Hide all posts by this user',
+        title: `Hide all posts by ${
+          currentItem && currentUser && currentItem.createdBy.firstName
+        }`,
+        subtitle: 'Your feed will hide all posts by this user',
         onPress: () => {
-          // const updatedFeed = onDeleteHelper(feed, currentItem);
-          // setFeed(updatedFeed);
-          // setShowPostOptions(false);
+          dispatch(hidePostsByUser(currentItem.createdBy._id));
+          setShowPostOptions(false);
+        },
+        hide:
+          currentItem &&
+          currentUser &&
+          currentItem.createdBy._id === currentUser._id,
+      },
+      {
+        title: `Report to admins`,
+        subtitle:
+          'Flag this post as inappropriate or not folowing community guidelines',
+        onPress: () => {
+          dispatch(reportPost(currentItem._id));
+          setShowPostOptions(false);
         },
         hide: currentItem && currentItem.createdBy._id === currentUser._id,
       },
       {
         title: 'Cancel',
         onPress: () => setShowPostOptions(false),
+      },
+    ],
+  };
+
+  const successModalOptions = {
+    title: 'Post Successfully Reported',
+    body: success && success.reportPostSuccess ? success.reportPostSuccess : '',
+    buttonStyle: 'horizontal',
+    buttons: [
+      {
+        title: 'OK',
+        onPress: () => {
+          setShowSuccessModal(false);
+          dispatch({ type: 'RESET_SUCCESS' });
+        },
       },
     ],
   };
@@ -404,6 +446,10 @@ const Explore = ({
     }
   }, [route, homeFeed, commentsUpdateCheck, newLikeCheck]);
 
+  useEffect(() => {
+    setShowSuccessModal(success && success.reportPostSuccess.length > 0);
+  }, [success]);
+
   if (!feed || !currentUser) {
     return <View />;
   }
@@ -418,6 +464,12 @@ const Explore = ({
         onModalDismissPress={() => setShowPostOptions(false)}
         options={postOptions}
       />
+      <SelectionModal
+        showModal={showSuccessModal}
+        onModalDismissPress={() => setShowSuccessModal(false)}
+        options={successModalOptions}
+      />
+
       {showShareModal && (
         <ShareModal
           showModal={showShareModal}
@@ -476,6 +528,7 @@ Explore.defaultProps = {
   currentUser: null,
   commentsUpdateCheck: null,
   newLikeCheck: null,
+  success: null,
 };
 
 Explore.propTypes = {
@@ -500,10 +553,13 @@ Explore.propTypes = {
     fromScreen: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
   }),
+  success: PropTypes.shape({
+    reportPostSuccess: PropTypes.string,
+  }),
 };
 
 const mapStateToProps = (state) => {
-  const { homeFeed, endOfList, deletedPost, fetching } = state.posts;
+  const { homeFeed, endOfList, deletedPost, fetching, success } = state.posts;
   const { user } = state.user;
   const { commentsUpdateCheck } = state.comments;
   const { newLikeCheck } = state.likes;
@@ -516,6 +572,7 @@ const mapStateToProps = (state) => {
     newLikeCheck,
     deletedPost,
     fetching,
+    success,
   };
 };
 

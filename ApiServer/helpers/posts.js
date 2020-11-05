@@ -14,8 +14,12 @@ exports.getPostsFromRequest = async (req) => {
   if (enableSuggestions) {
     posts = await Post.find(
       {
+        _id: {
+          $nin: [req.user.filters.hiddenPosts],
+        },
         createdBy: {
           $in: [...following, req.user._id],
+          $nin: [req.user.filters.hiddenUsers],
         },
       },
       null,
@@ -89,10 +93,21 @@ exports.getPostsFromRequest = async (req) => {
       })
       .sort('-dateTime');
   } else {
-    posts = await Post.find({}, null, {
-      skip,
-      limit,
-    })
+    posts = await Post.find(
+      {
+        _id: {
+          $nin: [req.user.filters.hiddenPosts],
+        },
+        createdBy: {
+          $nin: [...req.user.filters.hiddenUsers],
+        },
+      },
+      null,
+      {
+        skip,
+        limit,
+      }
+    )
       .populate('createdBy')
       .populate('comments')
       .populate('images')
@@ -367,4 +382,86 @@ exports.deletePostsFromRequest = async (req) => {
   } catch (error) {
     console.log('40', error);
   }
+};
+
+exports.getFlaggedPostsFromRequest = async (req) => {
+  const skip = Number(req.params.skip || 0);
+  const limit = Number(req.params.limit) || Number(req.body.limit) || 8;
+
+  const posts = await Post.find(
+    {
+      flagged: true,
+    },
+    null,
+    {
+      skip,
+      limit,
+    }
+  )
+    .populate('createdBy')
+    .populate('comments')
+    .populate('images')
+    .populate('likes')
+    .populate('shares')
+    .populate({
+      path: 'images',
+      populate: {
+        path: 'likes',
+      },
+    })
+    .populate({
+      path: 'images',
+      populate: {
+        path: 'comments',
+      },
+    })
+    // SHARED POST
+    .populate('sharedPost')
+    .populate({
+      path: 'sharedPost',
+      populate: {
+        path: 'images',
+      },
+    })
+    .populate({
+      path: 'sharedPost',
+      populate: {
+        path: 'createdBy',
+      },
+    })
+    .populate({
+      path: 'sharedPost',
+      populate: {
+        path: 'shares',
+      },
+    })
+    // SHARED IMAGE
+    .populate('sharedImage')
+    .populate({
+      path: 'sharedImage',
+      populate: {
+        path: 'createdBy',
+      },
+    })
+    .populate({
+      path: 'sharedImage',
+      populate: {
+        path: 'likes',
+      },
+    })
+    .populate({
+      path: 'sharedImage',
+      populate: {
+        path: 'comments',
+      },
+    })
+    .populate({
+      path: 'sharedImage',
+      populate: {
+        path: 'shares',
+      },
+    })
+    .sort('-dateTime');
+
+  return posts;
 };

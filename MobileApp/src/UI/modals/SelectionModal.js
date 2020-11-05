@@ -102,6 +102,7 @@ const SelectionModal = ({
                       key={index.toString()}
                       icon={item.icon}
                       label={item.title}
+                      subtitle={item.subtitle}
                       onPress={item.onPress}
                     />
                   );

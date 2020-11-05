@@ -38,7 +38,9 @@ app.post('/follow-user-press/', auth, Profile.followUserPress);
 app.get('/get-home-feed/:skip/:limit/', auth, Home.getFeed);
 app.post('/compose-post/', auth, uploads.uploadImage, Home.compose);
 app.post('/delete-post/', auth, Home.deletePost);
-app.post('/hide-post', auth, Home.hidePost);
+app.post('/hide-post/', auth, Home.hidePost);
+app.post('/hide-posts-by-user/', auth, Home.hidePostsByUser);
+app.post('/report-post', auth, Home.reportPost);
 
 // DETAIL
 app.get('/get-detail-post/:parentId', auth, Detail.getOnePost);

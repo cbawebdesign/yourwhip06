@@ -2,6 +2,7 @@ const HttpStatus = require('http-status-codes/index');
 
 const imageHelper = require('../helpers/images');
 const postHelper = require('../helpers/posts');
+const userHelper = require('../helpers/users');
 const activityHelper = require('../helpers/activities');
 const likeHelper = require('../helpers/likes');
 const shareHelper = require('../helpers/shares');
@@ -14,11 +15,8 @@ exports.getFeed = async (req, res) => {
 
   try {
     const posts = await postHelper.getPostsFromRequest(req);
-    const homeFeed = posts.filter(
-      (post) => !currentUser.filters.hiddenPosts.includes(post._id)
-    );
 
-    res.status(HttpStatus.OK).send({ homeFeed, skip });
+    res.status(HttpStatus.OK).send({ homeFeed: posts, skip });
   } catch (error) {
     console.log('17', error);
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({ error: error.message });
@@ -178,8 +176,67 @@ exports.hidePost = async (req, res) => {
 
     // UPDATE FEED
     const posts = await postHelper.getPostsByUserFromRequest(req);
-    const feed = posts.filter((post) => post._id !== postId);
 
-    res.status(HttpStatus.OK).send(feed);
-  } catch (error) {}
+    res.status(HttpStatus.OK).send(posts);
+  } catch (error) {
+    console.log('46', error);
+  }
+};
+
+exports.hidePostsByUser = async (req, res) => {
+  const currentUser = req.user;
+  const { hiddenUserId } = req.body;
+
+  try {
+    // SET USER MODEL
+    currentUser.filters.hiddenUsers.push(hiddenUserId);
+    await currentUser.save();
+
+    // UPDATE FEED
+    const posts = await postHelper.getPostsByUserFromRequest(req);
+
+    res.status(HttpStatus.OK).send(posts);
+  } catch (error) {
+    console.log('47', error);
+  }
+};
+
+exports.reportPost = async (req, res) => {
+  const currentUser = req.user;
+
+  try {
+    // SET USER MODEL
+    const reportedPost = await postHelper.getOnePostFromRequest(req);
+
+    req.user = reportedPost.createdBy;
+    const reportedUser = await userHelper.findOneUserFromRequest(req);
+
+    if (
+      reportedUser &&
+      reportedUser.reportedBy.some((id) => id != currentUser._id)
+    ) {
+      reportedUser.reportedBy.push(currentUser._id);
+      reportedUser.save();
+    } else {
+      res.status(HttpStatus.OK).send({
+        success:
+          'You have already successfully reported this post to our admins.',
+      });
+    }
+
+    // SET POST AS FLAGGED
+    reportedPost.flagged = true;
+    await reportedPost.save();
+
+    // UPDATE REPORTED POSTS FEED
+    const flaggedFeed = await postHelper.getFlaggedPostsFromRequest(req);
+
+    res.status(HttpStatus.OK).send({
+      success:
+        'The post has been reported to our admins for breaking community guidelines and will be reviewed within 24 hours. ',
+      flaggedFeed,
+    });
+  } catch (error) {
+    console.log('47', error);
+  }
 };

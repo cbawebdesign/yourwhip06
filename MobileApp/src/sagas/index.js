@@ -52,6 +52,7 @@ import {
   DELETE_POST,
   HIDE_POST,
   HIDE_POSTS_BY_USER,
+  REPORT_POST,
 } from '../actions/posts';
 import {
   getHomeFeed,
@@ -59,6 +60,7 @@ import {
   deletePost,
   hidePost,
   hidePostsByUser,
+  reportPost,
 } from './posts';
 
 import { GET_DETAIL_POST, LIKE_IMAGE_PRESS } from '../actions/detail';
@@ -124,6 +126,8 @@ export default function* rootSaga() {
   yield takeEvery(DELETE_POST, deletePost);
   yield takeEvery(HIDE_POST, hidePost);
   yield takeEvery(HIDE_POSTS_BY_USER, hidePostsByUser);
+  yield takeEvery(REPORT_POST, reportPost);
+
   // POST DETAIL
   yield takeEvery(GET_DETAIL_POST, getOnePost);
   yield takeEvery(LIKE_IMAGE_PRESS, likeImagePress);
