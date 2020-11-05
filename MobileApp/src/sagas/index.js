@@ -76,12 +76,18 @@ import {
   LIKE_COMMENT_PRESS,
   COMPOSE_NEW_COMMENT,
   DELETE_COMMENT,
+  HIDE_COMMENT,
+  HIDE_COMMENTS_BY_USER,
+  REPORT_COMMENT,
 } from '../actions/comments';
 import {
   getCommentFeed,
   likeCommentPress,
   composeComment,
   deleteComment,
+  hideComment,
+  hideCommentsByUser,
+  reportComment,
 } from './comments';
 
 import {
@@ -141,6 +147,9 @@ export default function* rootSaga() {
   yield takeEvery(LIKE_COMMENT_PRESS, likeCommentPress);
   yield takeEvery(COMPOSE_NEW_COMMENT, composeComment);
   yield takeEvery(DELETE_COMMENT, deleteComment);
+  yield takeEvery(HIDE_COMMENT, hideComment);
+  yield takeEvery(HIDE_COMMENTS_BY_USER, hideCommentsByUser);
+  yield takeEvery(REPORT_COMMENT, reportComment);
 
   // REPLIES
   yield takeEvery(GET_REPLY_FEED, getReplyFeed);

@@ -2,8 +2,6 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-import SignupStep3 from './screens/auth/SignupStep3';
-
 import NavigationContainer from './config/routes';
 import { COLORS } from './config/constants';
 

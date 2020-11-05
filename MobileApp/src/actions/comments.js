@@ -16,6 +16,18 @@ export const DELETE_COMMENT_ERROR = 'DELETE_COMMENT_ERROR';
 
 export const RESET_COMMENT_UPDATE_CHECK = 'RESET_COMMENT_UPDATE_CHECK';
 
+export const HIDE_COMMENT = 'HIDE_COMMENT';
+export const HIDE_COMMENT_RESULT = 'HIDE_COMMENT_RESULT';
+export const HIDE_COMMENT_ERROR = 'HIDE_COMMENT_ERROR';
+
+export const REPORT_COMMENT = 'REPORT_COMMENT';
+export const REPORT_COMMENT_RESULT = 'REPORT_COMMENT_RESULT';
+export const REPORT_COMMENT_ERROR = 'REPORT_COMMENT_ERROR';
+
+export const HIDE_COMMENTS_BY_USER = 'HIDE_COMMENTS_BY_USER';
+export const HIDE_COMMENTS_BY_USER_RESULT = 'HIDE_COMMENTS_BY_USER_RESULT';
+export const HIDE_COMMENTS_BY_USER_ERROR = 'HIDE_COMMENTS_BY_USER_ERROR';
+
 export const getCommentFeed = (data) => ({
   type: GET_COMMENT_FEED,
   data,
@@ -38,4 +50,19 @@ export const likeCommentPress = (data) => ({
 
 export const resetCommentUpdateCheck = () => ({
   type: RESET_COMMENT_UPDATE_CHECK,
+});
+
+export const hideComment = (data) => ({
+  type: HIDE_COMMENT,
+  data,
+});
+
+export const hideCommentsByUser = (data) => ({
+  type: HIDE_COMMENTS_BY_USER,
+  data,
+});
+
+export const reportCOMMENT = (commentId) => ({
+  type: REPORT_COMMENT,
+  commentId,
 });

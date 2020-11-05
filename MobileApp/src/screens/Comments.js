@@ -23,6 +23,9 @@ import {
   likeCommentPress,
   composeNewComment,
   deleteComment,
+  hideComment,
+  hideCommentsByUser,
+  reportComment,
 } from '../actions/comments';
 
 import styles from './styles';
@@ -58,22 +61,73 @@ const Comments = ({
   const [currentItem, setCurrentItem] = useState(null);
 
   const commentOptions = {
-    title: 'Delete comment',
-    body: 'Are you sure you want to delete this comment?',
-    buttonStyle: 'horizontal',
+    title: 'Comment Options',
+    body: 'Select one of the options below',
     buttons: [
       {
-        title: 'Cancel',
-        onPress: () => setShowCommentOptions(false),
-      },
-      {
-        title: 'Delete',
+        title: 'Delete comment',
+        subtitle: 'The comment will no longer be visible to other users',
         onPress: () => {
           const updatedFeed = onDeleteHelper(feed, currentItem);
 
           setFeed(updatedFeed);
           setShowCommentOptions(false);
         },
+        hide:
+          currentItem &&
+          currentUser &&
+          currentItem.createdBy._id !== currentUser._id,
+      },
+      {
+        title: 'Hide comment',
+        subtitle: 'The comment will no longer show in your feed',
+        onPress: () => {
+          dispatch(
+            hideComment({ parentId, commentId: currentItem._id, type: 'POST' })
+          );
+          setShowCommentOptions(false);
+        },
+        hide:
+          currentItem &&
+          currentUser &&
+          currentItem.createdBy._id === currentUser._id,
+      },
+      {
+        title: `Hide all comments by ${
+          currentItem && currentItem.createdBy.firstName
+        }`,
+        subtitle: 'Your feed will hide all comments by this user',
+        onPress: () => {
+          dispatch(
+            hideCommentsByUser({
+              parentId,
+              userId: currentItem.createdBy._id,
+              type: 'POST',
+            })
+          );
+          setShowCommentOptions(false);
+        },
+        hide:
+          currentItem &&
+          currentUser &&
+          currentItem.createdBy._id === currentUser._id,
+      },
+      {
+        title: `Report to admins`,
+        subtitle:
+          'Flag this comment as inappropriate or not folowing community guidelines',
+        onPress: () => {
+          dispatch(reportComment(currentItem._id));
+          setShowCommentOptions(false);
+        },
+        hide:
+          currentItem &&
+          currentUser &&
+          currentItem.createdBy._id === currentUser._id,
+      },
+      {
+        title: 'Cancel',
+        onPress: () => setShowCommentOptions(false),
       },
     ],
   };

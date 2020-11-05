@@ -9,6 +9,12 @@ import {
   NEW_COMMENT_ERROR,
   DELETE_COMMENT_RESULT,
   DELETE_COMMENT_ERROR,
+  HIDE_COMMENT_RESULT,
+  HIDE_COMMENT_ERROR,
+  HIDE_COMMENTS_BY_USER_RESULT,
+  HIDE_COMMENTS_BY_USER_ERROR,
+  REPORT_COMMENT_RESULT,
+  REPORT_COMMENT_ERROR,
 } from '../actions/comments';
 
 import { API_HOST } from '../config/constants';
@@ -64,6 +70,49 @@ const fetchDeleteComment = ({ action, token }) =>
       parentId: action.data.postId,
       fromScreen: action.data.fromScreen,
       type: action.data.type,
+    }),
+  });
+
+const fetchHideComment = ({ action, token }) =>
+  fetch(`${API_HOST}/hide-comment/`, {
+    method: 'post',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      parentId: action.data.parentId,
+      commentId: action.data.commentId,
+      type: action.data.type,
+    }),
+  });
+
+const fetchHideCommentsByUser = ({ action, token }) =>
+  fetch(`${API_HOST}/hide-comments-by-user/`, {
+    method: 'post',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      parentId: action.data.parentId,
+      hiddenUserId: action.data.userId,
+      type: action.data.type,
+    }),
+  });
+
+const fetchReportComment = ({ action, token }) =>
+  fetch(`${API_HOST}/report-comment/`, {
+    method: 'post',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      commentId: action.commentId,
     }),
   });
 
@@ -145,5 +194,56 @@ export function* deleteComment(action) {
     }
   } catch (e) {
     yield put({ type: DELETE_COMMENT_ERROR, error: e.message });
+  }
+}
+
+export function* hideComment(action) {
+  const token = yield select((state) => state.auth.authToken);
+
+  try {
+    const response = yield call(fetchHideComment, { action, token });
+    const result = yield response.json();
+
+    if (result.error) {
+      yield put({ type: HIDE_COMMENT_ERROR, error: result.error });
+    } else {
+      yield put({ type: HIDE_COMMENT_RESULT, result });
+    }
+  } catch (e) {
+    yield put({ type: HIDE_COMMENT_ERROR, error: e.message });
+  }
+}
+
+export function* hideCommentsByUser(action) {
+  const token = yield select((state) => state.auth.authToken);
+
+  try {
+    const response = yield call(fetchHideCommentsByUser, { action, token });
+    const result = yield response.json();
+
+    if (result.error) {
+      yield put({ type: HIDE_COMMENTS_BY_USER_ERROR, error: result.error });
+    } else {
+      yield put({ type: HIDE_COMMENTS_BY_USER_RESULT, result });
+    }
+  } catch (e) {
+    yield put({ type: HIDE_COMMENTS_BY_USER_ERROR, error: e.message });
+  }
+}
+
+export function* reportComment(action) {
+  const token = yield select((state) => state.auth.authToken);
+
+  try {
+    const response = yield call(fetchReportComment, { action, token });
+    const result = yield response.json();
+
+    if (result.error) {
+      yield put({ type: REPORT_COMMENT_ERROR, error: result.error });
+    } else {
+      yield put({ type: REPORT_COMMENT_RESULT, result });
+    }
+  } catch (e) {
+    yield put({ type: REPORT_COMMENT_ERROR, error: e.message });
   }
 }
