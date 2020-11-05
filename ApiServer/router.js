@@ -24,7 +24,7 @@ app.post(
   uploads.uploadProfileImage,
   Authentication.signupStep2
 );
-app.post('/logout/', auth, Authentication.logout);
+app.post('/logout/', Authentication.logout);
 app.get('/request-code/:email', Authentication.requestCode);
 app.get('/validate-code/:email/:code', Authentication.validateCode);
 app.post('/reset-password/', Authentication.resetPassword);

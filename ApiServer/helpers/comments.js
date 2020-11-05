@@ -54,10 +54,10 @@ exports.deleteOneCommentFromRequest = async (req) => {
 };
 
 exports.deleteCommentsFromRequest = async (req) => {
-  const { user } = req;
+  const { userId } = req.body;
 
   try {
-    const result = await Comment.deleteMany({ createdBy: user._id });
+    const result = await Comment.deleteMany({ createdBy: userId });
 
     return result;
   } catch (error) {

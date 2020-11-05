@@ -137,7 +137,7 @@ exports.deleteActivityFromRequest = async (req) => {
 };
 
 exports.deleteActivitiesFromRequest = async (req) => {
-  const user_action = req.user._id;
+  const user_action = req.body.userId;
 
   try {
     const result = await Activity.deleteMany({ user_action });

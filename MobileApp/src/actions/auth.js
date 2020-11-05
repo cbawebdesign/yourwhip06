@@ -91,7 +91,8 @@ export const routeChecksComplete = () => ({
   type: ROUTE_CHECKS_COMPLETE,
 });
 
-export const deleteAccount = (userId) => ({
+export const deleteAccount = (userId, fromScreen) => ({
   type: DELETE_ACCOUNT,
   userId,
+  fromScreen,
 });

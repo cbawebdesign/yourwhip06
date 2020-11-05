@@ -17,6 +17,7 @@ import { onDeleteHelper } from '../helpers/socialHelpers';
 import { isCloseToBottom } from '../helpers/scrollHelpers';
 
 import { deletePost, resetDeletePost, getFlaggedFeed } from '../actions/posts';
+import { deleteAccount } from '../actions/auth';
 
 import { exploreItemPropType, userPropType } from '../config/propTypes';
 import { PAGINATION_LIMIT } from '../config/constants';
@@ -105,9 +106,12 @@ const Flagged = ({
       {
         title: 'OK',
         onPress: () => {
-          const updatedFeed = onDeleteHelper(feed, currentItem);
-
-          setFeed(updatedFeed);
+          if (warningType.deletePost) {
+            const updatedFeed = onDeleteHelper(feed, currentItem);
+            setFeed(updatedFeed);
+          } else if (warningType.deleteUser) {
+            dispatch(deleteAccount(currentItem.createdBy._id, 'FLAGGED'));
+          }
           setWarningType({ deletePost: false, deleteUser: false });
         },
       },

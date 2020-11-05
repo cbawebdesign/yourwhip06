@@ -211,6 +211,8 @@ exports.resetPassword = async (req, res) => {
 };
 
 exports.deleteAccount = async (req, res) => {
+  const { fromScreen } = req.body;
+
   try {
     // DELETE USER ACTIVITIES
     const deleteActivitiesResult = await activityHelper.deleteActivitiesFromRequest(
@@ -245,13 +247,15 @@ exports.deleteAccount = async (req, res) => {
     await postHelper.deletePostsFromRequest(req);
 
     if (!deletedUser) {
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
+      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
         error: `An error occurred while deleting the account for user with id: ${req.body.userId},`,
       });
     }
 
     res.status(HttpStatus.OK).send({
       success: `The account for user ${deletedUser.firstName} ${deletedUser.lastName} has been successfully deleted`,
+      deletedUserId: deletedUser._id,
+      fromScreen,
     });
   } catch (error) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({

@@ -162,7 +162,7 @@ exports.getDailyFollowersPerMonthFromRequest = async (req) => {
 
 exports.deleteUserFromRequest = async (req) => {
   try {
-    const result = await User.findOneAndDelete({ _id: req.user._id });
+    const result = await User.findOneAndDelete({ _id: req.body.userId });
 
     return result;
   } catch (error) {

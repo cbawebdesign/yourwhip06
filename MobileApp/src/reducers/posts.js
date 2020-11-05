@@ -16,7 +16,7 @@ import {
   GET_FLAGGED_FEED_RESULT,
   GET_FLAGGED_FEED_ERROR,
 } from '../actions/posts';
-import { LOGOUT_RESULT } from '../actions/auth';
+import { LOGOUT_RESULT, DELETE_ACCOUNT_RESULT } from '../actions/auth';
 
 import { PAGINATION_LIMIT } from '../config/constants';
 
@@ -66,6 +66,16 @@ const homeState = (state = initialState, action) => {
         ),
         flaggedFeed: state.flaggedFeed.filter(
           (item) => item._id !== action.result.postId
+        ),
+      };
+    case DELETE_ACCOUNT_RESULT:
+      return {
+        ...state,
+        homeFeed: state.homeFeed.filter(
+          (item) => item.createdBy._id !== action.result.deletedUserId
+        ),
+        flaggedFeed: state.flaggedFeed.filter(
+          (item) => item.createdBy._id !== action.result.deletedUserId
         ),
       };
     case HIDE_POST_RESULT:

@@ -451,7 +451,9 @@ exports.deleteOnePostFromRequest = async (req) => {
 
 exports.deletePostsFromRequest = async (req) => {
   try {
-    const result = await Post.deleteMany({ createdBy: { _id: req.user._id } });
+    const result = await Post.deleteMany({
+      createdBy: { _id: req.body.userId },
+    });
 
     return result;
   } catch (error) {

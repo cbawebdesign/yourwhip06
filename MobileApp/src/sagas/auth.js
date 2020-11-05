@@ -112,6 +112,7 @@ const fetchDeleteAccount = ({ token, action }) =>
     },
     body: JSON.stringify({
       userId: action.userId,
+      fromScreen: action.fromScreen,
     }),
   });
 
@@ -275,8 +276,10 @@ export function* deleteAccount(action) {
     if (result.error) {
       yield put({ type: DELETE_ACCOUNT_ERROR, error: result.error });
     } else {
-      SecureStore.deleteItemAsync('token');
-      SecureStore.deleteItemAsync('walkthroughComplete');
+      if (result.fromScreen === 'SETTINGS') {
+        SecureStore.deleteItemAsync('token');
+        SecureStore.deleteItemAsync('walkthroughComplete');
+      }
 
       yield put({ type: DELETE_ACCOUNT_RESULT, result });
     }

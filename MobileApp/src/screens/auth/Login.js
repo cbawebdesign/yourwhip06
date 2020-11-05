@@ -20,7 +20,7 @@ const backgroundImage = require('../../../assets/images/background.png');
 const Login = ({ route, navigation, error, success, fetching }) => {
   const dispatch = useDispatch();
 
-  const [email, setEmail] = useState('henkcorporaal@gmail.com');
+  const [email, setEmail] = useState('henkcorporaal@hotmail.com');
   const [password, setPassword] = useState('qqqqqqqq');
   const [emailActive, setEmailActive] = useState(false);
   const [passwordActive, setPasswordActive] = useState(false);

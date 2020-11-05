@@ -1,3 +1,5 @@
+import * as SecureStore from 'expo-secure-store';
+
 import {
   LOGIN,
   LOGIN_RESULT,
@@ -27,6 +29,7 @@ import {
   DELETE_ACCOUNT,
   ROUTE_CHECKS_COMPLETE,
 } from '../actions/auth';
+import { USER_INFO_ERROR } from '../actions/user';
 
 const initialState = {
   fetching: true,
@@ -112,7 +115,6 @@ const authState = (state = initialState, action) => {
         error: null,
       };
     case SIGNUP_STEP2:
-      console.log('reducer', action.userInfo);
       return {
         ...state,
         fetching: false,
@@ -177,7 +179,8 @@ const authState = (state = initialState, action) => {
           ...state.success,
           accountDeleteSuccess: action.result.success,
         },
-        authToken: null,
+        authToken:
+          action.result.fromScreen === 'SETTINGS' ? null : state.authToken,
         error: null,
       };
     case RESET_MESSAGES:
@@ -248,6 +251,14 @@ const authState = (state = initialState, action) => {
           ...state.error,
           deleteError: action.error,
         },
+      };
+    case USER_INFO_ERROR:
+      SecureStore.deleteItemAsync('token');
+
+      return {
+        ...state,
+        error: action.error,
+        token: null,
       };
     default:
       return state;
