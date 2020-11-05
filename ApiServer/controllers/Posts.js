@@ -212,13 +212,17 @@ exports.reportPost = async (req, res) => {
     const reportedUser = await userHelper.findOneUserFromRequest(req);
 
     if (
-      reportedUser &&
-      reportedUser.reportedBy.some((id) => id != currentUser._id)
+      !currentUser.reportedPosts.some(
+        (postId) => postId === reportedPost._id.toString()
+      )
     ) {
       reportedUser.reportedBy.push(currentUser._id);
-      reportedUser.save();
+      await reportedUser.save();
+
+      currentUser.reportedPosts.push(reportedPost._id);
+      await currentUser.save();
     } else {
-      res.status(HttpStatus.OK).send({
+      return res.status(HttpStatus.OK).send({
         success:
           'You have already successfully reported this post to our admins.',
       });

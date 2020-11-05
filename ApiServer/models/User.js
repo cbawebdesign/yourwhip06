@@ -45,6 +45,7 @@ const userSchema = new Schema(
       default: false,
     },
     reportedBy: [String], // ARRAY OF USER IDS
+    reportedPosts: [String], // ARRAY OF POST IDS
     settings: {
       enableSuggestions: {
         type: Boolean,

@@ -105,7 +105,9 @@ const Flagged = ({
       {
         title: 'OK',
         onPress: () => {
-          handleDeletePost('EXPLORE');
+          const updatedFeed = onDeleteHelper(feed, currentItem);
+
+          setFeed(updatedFeed);
           setWarningType({ deletePost: false, deleteUser: false });
         },
       },
@@ -194,7 +196,7 @@ const Flagged = ({
       onSharePress={() => null}
       onProfilePress={(type) => handleProfilePress(type, item)}
       onOptionsPress={() => handlePostOptionsPress(item)}
-      //   onDeletePress={() => handleDeletePost('EXPLORE')}
+      onDeletePress={() => handleDeletePost('EXPLORE')}
       itemInView={viewableItems.some(
         (viewable) => viewable.item._id === item._id
       )}
