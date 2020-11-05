@@ -60,7 +60,7 @@ exports.deleteOneGalleryFromRequest = async (req) => {
 
     return result;
   } catch (error) {
-    console.log('46', error);
+    console.log('49', error);
   }
 };
 

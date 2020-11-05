@@ -40,6 +40,10 @@ const userSchema = new Schema(
       hiddenUsers: [String], // ARRAY OF USER IDS
       hiddenPosts: [String], // ARRAY OF POST IDS
     },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
     reportedBy: [String], // ARRAY OF USER IDS
     settings: {
       enableSuggestions: {

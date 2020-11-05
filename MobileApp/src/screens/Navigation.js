@@ -7,10 +7,12 @@ import ContainerView from '../UI/views/ContainerView';
 import FooterView from '../UI/views/footer/FooterView';
 import IconLabelButton from '../UI/buttons/IconLabelButton';
 import TextButton from '../UI/buttons/TextButton';
+
 import { NAVIGATION_ITEMS } from '../helpers/dataHelper';
 
 import { logout, resetMessages } from '../actions/auth';
 
+import { FLAGGED, DISCOVER, NAVIGATION } from '../config/constants';
 import { userPropType } from '../config/propTypes';
 
 import styles from './styles';
@@ -30,7 +32,7 @@ const Navigation = ({
   };
 
   const handleSelection = (item) => {
-    if (item.title === 'Discover') {
+    if (item.title === DISCOVER) {
       dispatch({ type: 'REMOVE_WALKTHROUGH_COMPLETE' });
     } else {
       // MAKE SURE TO PASS USER
@@ -46,9 +48,9 @@ const Navigation = ({
     // NAVIGATION TO 'WALKTHROUGH' NAVIGATIONSTACK ONLY POSSIBLE AFTER DISPATCH COMPLETES
     // IT IS NOT POSSIBLE TO AWAIT DISPATCH, THEREFORE THIS HACK
     if (!walkthroughComplete) {
-      navigation.navigate('Discover', {
+      navigation.navigate(DISCOVER, {
         ...route.params,
-        fromScreen: 'Navigation',
+        fromScreen: NAVIGATION,
         user: currentUser,
       });
     }
@@ -64,6 +66,16 @@ const Navigation = ({
     );
   }
 
+  const getData = () =>
+    NAVIGATION_ITEMS.filter((item) => {
+      if (item.title === FLAGGED && currentUser.isAdmin) {
+        return true;
+      } else if (item.title === FLAGGED) {
+        return false;
+      }
+      return true;
+    });
+
   return (
     <ContainerView
       hasGradient
@@ -72,7 +84,7 @@ const Navigation = ({
     >
       <AnimatedFlatList
         contentContainerStyle={styles.$navigationInnerContainer}
-        data={NAVIGATION_ITEMS}
+        data={getData()}
         animationType={
           currentUser.settings.enableIntroAnimations
             ? AnimationType.Dive

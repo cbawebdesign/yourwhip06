@@ -30,6 +30,7 @@ import Settings from '../screens/Settings';
 import Stats from '../screens/stats/Stats';
 import ExploreDetail from '../screens/explore/ExploreDetail';
 import Replies from '../screens/Replies';
+import Flagged from '../screens/Flagged';
 
 import Search from '../screens/Search';
 import Navigation from '../screens/Navigation';
@@ -76,6 +77,7 @@ import {
   COMMENTS,
   SEARCH,
   REPLIES,
+  FLAGGED,
 } from './constants';
 
 // APP APPLIES 5 SEPERATE NAVIGATION STACKS
@@ -209,6 +211,11 @@ const MainStackScreen = ({ route }) => {
       <MainNavigationStack.Screen
         name={EXPLORE}
         component={Explore}
+        initialParams={{ headerHeight }}
+      />
+      <MainNavigationStack.Screen
+        name={FLAGGED}
+        component={Flagged}
         initialParams={{ headerHeight }}
       />
       <MainNavigationStack.Screen
@@ -402,16 +409,19 @@ const RootStackScreen = ({ authToken, walkthroughComplete, currentUser }) => {
             headerRight: () =>
               getHeaderRightHelper(route, navigation, currentUser),
             headerTitle: () => {
-              if (!getHeaderTitleHelper(route, navigation)) {
+              if (!getHeaderTitleHelper(route, navigation, currentUser)) {
                 return null;
               }
-              if (getHeaderTitleHelper(route, navigation).view) {
-                return getHeaderTitleHelper(route, navigation).view;
+              if (getHeaderTitleHelper(route, navigation, currentUser).view) {
+                return getHeaderTitleHelper(route, navigation, currentUser)
+                  .view;
               }
 
               return (
                 <Text
-                  text={getHeaderTitleHelper(route, navigation).text}
+                  text={
+                    getHeaderTitleHelper(route, navigation, currentUser).text
+                  }
                   fontFamily={TITLE_FONT}
                   style={styles.header}
                 />

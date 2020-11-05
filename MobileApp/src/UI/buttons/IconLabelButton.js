@@ -59,13 +59,14 @@ IconLabelButton.defaultProps = {
   isVertical: false,
   isCentered: false,
   subtitle: null,
+  icon: null,
   disabled: false,
   height: 60,
 };
 
 IconLabelButton.propTypes = {
   onPress: PropTypes.func.isRequired,
-  icon: PropTypes.node.isRequired,
+  icon: PropTypes.node,
   label: PropTypes.string.isRequired,
   subtitle: PropTypes.string,
   tintColor: PropTypes.string,

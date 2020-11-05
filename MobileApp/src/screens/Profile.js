@@ -90,6 +90,7 @@ const Profile = ({
       {
         title: 'Delete',
         onPress: () => {
+          // FEED UPDATED LOCALLY
           const updatedFeed = onDeleteHelper(feed, currentItem);
 
           setFeed(updatedFeed);

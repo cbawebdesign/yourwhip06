@@ -13,6 +13,8 @@ import {
   HIDE_POSTS_BY_USER_ERROR,
   REPORT_POST_RESULT,
   REPORT_POST_ERROR,
+  GET_FLAGGED_FEED_RESULT,
+  GET_FLAGGED_FEED_ERROR,
 } from '../actions/posts';
 import { LOGOUT_RESULT } from '../actions/auth';
 
@@ -25,7 +27,7 @@ const initialState = {
   homeFeed: [],
   endOfList: false,
   deletedPost: null,
-  flaggedPostsFeed: [],
+  flaggedFeed: [],
 };
 
 const homeState = (state = initialState, action) => {
@@ -62,6 +64,9 @@ const homeState = (state = initialState, action) => {
         homeFeed: state.homeFeed.filter(
           (item) => item._id !== action.result.postId
         ),
+        flaggedFeed: state.flaggedFeed.filter(
+          (item) => item._id !== action.result.postId
+        ),
       };
     case HIDE_POST_RESULT:
       return {
@@ -78,11 +83,23 @@ const homeState = (state = initialState, action) => {
     case REPORT_POST_RESULT:
       return {
         ...state,
-        flaggedPostsFeed: action.result.flaggedFeed,
+        flaggedFeed: action.result.flaggedFeed,
         success: {
           ...state.success,
           reportPostSuccess: action.result.success,
         },
+      };
+    case GET_FLAGGED_FEED_RESULT:
+      return {
+        ...state,
+        ...state,
+        flaggedFeed:
+          action.result.skip === '0'
+            ? action.result.flaggedFeed
+            : [...state.flaggedFeed, ...action.result.flaggedFeed],
+        endOfList: action.result.flaggedFeed.length < PAGINATION_LIMIT,
+        fetching: false,
+        error: null,
       };
     case RESET_DELETE_POST:
       return {
@@ -105,6 +122,7 @@ const homeState = (state = initialState, action) => {
     case HIDE_POST_ERROR:
     case HIDE_POSTS_BY_USER_ERROR:
     case REPORT_POST_ERROR:
+    case GET_FLAGGED_FEED_ERROR:
       return {
         ...state,
         error: action.error,

@@ -13,11 +13,13 @@ import {
   HIDE_POSTS_BY_USER_ERROR,
   REPORT_POST_RESULT,
   REPORT_POST_ERROR,
+  GET_FLAGGED_FEED_RESULT,
+  GET_FLAGGED_FEED_ERROR,
 } from '../actions/posts';
 import { API_HOST } from '../config/constants';
 
 const fetchHomeFeed = ({ action, token }) =>
-  fetch(`${API_HOST}/get-home-feed/${action.skip}/${action.limit}`, {
+  fetch(`${API_HOST}/get-home-feed/${action.skip}/${action.limit}/`, {
     method: 'get',
     headers: {
       Authorization: `Bearer ${token}`,
@@ -88,6 +90,16 @@ const fetchReportPost = ({ action, token }) =>
     body: JSON.stringify({
       parentId: action.postId,
     }),
+  });
+
+const fetchFlaggedFeed = ({ action, token }) =>
+  fetch(`${API_HOST}/get-flagged-feed/${action.skip}/${action.limit}/`, {
+    method: 'get',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
   });
 
 export function* getHomeFeed(action) {
@@ -235,5 +247,25 @@ export function* reportPost(action) {
     }
   } catch (e) {
     yield put({ type: REPORT_POST_ERROR, error: e.message });
+  }
+}
+
+export function* getFlaggedFeed(action) {
+  const token = yield select((state) => state.auth.authToken);
+
+  try {
+    const response = yield call(fetchFlaggedFeed, {
+      action,
+      token,
+    });
+    const result = yield response.json();
+
+    if (result.error) {
+      yield put({ type: GET_FLAGGED_FEED_ERROR, error: result.error });
+    } else {
+      yield put({ type: GET_FLAGGED_FEED_RESULT, result });
+    }
+  } catch (e) {
+    yield put({ type: GET_FLAGGED_FEED_ERROR, error: e.message });
   }
 }

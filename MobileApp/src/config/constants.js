@@ -62,6 +62,7 @@ export const TIMELINE = 'Timeline';
 export const SETTINGS = 'Settings';
 export const STATS = 'Stats';
 export const EXPLORE_DETAIL = 'ExploreDetail';
+export const FLAGGED = 'Flagged';
 
 export const COMPOSE = 'Compose';
 export const NAVIGATION = 'Navigation';

@@ -148,7 +148,7 @@ const ExploreListItem = ({
         {!hideHeader ? renderHeaderView() : <View style={{ height: 12 }} />}
 
         {hasDescription ? (
-          <View style={[styles.bodyTextView]}>
+          <View style={styles.bodyTextView}>
             <Text
               text={item.description}
               fontFamily={BODY_FONT}

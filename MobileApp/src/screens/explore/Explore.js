@@ -116,7 +116,7 @@ const Explore = ({
       },
       {
         title: `Hide all posts by ${
-          currentItem && currentUser && currentItem.createdBy.firstName
+          currentItem && currentItem.createdBy.firstName
         }`,
         subtitle: 'Your feed will hide all posts by this user',
         onPress: () => {
@@ -136,7 +136,10 @@ const Explore = ({
           dispatch(reportPost(currentItem._id));
           setShowPostOptions(false);
         },
-        hide: currentItem && currentItem.createdBy._id === currentUser._id,
+        hide:
+          currentItem &&
+          currentUser &&
+          currentItem.createdBy._id === currentUser._id,
       },
       {
         title: 'Cancel',
@@ -402,7 +405,8 @@ const Explore = ({
   );
 
   useEffect(() => {
-    // REFETCH ALFTER USER EDITS PROFILE IMAGE
+    // FETCH POSTS ON SCREEN LOAD
+    // REFETCH AFTER CURRENTUSER EDITS PROFILE IMAGE
     dispatch(getHomeFeed(0, PAGINATION_LIMIT));
   }, [currentUser]);
 

@@ -25,8 +25,7 @@ export const exploreListItemStyles = EStyleSheet.create({
     marginTop: 12,
     paddingLeft: 40,
     paddingRight: 25,
-    marginBottom: -37,
-    minHeight: 75,
+    marginBottom: -25,
   },
   emptyBodyView: {
     height: 12,

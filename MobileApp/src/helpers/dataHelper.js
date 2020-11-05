@@ -9,6 +9,7 @@ import {
   STATS,
   SETTINGS,
   DISCOVER,
+  FLAGGED,
 } from '../config/constants';
 
 const feed = require('../../assets/icons/feed.png');
@@ -21,12 +22,18 @@ const profile = require('../../assets/icons/profile.png');
 const stats = require('../../assets/icons/stats.png');
 const settings = require('../../assets/icons/settings.png');
 const discover = require('../../assets/icons/discover.png');
+const flagged = require('../../assets/icons/flagged.png');
 
 export const NAVIGATION_ITEMS = [
   {
     title: EXPLORE,
     navigateTo: EXPLORE,
     icon: feed,
+  },
+  {
+    title: FLAGGED,
+    navigateTo: FLAGGED,
+    icon: flagged,
   },
   {
     title: PEOPLE,

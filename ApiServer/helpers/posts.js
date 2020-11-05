@@ -92,6 +92,81 @@ exports.getPostsFromRequest = async (req) => {
         },
       })
       .sort('-dateTime');
+  } else if (req.isFlagged) {
+    posts = await Post.find(
+      {
+        flagged: true,
+      },
+      null,
+      {
+        skip,
+        limit,
+      }
+    )
+      .populate('createdBy')
+      .populate('comments')
+      .populate('images')
+      .populate('likes')
+      .populate('shares')
+      .populate({
+        path: 'images',
+        populate: {
+          path: 'likes',
+        },
+      })
+      .populate({
+        path: 'images',
+        populate: {
+          path: 'comments',
+        },
+      })
+      // SHARED POST
+      .populate('sharedPost')
+      .populate({
+        path: 'sharedPost',
+        populate: {
+          path: 'images',
+        },
+      })
+      .populate({
+        path: 'sharedPost',
+        populate: {
+          path: 'createdBy',
+        },
+      })
+      .populate({
+        path: 'sharedPost',
+        populate: {
+          path: 'shares',
+        },
+      })
+      // SHARED IMAGE
+      .populate('sharedImage')
+      .populate({
+        path: 'sharedImage',
+        populate: {
+          path: 'createdBy',
+        },
+      })
+      .populate({
+        path: 'sharedImage',
+        populate: {
+          path: 'likes',
+        },
+      })
+      .populate({
+        path: 'sharedImage',
+        populate: {
+          path: 'comments',
+        },
+      })
+      .populate({
+        path: 'sharedImage',
+        populate: {
+          path: 'shares',
+        },
+      })
+      .sort('-dateTime');
   } else {
     posts = await Post.find(
       {

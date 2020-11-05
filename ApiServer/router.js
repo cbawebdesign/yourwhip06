@@ -40,7 +40,8 @@ app.post('/compose-post/', auth, uploads.uploadImage, Home.compose);
 app.post('/delete-post/', auth, Home.deletePost);
 app.post('/hide-post/', auth, Home.hidePost);
 app.post('/hide-posts-by-user/', auth, Home.hidePostsByUser);
-app.post('/report-post', auth, Home.reportPost);
+app.post('/report-post/', auth, Home.reportPost);
+app.get('/get-flagged-feed/:skip/:limit/', auth, Home.getFlaggedFeed);
 
 // DETAIL
 app.get('/get-detail-post/:parentId', auth, Detail.getOnePost);

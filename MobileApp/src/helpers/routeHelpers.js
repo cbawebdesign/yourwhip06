@@ -60,7 +60,7 @@ const styles = EStyleSheet.create({
   },
 });
 
-export const getHeaderTitleHelper = (route, navigation) => {
+export const getHeaderTitleHelper = (route, navigation, currentUser = null) => {
   const routeName = getFocusedRouteNameFromRoute(route) ?? 'Start';
 
   const stack = navigation.dangerouslyGetState().routes[
@@ -124,23 +124,6 @@ export const getHeaderTitleHelper = (route, navigation) => {
         return '';
       }
       return { text: childStack.params.title };
-    // case SIGNUP_STEP_3:
-    //   return {
-    //     view: (
-    //       <>
-    //         <Text
-    //           text="Finish Signing Up"
-    //           fontFamily={TITLE_FONT}
-    //           style={styles.header}
-    //         />
-    //         <Text
-    //           text="By tapping 'I agree', you agree to our terms"
-    //           fontFamily={BODY_FONT}
-    //           style={styles.subHeader}
-    //         />
-    //       </>
-    //     ),
-    //   };
     case HELP:
       return {
         view: (
@@ -189,6 +172,25 @@ export const getHeaderTitleHelper = (route, navigation) => {
               fontFamily={BODY_FONT}
               style={styles.subHeader}
             />
+          </>
+        ),
+      };
+    case NAVIGATION:
+      return {
+        view: (
+          <>
+            <Text
+              text={NAVIGATION}
+              fontFamily={TITLE_FONT}
+              style={styles.header}
+            />
+            {currentUser && currentUser.isAdmin && (
+              <Text
+                text="Admin account"
+                fontFamily={BODY_FONT}
+                style={styles.subHeader}
+              />
+            )}
           </>
         ),
       };

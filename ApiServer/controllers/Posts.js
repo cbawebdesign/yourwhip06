@@ -240,3 +240,18 @@ exports.reportPost = async (req, res) => {
     console.log('47', error);
   }
 };
+
+exports.getFlaggedFeed = async (req, res) => {
+  const currentUser = req.user;
+  const { skip } = req.params;
+
+  try {
+    req.isFlagged = true;
+    const posts = await postHelper.getPostsFromRequest(req);
+
+    res.status(HttpStatus.OK).send({ flaggedFeed: posts, skip });
+  } catch (error) {
+    console.log('48', error);
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({ error: error.message });
+  }
+};

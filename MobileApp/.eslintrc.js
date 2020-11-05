@@ -16,7 +16,6 @@ module.exports = {
       {
         overrides: {
           ':': 'before',
-          // '?': 'before',
         },
       },
     ],
