@@ -205,3 +205,92 @@ exports.deleteComment = async (req, res) => {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({ error: error.message });
   }
 };
+
+exports.hideComment = async (req, res) => {
+  const currentUser = req.user;
+  const { commentId, type } = req.body;
+
+  try {
+    // SET USER MODEL
+    currentUser.filters.hiddenComments.push(commentId);
+    await currentUser.save();
+
+    // UPDATE FEED
+    req.commentType = type === 'POST' ? 'POST_COMMENT' : 'IMAGE_COMMENT';
+    const comments = await commentHelper.getCommentsFromRequest(req);
+
+    res.status(HttpStatus.OK).send(comments);
+  } catch (error) {
+    console.log('50', error);
+  }
+};
+
+exports.hideCommentsByUser = async (req, res) => {
+  const currentUser = req.user;
+  const { hiddenUserId, type } = req.body;
+
+  try {
+    // SET USER MODEL
+    currentUser.filters.hiddenUsers.push(hiddenUserId);
+    await currentUser.save();
+
+    // UPDATE FEED
+    req.activityType = type === 'POST' ? 'POST_COMMENT' : 'IMAGE_COMMENT';
+    const comments = await commentHelper.getCommentsFromRequest(req);
+
+    res.status(HttpStatus.OK).send(comments);
+  } catch (error) {
+    console.log('51', error);
+  }
+};
+
+exports.reportComment = async (req, res) => {
+  const currentUser = req.user;
+
+  try {
+    // SET USER MODEL
+    req.activityType = 'REPORT_COMMENT';
+    const reportedComment = await commentHelper.getOneCommentFromRequest(req);
+
+    req.user = reportedComment.createdBy;
+    const reportedUser = await userHelper.findOneUserFromRequest(req);
+
+    if (
+      !currentUser.reportedComments.some(
+        (commentId) => commentId === reportedComment._id.toString()
+      )
+    ) {
+      reportedUser.reportedBy.push(currentUser._id);
+      await reportedUser.save();
+
+      currentUser.reportedComments.push(reportedComment._id);
+      await currentUser.save();
+    } else {
+      return res.status(HttpStatus.OK).send({
+        success:
+          'You have already successfully reported this comment to our admins.',
+      });
+    }
+
+    // SET COMMENT AS FLAGGED
+    reportedComment.flagged = true;
+    await reportedComment.save();
+
+    // UPDATE REPORTED COMMENT FEED
+    const flaggedFeed = await commentHelper.getFlaggedCommentsFromRequest(req);
+
+    if (!flaggedFeed) {
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
+        error: 'An error occurred while getting flagged comments feed',
+      });
+    }
+
+    res.status(HttpStatus.OK).send({
+      success:
+        'The comment has been reported to our admins for breaking community guidelines and will be reviewed within 24 hours. ',
+      flaggedFeed,
+    });
+  } catch (error) {
+    console.log('52', error);
+  }
+};

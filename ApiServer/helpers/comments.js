@@ -73,7 +73,12 @@ exports.getCommentsFromRequest = async (req) => {
   let comments = [];
 
   if (commentType === 'POST_COMMENT') {
-    comments = await Comment.find({ post: { _id: parentId } })
+    comments = await Comment.find({
+      post: { _id: parentId },
+      _id: {
+        $nin: [req.user.filters.hiddenComments],
+      },
+    })
       .populate('createdBy')
       .populate('likes')
       .sort('-dateTime');
@@ -108,14 +113,17 @@ exports.getOneCommentFromRequest = async (req) => {
 
   if (
     req.activityType === 'LIKE_COMMENT' ||
-    req.activityType === 'LIKE_REPLY'
+    req.activityType === 'LIKE_REPLY' ||
+    req.activityType === 'REPORT_COMMENT'
   ) {
     id = commentId;
   } else {
-    id = parentId;
+    id = parentId; // USED WHEN LOOKING FOR COMMENT WHICH IS PARENT OF PARTICULAR REPLY
   }
 
-  const comment = await Comment.findById(id).populate('post').populate('likes');
+  const comment = await (
+    await Comment.findById(id).populate('post').populate('likes')
+  ).populated('createdBy');
 
   if (!comment) {
     throw new Error(
@@ -124,4 +132,17 @@ exports.getOneCommentFromRequest = async (req) => {
   }
 
   return comment;
+};
+
+exports.getFlaggedCommentsFromRequest = async (req) => {
+  try {
+    const comments = await Comment.find({ flagged: true })
+      .populate('createdBy')
+      .populate('likes')
+      .sort('-dateTime');
+
+    return comments;
+  } catch (error) {
+    console.log('53', error);
+  }
 };

@@ -3,6 +3,7 @@ import auth from './auth';
 import user from './user';
 import likes from './likes';
 import posts from './posts';
+import flagged from './flagged';
 import detail from './detail';
 import comments from './comments';
 import replies from './replies';
@@ -17,6 +18,7 @@ const reducers = () =>
     user,
     likes,
     posts,
+    flagged,
     detail,
     comments,
     replies,

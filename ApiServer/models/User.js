@@ -39,6 +39,7 @@ const userSchema = new Schema(
     filters: {
       hiddenUsers: [String], // ARRAY OF USER IDS
       hiddenPosts: [String], // ARRAY OF POST IDS
+      hiddenComments: [String], // ARRAY OF COMMENT IDS
     },
     isAdmin: {
       type: Boolean,
@@ -46,6 +47,7 @@ const userSchema = new Schema(
     },
     reportedBy: [String], // ARRAY OF USER IDS
     reportedPosts: [String], // ARRAY OF POST IDS
+    reportedComments: [String], // ARRAY OF COMMENT IDS
     settings: {
       enableSuggestions: {
         type: Boolean,

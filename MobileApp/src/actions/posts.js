@@ -24,10 +24,6 @@ export const HIDE_POSTS_BY_USER_ERROR = 'HIDE_POSTS_BY_USER_ERROR';
 
 export const RESET_DELETE_POST = 'RESET_DELETE_POST';
 
-export const GET_FLAGGED_FEED = 'GET_FLAGGED_FEED';
-export const GET_FLAGGED_FEED_RESULT = 'GET_FLAGGED_FEED_RESULT';
-export const GET_FLAGGED_FEED_ERROR = 'GET_FLAGGED_FEED_ERROR';
-
 export const getHomeFeed = (skip, limit) => ({
   type: GET_HOME_FEED,
   skip,
@@ -61,10 +57,4 @@ export const reportPost = (postId) => ({
 
 export const resetDeletePost = () => ({
   type: RESET_DELETE_POST,
-});
-
-export const getFlaggedFeed = (skip, limit) => ({
-  type: GET_FLAGGED_FEED,
-  skip,
-  limit,
 });

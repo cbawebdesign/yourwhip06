@@ -11,10 +11,6 @@ import {
   HIDE_POST_ERROR,
   HIDE_POSTS_BY_USER_RESULT,
   HIDE_POSTS_BY_USER_ERROR,
-  REPORT_POST_RESULT,
-  REPORT_POST_ERROR,
-  GET_FLAGGED_FEED_RESULT,
-  GET_FLAGGED_FEED_ERROR,
 } from '../actions/posts';
 import { LOGOUT_RESULT, DELETE_ACCOUNT_RESULT } from '../actions/auth';
 
@@ -27,7 +23,6 @@ const initialState = {
   homeFeed: [],
   endOfList: false,
   deletedPost: null,
-  flaggedFeed: [],
 };
 
 const homeState = (state = initialState, action) => {
@@ -64,17 +59,11 @@ const homeState = (state = initialState, action) => {
         homeFeed: state.homeFeed.filter(
           (item) => item._id !== action.result.postId
         ),
-        flaggedFeed: state.flaggedFeed.filter(
-          (item) => item._id !== action.result.postId
-        ),
       };
     case DELETE_ACCOUNT_RESULT:
       return {
         ...state,
         homeFeed: state.homeFeed.filter(
-          (item) => item.createdBy._id !== action.result.deletedUserId
-        ),
-        flaggedFeed: state.flaggedFeed.filter(
           (item) => item.createdBy._id !== action.result.deletedUserId
         ),
       };
@@ -90,36 +79,10 @@ const homeState = (state = initialState, action) => {
         homeFeed: action.result,
         error: null,
       };
-    case REPORT_POST_RESULT:
-      return {
-        ...state,
-        flaggedFeed: action.result.flaggedFeed,
-        success: {
-          ...state.success,
-          reportPostSuccess: action.result.success,
-        },
-      };
-    case GET_FLAGGED_FEED_RESULT:
-      return {
-        ...state,
-        ...state,
-        flaggedFeed:
-          action.result.skip === '0'
-            ? action.result.flaggedFeed
-            : [...state.flaggedFeed, ...action.result.flaggedFeed],
-        endOfList: action.result.flaggedFeed.length < PAGINATION_LIMIT,
-        fetching: false,
-        error: null,
-      };
     case RESET_DELETE_POST:
       return {
         ...state,
         deletedPost: null,
-      };
-    case 'RESET_SUCCESS':
-      return {
-        ...state,
-        success: null,
       };
     case LOGOUT_RESULT:
       return {
@@ -131,8 +94,6 @@ const homeState = (state = initialState, action) => {
     case DELETE_POST_ERROR:
     case HIDE_POST_ERROR:
     case HIDE_POSTS_BY_USER_ERROR:
-    case REPORT_POST_ERROR:
-    case GET_FLAGGED_FEED_ERROR:
       return {
         ...state,
         error: action.error,

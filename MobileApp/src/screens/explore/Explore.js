@@ -563,7 +563,8 @@ Explore.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const { homeFeed, endOfList, deletedPost, fetching, success } = state.posts;
+  const { homeFeed, endOfList, deletedPost, fetching } = state.posts;
+  const { success } = state.flagged;
   const { user } = state.user;
   const { commentsUpdateCheck } = state.comments;
   const { newLikeCheck } = state.likes;

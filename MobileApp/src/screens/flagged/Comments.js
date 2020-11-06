@@ -6,23 +6,27 @@ import { useSafeArea } from 'react-native-safe-area-context';
 import { debounce } from 'throttle-debounce';
 import { AnimatedFlatList, AnimationType } from 'flatlist-intro-animations';
 
-import ContainerView from '../UI/views/ContainerView';
-import PhotoModal from '../UI/modals/PhotoModal';
-import ExploreListItem from '../UI/lists/ExploreListItem';
-import SelectionModal from '../UI/modals/SelectionModal';
-import EmptyListText from '../UI/text/EmptyListText';
-import { CustomText as Text, BODY_FONT } from '../UI/text/CustomText';
+import ContainerView from '../../UI/views/ContainerView';
+import PhotoModal from '../../UI/modals/PhotoModal';
+import ExploreListItem from '../../UI/lists/ExploreListItem';
+import SelectionModal from '../../UI/modals/SelectionModal';
+import EmptyListText from '../../UI/text/EmptyListText';
+import { CustomText as Text, BODY_FONT } from '../../UI/text/CustomText';
 
-import { onDeleteHelper } from '../helpers/socialHelpers';
-import { isCloseToBottom } from '../helpers/scrollHelpers';
+import { onDeleteHelper } from '../../helpers/socialHelpers';
+import { isCloseToBottom } from '../../helpers/scrollHelpers';
 
-import { deletePost, resetDeletePost, getFlaggedFeed } from '../actions/posts';
-import { deleteAccount } from '../actions/auth';
+import {
+  deletePost,
+  resetDeletePost,
+  getFlaggedFeed,
+} from '../../actions/posts';
+import { deleteAccount } from '../../actions/auth';
 
-import { exploreItemPropType, userPropType } from '../config/propTypes';
-import { PAGINATION_LIMIT } from '../config/constants';
+import { exploreItemPropType, userPropType } from '../../config/propTypes';
+import { PAGINATION_LIMIT } from '../../config/constants';
 
-import styles from './styles';
+import styles from '../styles';
 
 // DISPLAYS THE FLAGGED SCREEN
 // Applies the following props:
@@ -35,7 +39,7 @@ import styles from './styles';
 // commentsUpdateCheck (contains post ID if a comment was added
 // inside the Comment screen, else 'null')
 
-const Flagged = ({
+const FlaggedComments = ({
   route,
   navigation,
   flaggedFeed,
@@ -254,7 +258,7 @@ const Flagged = ({
   return (
     <ContainerView
       touchEnabled={false}
-      headerHeight={route.params.headerHeight}
+      //   headerHeight={route.params.headerHeight}
     >
       <SelectionModal
         showModal={showPostOptions}
@@ -308,12 +312,12 @@ const Flagged = ({
   );
 };
 
-Flagged.defaultProps = {
+FlaggedComments.defaultProps = {
   currentUser: null,
   success: null,
 };
 
-Flagged.propTypes = {
+FlaggedComments.propTypes = {
   route: PropTypes.shape({
     params: PropTypes.instanceOf(Object),
   }).isRequired,
@@ -352,4 +356,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Flagged);
+export default connect(mapStateToProps)(FlaggedComments);

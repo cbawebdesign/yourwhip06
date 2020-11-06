@@ -30,7 +30,7 @@ import Settings from '../screens/Settings';
 import Stats from '../screens/stats/Stats';
 import ExploreDetail from '../screens/explore/ExploreDetail';
 import Replies from '../screens/Replies';
-import Flagged from '../screens/Flagged';
+import Flagged from '../screens/flagged/Flagged';
 
 import Search from '../screens/Search';
 import Navigation from '../screens/Navigation';
