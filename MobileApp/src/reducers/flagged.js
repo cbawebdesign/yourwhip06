@@ -1,10 +1,16 @@
 import {
   GET_FLAGGED_POSTS_FEED_RESULT,
   GET_FLAGGED_POSTS_FEED_ERROR,
+  GET_FLAGGED_COMMENTS_FEED_RESULT,
+  GET_FLAGGED_COMMENTS_FEED_ERROR,
   REPORT_POST_RESULT,
   REPORT_POST_ERROR,
   UNFLAG_POST_RESULT,
   UNFLAG_POST_ERROR,
+  UNFLAG_COMMENT_RESULT,
+  UNFLAG_COMMENT_ERROR,
+  REPORT_COMMENT_RESULT,
+  REPORT_COMMENT_ERROR,
 } from '../actions/flagged';
 import { DELETE_POST_RESULT } from '../actions/posts';
 import { DELETE_ACCOUNT_RESULT } from '../actions/auth';
@@ -17,6 +23,7 @@ const initialState = {
   fetching: true,
   endOfList: false,
   flaggedPostsFeed: [],
+  flaggedCommentsFeed: [],
 };
 
 const flaggedState = (state = initialState, action) => {
@@ -33,6 +40,13 @@ const flaggedState = (state = initialState, action) => {
         fetching: false,
         error: null,
       };
+    case GET_FLAGGED_COMMENTS_FEED_RESULT:
+      return {
+        ...state,
+        flaggedCommentsFeed: action.result.flaggedCommentsFeed,
+        fetching: false,
+        error: null,
+      };
     case REPORT_POST_RESULT:
       return {
         ...state,
@@ -42,13 +56,29 @@ const flaggedState = (state = initialState, action) => {
           reportPostSuccess: action.result.success,
         },
       };
+    case REPORT_COMMENT_RESULT:
+      return {
+        ...state,
+        flaggedCommentsFeed: action.result.flaggedCommentsFeed,
+        success: {
+          ...state.success,
+          reportCommentSuccess: action.result.success,
+        },
+      };
     case UNFLAG_POST_RESULT:
       return {
         ...state,
         flaggedPostsFeed: state.flaggedPostsFeed.filter(
           (post) => post._id.toString() !== action.result.postId.toString()
         ),
-        success: action.result.success,
+      };
+    case UNFLAG_COMMENT_RESULT:
+      return {
+        ...state,
+        flaggedCommentsFeed: state.flaggedCommentsFeed.filter(
+          (comment) =>
+            comment._id.toString() !== action.result.commentId.toString()
+        ),
       };
     case DELETE_POST_RESULT:
       return {
@@ -70,8 +100,11 @@ const flaggedState = (state = initialState, action) => {
         success: null,
       };
     case GET_FLAGGED_POSTS_FEED_ERROR:
+    case GET_FLAGGED_COMMENTS_FEED_ERROR:
     case REPORT_POST_ERROR:
+    case REPORT_COMMENT_ERROR:
     case UNFLAG_POST_ERROR:
+    case UNFLAG_COMMENT_ERROR:
       return {
         ...state,
         error: action.error,

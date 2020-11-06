@@ -15,7 +15,7 @@ const TabBar = () => (
     tabBar={(props) => <TabBarTop {...props} />}
   >
     <Tab.Screen name="Posts" component={FlaggedPosts} />
-    {/* <Tab.Screen name="Comments" component={FlaggedComments} /> */}
+    <Tab.Screen name="Comments" component={FlaggedComments} />
   </Tab.Navigator>
 );
 

@@ -48,8 +48,11 @@ app.get(
   auth,
   Flagged.getFlaggedPostsFeed
 );
+app.get('/get-flagged-comments-feed/', auth, Flagged.getFlaggedCommentsFeed);
 app.post('/report-post/', auth, Flagged.reportPost);
+app.post('/report-comment/', auth, Flagged.reportComment);
 app.post('/unflag-post/', auth, Flagged.unflagPost);
+app.post('/unflag-comment/', auth, Flagged.unflagComment);
 
 // DETAIL
 app.get('/get-detail-post/:parentId', auth, Detail.getOnePost);
@@ -71,7 +74,6 @@ app.post('/compose-comment/', auth, uploads.uploadImage, (req, res, next) =>
 app.post('/delete-comment/', auth, Comments.deleteComment);
 app.post('/hide-comment/', auth, Comments.hideComment);
 app.post('/hide-comments-by-user/', auth, Comments.hideCommentsByUser);
-app.post('/report-comment/', auth, Comments.reportComment);
 
 // REPLIES
 app.get('/get-reply-feed/:parentId', auth, Replies.getReplyFeed);

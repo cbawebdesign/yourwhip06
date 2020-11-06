@@ -13,8 +13,6 @@ import {
   HIDE_COMMENT_ERROR,
   HIDE_COMMENTS_BY_USER_RESULT,
   HIDE_COMMENTS_BY_USER_ERROR,
-  REPORT_COMMENT_RESULT,
-  REPORT_COMMENT_ERROR,
 } from '../actions/comments';
 
 import { API_HOST } from '../config/constants';
@@ -100,19 +98,6 @@ const fetchHideCommentsByUser = ({ action, token }) =>
       parentId: action.data.parentId,
       hiddenUserId: action.data.userId,
       type: action.data.type,
-    }),
-  });
-
-const fetchReportComment = ({ action, token }) =>
-  fetch(`${API_HOST}/report-comment/`, {
-    method: 'post',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      commentId: action.commentId,
     }),
   });
 
@@ -228,22 +213,5 @@ export function* hideCommentsByUser(action) {
     }
   } catch (e) {
     yield put({ type: HIDE_COMMENTS_BY_USER_ERROR, error: e.message });
-  }
-}
-
-export function* reportComment(action) {
-  const token = yield select((state) => state.auth.authToken);
-
-  try {
-    const response = yield call(fetchReportComment, { action, token });
-    const result = yield response.json();
-
-    if (result.error) {
-      yield put({ type: REPORT_COMMENT_ERROR, error: result.error });
-    } else {
-      yield put({ type: REPORT_COMMENT_RESULT, result });
-    }
-  } catch (e) {
-    yield put({ type: REPORT_COMMENT_ERROR, error: e.message });
   }
 }

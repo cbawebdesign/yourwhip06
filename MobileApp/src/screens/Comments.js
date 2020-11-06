@@ -25,8 +25,8 @@ import {
   deleteComment,
   hideComment,
   hideCommentsByUser,
-  reportComment,
 } from '../actions/comments';
+import { reportComment } from '../actions/flagged';
 
 import styles from './styles';
 
@@ -47,6 +47,7 @@ const Comments = ({
   updateReplyCheck,
   currentUser,
   fetching,
+  success,
 }) => {
   const dispatch = useDispatch();
   const { keyboardShowing } = useKeyboardState();
@@ -57,6 +58,7 @@ const Comments = ({
 
   const [feed, setFeed] = useState([]);
   const [comment, setComment] = useState('');
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showCommentOptions, setShowCommentOptions] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
 
@@ -128,6 +130,24 @@ const Comments = ({
       {
         title: 'Cancel',
         onPress: () => setShowCommentOptions(false),
+      },
+    ],
+  };
+
+  const successModalOptions = {
+    title: 'Comment Successfully Reported',
+    body:
+      success && success.reportCommentSuccess
+        ? success.reportCommentSuccess
+        : '',
+    buttonStyle: 'horizontal',
+    buttons: [
+      {
+        title: 'OK',
+        onPress: () => {
+          setShowSuccessModal(false);
+          dispatch({ type: 'RESET_SUCCESS' });
+        },
       },
     ],
   };
@@ -255,6 +275,12 @@ const Comments = ({
     }
   }, [commentFeed, updateReplyCheck]);
 
+  useEffect(() => {
+    if (success && success.reportCommentSuccess) {
+      setShowSuccessModal(success && success.reportCommentSuccess.length > 0);
+    }
+  }, [success]);
+
   if (!currentUser) {
     return <View />;
   }
@@ -268,6 +294,11 @@ const Comments = ({
         showModal={showCommentOptions}
         onModalDismissPress={() => setShowCommentOptions(false)}
         options={commentOptions}
+      />
+      <SelectionModal
+        showModal={showSuccessModal}
+        onModalDismissPress={() => setShowSuccessModal(false)}
+        options={successModalOptions}
       />
       <AnimatedFlatList
         contentContainerStyle={styles.contentContainer}
@@ -311,6 +342,7 @@ const Comments = ({
 
 Comments.defaultProps = {
   updateReplyCheck: null,
+  success: null,
 };
 
 Comments.propTypes = {
@@ -326,11 +358,15 @@ Comments.propTypes = {
   }),
   currentUser: PropTypes.objectOf(PropTypes.any).isRequired,
   fetching: PropTypes.bool.isRequired,
+  success: PropTypes.shape({
+    reportCommentSuccess: PropTypes.string,
+  }),
 };
 
 const mapStateToProps = (state) => {
   const { commentFeed, fetching } = state.comments;
   const { updateReplyCheck } = state.replies;
+  const { success } = state.flagged;
   const { user } = state.user;
 
   return {
@@ -338,6 +374,7 @@ const mapStateToProps = (state) => {
     updateReplyCheck,
     currentUser: user,
     fetching,
+    success,
   };
 };
 

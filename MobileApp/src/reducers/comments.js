@@ -13,8 +13,6 @@ import {
   HIDE_COMMENT_ERROR,
   HIDE_COMMENTS_BY_USER_RESULT,
   HIDE_COMMENTS_BY_USER_ERROR,
-  REPORT_COMMENT_RESULT,
-  REPORT_COMMENT_ERROR,
 } from '../actions/comments';
 
 const initialState = {
@@ -101,22 +99,12 @@ const commentState = (state = initialState, action) => {
         commentFeed: action.result,
         error: null,
       };
-    case REPORT_COMMENT_RESULT:
-      return {
-        ...state,
-        flaggedFeed: action.result.flaggedFeed,
-        success: {
-          ...state.success,
-          reportCommentSuccess: action.result.success,
-        },
-      };
     case COMMENT_FEED_ERROR:
     case LIKE_COMMENT_PRESS_ERROR:
     case NEW_COMMENT_ERROR:
     case DELETE_COMMENT_ERROR:
     case HIDE_COMMENT_ERROR:
     case HIDE_COMMENTS_BY_USER_ERROR:
-    case REPORT_COMMENT_ERROR:
       return {
         ...state,
         error: action.error,

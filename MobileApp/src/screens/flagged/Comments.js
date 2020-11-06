@@ -1,100 +1,91 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import { useDispatch, connect } from 'react-redux';
-import { useSafeArea } from 'react-native-safe-area-context';
-import { debounce } from 'throttle-debounce';
 import { AnimatedFlatList, AnimationType } from 'flatlist-intro-animations';
 
 import ContainerView from '../../UI/views/ContainerView';
-import PhotoModal from '../../UI/modals/PhotoModal';
-import ExploreListItem from '../../UI/lists/ExploreListItem';
 import SelectionModal from '../../UI/modals/SelectionModal';
+import CommentListItem from '../../UI/lists/CommentListItem';
 import EmptyListText from '../../UI/text/EmptyListText';
-import { CustomText as Text, BODY_FONT } from '../../UI/text/CustomText';
 
 import { onDeleteHelper } from '../../helpers/socialHelpers';
-import { isCloseToBottom } from '../../helpers/scrollHelpers';
 
-import {
-  deletePost,
-  resetDeletePost,
-  getFlaggedFeed,
-} from '../../actions/posts';
+import { deleteComment } from '../../actions/comments';
+import { getFlaggedCommentsFeed, unflagComment } from '../../actions/flagged';
 import { deleteAccount } from '../../actions/auth';
-
-import { exploreItemPropType, userPropType } from '../../config/propTypes';
-import { PAGINATION_LIMIT } from '../../config/constants';
 
 import styles from '../styles';
 
-// DISPLAYS THE FLAGGED SCREEN
+// DISPLAYS THE COMMENTS SCREEN
 // Applies the following props:
-// route (contains params with all the 'compose' information
-// created in the Compose screen)
+// route (contains params with all comments items)
 // navigation (to navigate to the Profile screen on pressing
 // the profile image)
-// currentUser (contains all data of loged-in user)
-// homeFeed (list of feed items ('posts'))
-// commentsUpdateCheck (contains post ID if a comment was added
-// inside the Comment screen, else 'null')
+// commentFeed (contains a list with all comments)
+// updateReplyCheck (contains reply sceen update data)
+// currentUser (contains app user data)
+// fetching (boolean check for displaying loading view)
 
 const FlaggedComments = ({
   route,
   navigation,
-  flaggedFeed,
-  endOfList,
+  flaggedCommentsFeed,
   currentUser,
-  commentsUpdateCheck,
-  newLikeCheck,
-  deletedPost,
   fetching,
-  success,
 }) => {
   const dispatch = useDispatch();
-  const paddingBottom = useSafeArea().bottom;
 
-  const [feed, setFeed] = useState(null);
-  const [showPostOptions, setShowPostOptions] = useState(false);
+  // const parentId = route.params.post
+  //   ? route.params.post._id
+  //   : route.params.image._id;
+
+  const [feed, setFeed] = useState([]);
   const [warningType, setWarningType] = useState({
     deletePost: false,
     deleteUser: false,
   });
-  const [showImage, setShowImage] = useState(false);
-  const [imageShown, setImageShown] = useState([]);
+  const [showCommentOptions, setShowCommentOptions] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
-  const [viewableItems, setViewableItems] = useState([]);
 
-  const postOptions = {
-    title: 'Post Options',
+  const commentOptions = {
+    title: 'Comment Options',
     body: 'Select one of the options below',
     buttons: [
       {
-        title: 'Delete post',
-        subtitle: 'The post will no longer be visible to other users',
+        title: 'Unflag comment',
+        subtitle: 'The comment does not break community guidlines',
         onPress: () => {
-          setWarningType({ deletePost: true, deleteUser: false });
-          setShowPostOptions(false);
+          dispatch(unflagComment(currentItem._id));
+          setShowCommentOptions(false);
+        },
+      },
+      {
+        title: 'Delete comment',
+        subtitle: 'The comment will no longer be visible to other users',
+        onPress: () => {
+          setWarningType({ deleteComment: true, deleteUser: false });
+          setShowCommentOptions(false);
         },
       },
       {
         title: `Delete user ${currentItem && currentItem.createdBy.firstName}`,
         subtitle: 'The user account will be removed from app',
         onPress: () => {
-          setWarningType({ deletePost: false, deleteUser: true });
-          setShowPostOptions(false);
+          setWarningType({ deleteComment: false, deleteUser: true });
+          setShowCommentOptions(false);
         },
       },
       {
         title: 'Cancel',
-        onPress: () => setShowPostOptions(false),
+        onPress: () => setShowCommentOptions(false),
       },
     ],
   };
 
   const warningModalOptions = {
-    title: warningType.deletePost
-      ? 'Delete Post'
+    title: warningType.deleteComment
+      ? 'Delete Comment'
       : warningType.deleteUser
       ? 'Delete User'
       : '',
@@ -104,206 +95,111 @@ const FlaggedComments = ({
       {
         title: 'Cancel',
         onPress: () => {
-          setWarningType({ deletePost: false, deleteUser: false });
+          setWarningType({ deleteComment: false, deleteUser: false });
         },
       },
       {
         title: 'OK',
         onPress: () => {
-          if (warningType.deletePost) {
+          if (warningType.deleteComment) {
             const updatedFeed = onDeleteHelper(feed, currentItem);
             setFeed(updatedFeed);
           } else if (warningType.deleteUser) {
             dispatch(deleteAccount(currentItem.createdBy._id, 'FLAGGED'));
           }
-          setWarningType({ deletePost: false, deleteUser: false });
+          setWarningType({ deleteComment: false, deleteUser: false });
         },
       },
     ],
   };
 
-  const handlePress = (item) => {
-    navigation.navigate('ExploreDetail', {
-      ...route.params,
-      parentId: item._id,
-    });
-  };
-
-  const handleProfilePress = (type, item) => {
-    let user;
-
-    if (type === 'SHARED_ITEM_USER' && item.sharedImage) {
-      user = item.sharedImage.createdBy;
-    } else if (type === 'SHARED_ITEM_USER' && item.sharedPost) {
-      user = item.sharedPost.createdBy;
-    } else {
-      user = item.createdBy;
-    }
-
+  const handleProfilePress = ({ createdBy }) => {
     navigation.navigate('Profile', {
       ...route.params,
-      user,
+      user: createdBy,
     });
   };
 
-  const handlePostOptionsPress = (item) => {
+  const handleCommentOptionsPress = (item) => {
     setCurrentItem(item);
-    setShowPostOptions(true);
+    setShowCommentOptions(true);
   };
 
-  const handleDeletePost = (fromScreen) => {
-    const deletedPostId = deletedPost ? deletedPost.postId : currentItem._id;
+  const handleDeleteComment = () => {
+    dispatch(
+      deleteComment({
+        fromScreen: route.params.fromScreen,
+        commentId: currentItem._id,
+        postId: currentItem.post._id,
+        type: route.params.type,
+      })
+    );
 
-    // DISPATCH 'DELETEPOST' ONLY FOR THIS SCREEN
-    // DETAIL SCREEN HANDLES ITS OWN DISPATCH 'DELETEPOST'
-    if (fromScreen !== 'EXPLORE_DETAIL') {
-      dispatch(deletePost({ postId: deletedPostId, fromScreen }));
-    }
-
-    // REMOVE POST FROM LOCAL FEED STATE
+    // REMOVE COMMENT FROM LOCAL FEED STATE
     const feedCopy = [...feed];
-    const updatedFeed = feedCopy.filter((item) => item._id !== deletedPostId);
+    const updatedFeed = feedCopy.filter((item) => item._id !== currentItem._id);
     setFeed(updatedFeed);
 
-    setShowPostOptions(false);
+    setShowCommentOptions(false);
   };
-
-  const onViewRef = useRef((itemsInView) => {
-    if (itemsInView.viewableItems !== viewableItems) {
-      setViewableItems(itemsInView.viewableItems);
-    }
-  }).current;
-  const viewConfigRef = React.useRef({ viewAreaCoveragePercentThreshold: 50 })
-    .current;
 
   const handleRefresh = () => {
-    dispatch(getFlaggedFeed(0, PAGINATION_LIMIT));
+    dispatch(getFlaggedCommentsFeed());
   };
-
-  const handleLoadMore = (count) => {
-    dispatch(getFlaggedFeed(count, PAGINATION_LIMIT));
-  };
-  const handleLoadMoreThrottled = useRef(debounce(500, handleLoadMore)).current;
-
-  const renderItem = ({ item }) => (
-    <ExploreListItem
-      item={item}
-      currentUser={currentUser}
-      onPress={() => {
-        if (item.sharedImage) {
-          // SHOW IMAGE MODAL FOR SHARED IMAGES
-          setCurrentItem(item.sharedImage);
-          setShowImage(true);
-          setImageShown([item.sharedImage]);
-        } else {
-          handlePress(item.sharedPost || item);
-        }
-      }}
-      onCommentsPress={() => null}
-      onLikePress={() => null}
-      onSharePress={() => null}
-      onProfilePress={(type) => handleProfilePress(type, item)}
-      onOptionsPress={() => handlePostOptionsPress(item)}
-      onDeletePress={() => handleDeletePost('EXPLORE')}
-      itemInView={viewableItems.some(
-        (viewable) => viewable.item._id === item._id
-      )}
-    />
-  );
 
   const renderEmptyListText = () => (
-    <EmptyListText text="Start following people to see their posts, or disable the 'show posts based on my interest' Setting." />
-  );
-
-  const renderListFooterComponent = () => (
-    <Text
-      text={endOfList && feed.length > 0 ? "That's all folks!" : ''}
-      fontFamily={BODY_FONT}
-      style={styles.endOfList}
-    />
+    <EmptyListText text="There are no flagged comments at this moment." />
   );
 
   useEffect(() => {
-    // FETCH POSTS ON SCREEN LOAD
-    dispatch(getFlaggedFeed(0, PAGINATION_LIMIT));
-  }, [currentUser]);
+    dispatch(getFlaggedCommentsFeed());
+
+    return () => dispatch({ type: 'RESET_COMMENT_FEED' });
+  }, []);
 
   useEffect(() => {
-    // HANDLE POST DELETE ACTION IN EXPLORE DETAIL SCREEN
-    if (
-      deletedPost &&
-      (deletedPost.fromScreen === 'EXPLORE_DETAIL' ||
-        deletedPost.fromScreen === 'PROFILE')
-    ) {
-      handleDeletePost('EXPLORE_DETAIL');
-    }
+    setFeed(flaggedCommentsFeed);
+  }, [flaggedCommentsFeed]);
 
-    // RESET GLOBAL STATE 'DELETEDPOST' IN CASE OF NEW POST DELETE ACTION
-    dispatch(resetDeletePost());
-  }, [deletedPost]);
-
-  useEffect(() => {
-    if (deletedPost) {
-      return;
-    }
-    setFeed(flaggedFeed);
-  }, [route, flaggedFeed, commentsUpdateCheck, newLikeCheck]);
-
-  useEffect(() => {}, [success]);
-
-  if (!feed || !currentUser) {
+  if (!currentUser) {
     return <View />;
   }
 
   return (
-    <ContainerView
-      touchEnabled={false}
-      //   headerHeight={route.params.headerHeight}
-    >
+    <ContainerView>
       <SelectionModal
-        showModal={showPostOptions}
-        onModalDismissPress={() => setShowPostOptions(false)}
-        options={postOptions}
+        showModal={showCommentOptions}
+        onModalDismissPress={() => setShowCommentOptions(false)}
+        options={commentOptions}
       />
       <SelectionModal
-        showModal={warningType.deletePost || warningType.deleteUser}
+        showModal={warningType.deleteComment || warningType.deleteUser}
         onModalDismissPress={() =>
           setWarningType({ deletePost: false, deleteUser: false })
         }
         options={warningModalOptions}
       />
-      <PhotoModal
-        showModal={showImage}
-        showIndex={0}
-        items={imageShown}
-        currentUser={currentUser}
-        onSwipeDown={() => setShowImage(false)}
-        onLikePress={() => null}
-        onCommentPress={() => null}
-        onSharePress={() => null}
-        onShareOptionsPress={() => null}
-      />
       <AnimatedFlatList
-        contentContainerStyle={[styles.contentContainer, { paddingBottom }]}
+        contentContainerStyle={styles.contentContainer}
         data={feed}
-        renderItem={renderItem}
         animationType={
           currentUser.settings.enableIntroAnimations
             ? AnimationType.Dive
             : AnimationType.None
         }
-        scrollIndicatorInsets={{ right: 1 }}
-        onScroll={({ nativeEvent }) => {
-          if (fetching || endOfList) return;
-
-          if (isCloseToBottom(nativeEvent)) {
-            handleLoadMoreThrottled(flaggedFeed.length);
-          }
-        }}
+        renderItem={({ item }) => (
+          <CommentListItem
+            item={item}
+            currentUser={currentUser}
+            onLikePress={() => null}
+            onReplyPress={() => null}
+            onProfilePress={() => handleProfilePress(item)}
+            enableOptions={item.createdBy._id === currentUser._id}
+            onOptionsPress={() => handleCommentOptionsPress(item)}
+            onDeletePress={() => handleDeleteComment()}
+          />
+        )}
         ListEmptyComponent={renderEmptyListText()}
-        ListFooterComponent={renderListFooterComponent()}
-        onViewableItemsChanged={onViewRef}
-        viewabilityConfig={viewConfigRef}
         onRefresh={handleRefresh}
         refreshing={fetching}
         keyExtractor={(item) => item._id}
@@ -313,8 +209,7 @@ const FlaggedComments = ({
 };
 
 FlaggedComments.defaultProps = {
-  currentUser: null,
-  success: null,
+  updateReplyCheck: null,
 };
 
 FlaggedComments.propTypes = {
@@ -324,35 +219,25 @@ FlaggedComments.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
   }).isRequired,
-  currentUser: userPropType,
-  flaggedFeed: PropTypes.arrayOf(exploreItemPropType).isRequired,
-  endOfList: PropTypes.bool.isRequired,
-  success: PropTypes.shape({
-    reportPostSuccess: PropTypes.string,
+  flaggedCommentsFeed: PropTypes.arrayOf(PropTypes.any).isRequired,
+  updateReplyCheck: PropTypes.shape({
+    id: PropTypes.string.isRequired,
   }),
+  currentUser: PropTypes.objectOf(PropTypes.any).isRequired,
+  fetching: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => {
-  const {
-    flaggedFeed,
-    endOfList,
-    deletedPost,
-    fetching,
-    success,
-  } = state.posts;
+  const {} = state.comments;
+  const { flaggedCommentsFeed, fetching } = state.flagged;
+  const { updateReplyCheck } = state.replies;
   const { user } = state.user;
-  const { commentsUpdateCheck } = state.comments;
-  const { newLikeCheck } = state.likes;
 
   return {
-    flaggedFeed,
-    endOfList,
+    flaggedCommentsFeed,
+    updateReplyCheck,
     currentUser: user,
-    commentsUpdateCheck,
-    newLikeCheck,
-    deletedPost,
     fetching,
-    success,
   };
 };
 

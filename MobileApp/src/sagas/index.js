@@ -63,10 +63,20 @@ import {
 
 import {
   GET_FLAGGED_POSTS_FEED,
+  GET_FLAGGED_COMMENTS_FEED,
   REPORT_POST,
   UNFLAG_POST,
+  UNFLAG_COMMENT,
+  REPORT_COMMENT,
 } from '../actions/flagged';
-import { getFlaggedPostsFeed, reportPost, unflagPost } from './flagged';
+import {
+  getFlaggedPostsFeed,
+  getFlaggedCommentsFeed,
+  reportPost,
+  unflagPost,
+  unflagComment,
+  reportComment,
+} from './flagged';
 
 import { GET_DETAIL_POST, LIKE_IMAGE_PRESS } from '../actions/detail';
 import { getOnePost, likeImagePress } from './detail';
@@ -81,7 +91,6 @@ import {
   DELETE_COMMENT,
   HIDE_COMMENT,
   HIDE_COMMENTS_BY_USER,
-  REPORT_COMMENT,
 } from '../actions/comments';
 import {
   getCommentFeed,
@@ -90,7 +99,6 @@ import {
   deleteComment,
   hideComment,
   hideCommentsByUser,
-  reportComment,
 } from './comments';
 
 import {
@@ -140,8 +148,10 @@ export default function* rootSaga() {
 
   // FLAGGED
   yield takeEvery(GET_FLAGGED_POSTS_FEED, getFlaggedPostsFeed);
+  yield takeEvery(GET_FLAGGED_COMMENTS_FEED, getFlaggedCommentsFeed);
   yield takeEvery(REPORT_POST, reportPost);
   yield takeEvery(UNFLAG_POST, unflagPost);
+  yield takeEvery(UNFLAG_COMMENT, unflagComment);
 
   // POST DETAIL
   yield takeEvery(GET_DETAIL_POST, getOnePost);

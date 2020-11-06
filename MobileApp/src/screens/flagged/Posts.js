@@ -46,7 +46,6 @@ const FlaggedPosts = ({
   newLikeCheck,
   deletedPost,
   fetching,
-  success,
 }) => {
   const dispatch = useDispatch();
   const paddingBottom = useSafeArea().bottom;
@@ -217,7 +216,7 @@ const FlaggedPosts = ({
   );
 
   const renderEmptyListText = () => (
-    <EmptyListText text="Start following people to see their posts, or disable the 'show posts based on my interest' Setting." />
+    <EmptyListText text="There are no flagged posts at this moment." />
   );
 
   const renderListFooterComponent = () => (
@@ -253,8 +252,6 @@ const FlaggedPosts = ({
     }
     setFeed(flaggedPostsFeed);
   }, [route, flaggedPostsFeed, commentsUpdateCheck, newLikeCheck]);
-
-  console.log(flaggedPostsFeed);
 
   if (!feed || !currentUser) {
     return <View />;
@@ -316,7 +313,6 @@ const FlaggedPosts = ({
 
 FlaggedPosts.defaultProps = {
   currentUser: null,
-  success: null,
 };
 
 FlaggedPosts.propTypes = {
@@ -329,14 +325,11 @@ FlaggedPosts.propTypes = {
   currentUser: userPropType,
   flaggedPostsFeed: PropTypes.arrayOf(exploreItemPropType).isRequired,
   endOfList: PropTypes.bool.isRequired,
-  success: PropTypes.shape({
-    reportPostSuccess: PropTypes.string,
-  }),
 };
 
 const mapStateToProps = (state) => {
-  const { endOfList, deletedPost, fetching, success } = state.posts;
-  const { flaggedPostsFeed } = state.flagged;
+  const { deletedPost } = state.posts;
+  const { flaggedPostsFeed, endOfList, fetching } = state.flagged;
   const { user } = state.user;
   const { commentsUpdateCheck } = state.comments;
   const { newLikeCheck } = state.likes;
@@ -349,7 +342,6 @@ const mapStateToProps = (state) => {
     newLikeCheck,
     deletedPost,
     fetching,
-    success,
   };
 };
 

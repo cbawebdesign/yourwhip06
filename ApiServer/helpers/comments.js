@@ -95,6 +95,11 @@ exports.getCommentsFromRequest = async (req) => {
       .populate('createdBy')
       .populate('likes')
       .sort('-dateTime');
+  } else if (commentType === 'FLAGGED') {
+    comments = await Comment.find({ flagged: true })
+      .populate('createdBy')
+      .populate('likes')
+      .sort('-dateTime');
   }
 
   if (!comments) {
@@ -114,16 +119,17 @@ exports.getOneCommentFromRequest = async (req) => {
   if (
     req.activityType === 'LIKE_COMMENT' ||
     req.activityType === 'LIKE_REPLY' ||
-    req.activityType === 'REPORT_COMMENT'
+    req.activityType === 'FLAGGED'
   ) {
     id = commentId;
   } else {
     id = parentId; // USED WHEN LOOKING FOR COMMENT WHICH IS PARENT OF PARTICULAR REPLY
   }
 
-  const comment = await (
-    await Comment.findById(id).populate('post').populate('likes')
-  ).populated('createdBy');
+  const comment = await Comment.findById(id)
+    .populate('post')
+    .populate('likes')
+    .populate('createdBy');
 
   if (!comment) {
     throw new Error(
