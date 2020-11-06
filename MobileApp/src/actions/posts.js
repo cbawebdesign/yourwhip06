@@ -14,10 +14,6 @@ export const HIDE_POST = 'HIDE_POST';
 export const HIDE_POST_RESULT = 'HIDE_POST_RESULT';
 export const HIDE_POST_ERROR = 'HIDE_POST_ERROR';
 
-export const REPORT_POST = 'REPORT_POST';
-export const REPORT_POST_RESULT = 'REPORT_POST_RESULT';
-export const REPORT_POST_ERROR = 'REPORT_POST_ERROR';
-
 export const HIDE_POSTS_BY_USER = 'HIDE_POSTS_BY_USER';
 export const HIDE_POSTS_BY_USER_RESULT = 'HIDE_POSTS_BY_USER_RESULT';
 export const HIDE_POSTS_BY_USER_ERROR = 'HIDE_POSTS_BY_USER_ERROR';
@@ -48,11 +44,6 @@ export const hidePost = (postId) => ({
 export const hidePostsByUser = (userId) => ({
   type: HIDE_POSTS_BY_USER,
   userId,
-});
-
-export const reportPost = (postId) => ({
-  type: REPORT_POST,
-  postId,
 });
 
 export const resetDeletePost = () => ({

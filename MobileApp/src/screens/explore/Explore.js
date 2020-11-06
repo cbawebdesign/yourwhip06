@@ -32,8 +32,8 @@ import {
   resetDeletePost,
   hidePost,
   hidePostsByUser,
-  reportPost,
 } from '../../actions/posts';
+import { reportPost } from '../../actions/flagged';
 import { likePostPress, resetNewLikeCheck } from '../../actions/likes';
 import { sharePost, shareImage } from '../../actions/shares';
 import { likeImagePress } from '../../actions/detail';
@@ -451,7 +451,9 @@ const Explore = ({
   }, [route, homeFeed, commentsUpdateCheck, newLikeCheck]);
 
   useEffect(() => {
-    setShowSuccessModal(success && success.reportPostSuccess.length > 0);
+    if (success && success.reportPostSuccess) {
+      setShowSuccessModal(success && success.reportPostSuccess.length > 0);
+    }
   }, [success]);
 
   if (!feed || !currentUser) {

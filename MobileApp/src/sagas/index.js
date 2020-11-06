@@ -52,7 +52,6 @@ import {
   DELETE_POST,
   HIDE_POST,
   HIDE_POSTS_BY_USER,
-  REPORT_POST,
 } from '../actions/posts';
 import {
   getHomeFeed,
@@ -60,11 +59,14 @@ import {
   deletePost,
   hidePost,
   hidePostsByUser,
-  reportPost,
 } from './posts';
 
-import { GET_FLAGGED_POSTS_FEED } from '../actions/flagged';
-import { getFlaggedPostsFeed } from './flagged';
+import {
+  GET_FLAGGED_POSTS_FEED,
+  REPORT_POST,
+  UNFLAG_POST,
+} from '../actions/flagged';
+import { getFlaggedPostsFeed, reportPost, unflagPost } from './flagged';
 
 import { GET_DETAIL_POST, LIKE_IMAGE_PRESS } from '../actions/detail';
 import { getOnePost, likeImagePress } from './detail';
@@ -135,10 +137,11 @@ export default function* rootSaga() {
   yield takeEvery(DELETE_POST, deletePost);
   yield takeEvery(HIDE_POST, hidePost);
   yield takeEvery(HIDE_POSTS_BY_USER, hidePostsByUser);
-  yield takeEvery(REPORT_POST, reportPost);
 
   // FLAGGED
   yield takeEvery(GET_FLAGGED_POSTS_FEED, getFlaggedPostsFeed);
+  yield takeEvery(REPORT_POST, reportPost);
+  yield takeEvery(UNFLAG_POST, unflagPost);
 
   // POST DETAIL
   yield takeEvery(GET_DETAIL_POST, getOnePost);

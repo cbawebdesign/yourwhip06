@@ -41,7 +41,6 @@ app.post('/compose-post/', auth, uploads.uploadImage, Home.compose);
 app.post('/delete-post/', auth, Home.deletePost);
 app.post('/hide-post/', auth, Home.hidePost);
 app.post('/hide-posts-by-user/', auth, Home.hidePostsByUser);
-app.post('/report-post/', auth, Home.reportPost);
 
 // FLAGGED
 app.get(
@@ -49,6 +48,8 @@ app.get(
   auth,
   Flagged.getFlaggedPostsFeed
 );
+app.post('/report-post/', auth, Flagged.reportPost);
+app.post('/unflag-post/', auth, Flagged.unflagPost);
 
 // DETAIL
 app.get('/get-detail-post/:parentId', auth, Detail.getOnePost);

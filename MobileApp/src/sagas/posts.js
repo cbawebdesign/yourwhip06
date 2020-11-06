@@ -11,8 +11,6 @@ import {
   HIDE_POST_ERROR,
   HIDE_POSTS_BY_USER_RESULT,
   HIDE_POSTS_BY_USER_ERROR,
-  REPORT_POST_RESULT,
-  REPORT_POST_ERROR,
 } from '../actions/posts';
 import { API_HOST } from '../config/constants';
 
@@ -74,19 +72,6 @@ const fetchHidePostsByUser = ({ action, token }) =>
     },
     body: JSON.stringify({
       hiddenUserId: action.userId,
-    }),
-  });
-
-const fetchReportPost = ({ action, token }) =>
-  fetch(`${API_HOST}/report-post/`, {
-    method: 'post',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      parentId: action.postId,
     }),
   });
 
@@ -218,22 +203,5 @@ export function* hidePostsByUser(action) {
     }
   } catch (e) {
     yield put({ type: HIDE_POSTS_BY_USER_ERROR, error: e.message });
-  }
-}
-
-export function* reportPost(action) {
-  const token = yield select((state) => state.auth.authToken);
-
-  try {
-    const response = yield call(fetchReportPost, { action, token });
-    const result = yield response.json();
-
-    if (result.error) {
-      yield put({ type: REPORT_POST_ERROR, error: result.error });
-    } else {
-      yield put({ type: REPORT_POST_RESULT, result });
-    }
-  } catch (e) {
-    yield put({ type: REPORT_POST_ERROR, error: e.message });
   }
 }

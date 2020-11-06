@@ -1,12 +1,12 @@
 import {
   GET_FLAGGED_POSTS_FEED_RESULT,
   GET_FLAGGED_POSTS_FEED_ERROR,
-} from '../actions/flagged';
-import {
-  DELETE_POST_RESULT,
   REPORT_POST_RESULT,
   REPORT_POST_ERROR,
-} from '../actions/posts';
+  UNFLAG_POST_RESULT,
+  UNFLAG_POST_ERROR,
+} from '../actions/flagged';
+import { DELETE_POST_RESULT } from '../actions/posts';
 import { DELETE_ACCOUNT_RESULT } from '../actions/auth';
 
 import { PAGINATION_LIMIT } from '../config/constants';
@@ -42,6 +42,14 @@ const flaggedState = (state = initialState, action) => {
           reportPostSuccess: action.result.success,
         },
       };
+    case UNFLAG_POST_RESULT:
+      return {
+        ...state,
+        flaggedPostsFeed: state.flaggedPostsFeed.filter(
+          (post) => post._id.toString() !== action.result.postId.toString()
+        ),
+        success: action.result.success,
+      };
     case DELETE_POST_RESULT:
       return {
         ...state,
@@ -63,6 +71,7 @@ const flaggedState = (state = initialState, action) => {
       };
     case GET_FLAGGED_POSTS_FEED_ERROR:
     case REPORT_POST_ERROR:
+    case UNFLAG_POST_ERROR:
       return {
         ...state,
         error: action.error,

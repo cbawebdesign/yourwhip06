@@ -17,7 +17,7 @@ import { onDeleteHelper } from '../../helpers/socialHelpers';
 import { isCloseToBottom } from '../../helpers/scrollHelpers';
 
 import { deletePost, resetDeletePost } from '../../actions/posts';
-import { getFlaggedPostsFeed } from '../../actions/flagged';
+import { getFlaggedPostsFeed, unflagPost } from '../../actions/flagged';
 import { deleteAccount } from '../../actions/auth';
 
 import { exploreItemPropType, userPropType } from '../../config/propTypes';
@@ -66,6 +66,14 @@ const FlaggedPosts = ({
     title: 'Post Options',
     body: 'Select one of the options below',
     buttons: [
+      {
+        title: 'Unflag post',
+        subtitle: 'The post does not break community guidlines',
+        onPress: () => {
+          dispatch(unflagPost(currentItem._id));
+          setShowPostOptions(false);
+        },
+      },
       {
         title: 'Delete post',
         subtitle: 'The post will no longer be visible to other users',
@@ -246,7 +254,7 @@ const FlaggedPosts = ({
     setFeed(flaggedPostsFeed);
   }, [route, flaggedPostsFeed, commentsUpdateCheck, newLikeCheck]);
 
-  useEffect(() => {}, [success]);
+  console.log(flaggedPostsFeed);
 
   if (!feed || !currentUser) {
     return <View />;
