@@ -34,6 +34,38 @@ exports.buildLikeFromRequest = async (req) => {
   return like;
 };
 
+exports.deleteLikeFromRequest = async (req) => {
+  const { post, comment, user, image, activityType } = req;
+
+  let like;
+
+  try {
+    if (activityType === 'LIKE_POST') {
+      like = await Like.findOneAndDelete({
+        post,
+        createdBy: user,
+      });
+    } else if (
+      activityType === 'LIKE_COMMENT' ||
+      activityType === 'LIKE_REPLY'
+    ) {
+      like = await Like.findOneAndDelete({
+        comment,
+        createdBy: user,
+      });
+    } else if (activityType === 'LIKE_IMAGE') {
+      like = await Like.findOneAndDelete({
+        image,
+        createdBy: user,
+      });
+    }
+
+    return like;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
 exports.deleteLikeById = async (id) => {
   try {
     const result = await Like.findByIdAndDelete(id);

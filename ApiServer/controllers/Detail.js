@@ -36,7 +36,7 @@ exports.likeImagePress = async (req, res) => {
     );
 
     try {
-      const deletedLike = await generalHelper.deleteLikeFromRequest(req);
+      const deletedLike = await likeHelper.deleteLikeFromRequest(req);
       await image.save();
 
       // DELETE ACTIVITY

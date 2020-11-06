@@ -115,10 +115,10 @@ const Explore = ({
           currentItem.createdBy._id === currentUser._id,
       },
       {
-        title: `Hide all posts by ${
+        title: `Hide all activity by ${
           currentItem && currentItem.createdBy.firstName
         }`,
-        subtitle: 'Your feed will hide all posts by this user',
+        subtitle: 'Your feed will hide all activity by this user',
         onPress: () => {
           dispatch(hidePostsByUser(currentItem.createdBy._id));
           setShowPostOptions(false);

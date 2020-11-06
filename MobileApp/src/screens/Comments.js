@@ -95,10 +95,10 @@ const Comments = ({
           currentItem.createdBy._id === currentUser._id,
       },
       {
-        title: `Hide all comments by ${
+        title: `Hide all activity by ${
           currentItem && currentItem.createdBy.firstName
         }`,
-        subtitle: 'Your feed will hide all comments by this user',
+        subtitle: 'Your feed will hide all activity by this user',
         onPress: () => {
           dispatch(
             hideCommentsByUser({

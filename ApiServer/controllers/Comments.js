@@ -54,13 +54,13 @@ exports.likeCommentPress = async (req, res) => {
 
   if (hasLikeByUser) {
     //REMOVE LIKE
-    let activityId;
     comment.likes = comment.likes.filter(
       (item) => item.createdBy.toString() !== user._id.toString()
     );
 
     try {
-      const deletedLike = await generalHelper.deleteLikeFromRequest(req);
+      const deletedLike = await likeHelper.deleteLikeFromRequest(req);
+
       await comment.save();
 
       // DELETE ACTIVITY
@@ -268,7 +268,7 @@ exports.hideCommentsByUser = async (req, res) => {
     await currentUser.save();
 
     // UPDATE FEED
-    req.activityType = type === 'POST' ? 'POST_COMMENT' : 'IMAGE_COMMENT';
+    req.commentType = type === 'POST' ? 'POST_COMMENT' : 'IMAGE_COMMENT';
     const comments = await commentHelper.getCommentsFromRequest(req);
 
     res.status(HttpStatus.OK).send(comments);

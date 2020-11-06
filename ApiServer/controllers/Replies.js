@@ -39,7 +39,7 @@ exports.likeReplyPress = async (req, res) => {
     );
 
     try {
-      const deletedLike = await generalHelper.deleteLikeFromRequest(req);
+      const deletedLike = await likeHelper.deleteLikeFromRequest(req);
       await reply.save();
 
       // DELETE ACTIVITY

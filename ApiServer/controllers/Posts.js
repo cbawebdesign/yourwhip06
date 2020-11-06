@@ -42,7 +42,7 @@ exports.likePostPress = async (req, res) => {
     );
 
     try {
-      const deletedLike = await generalHelper.deleteLikeFromRequest(req);
+      const deletedLike = await likeHelper.deleteLikeFromRequest(req);
 
       await post.save();
 
@@ -190,7 +190,7 @@ exports.hidePost = async (req, res) => {
     await currentUser.save();
 
     // UPDATE FEED
-    const posts = await postHelper.getPostsByUserFromRequest(req);
+    const posts = await postHelper.getPostsFromRequest(req);
 
     res.status(HttpStatus.OK).send(posts);
   } catch (error) {
@@ -208,7 +208,7 @@ exports.hidePostsByUser = async (req, res) => {
     await currentUser.save();
 
     // UPDATE FEED
-    const posts = await postHelper.getPostsByUserFromRequest(req);
+    const posts = await postHelper.getPostsFromRequest(req);
 
     res.status(HttpStatus.OK).send(posts);
   } catch (error) {

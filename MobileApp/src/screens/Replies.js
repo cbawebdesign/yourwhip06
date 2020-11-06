@@ -65,9 +65,9 @@ const Replies = ({ route, navigation, replyFeed, currentUser, fetching }) => {
     Keyboard.dismiss();
   };
 
-  const handleProfilePress = ({ user }) => {
+  const handleProfilePress = ({ createdBy }) => {
     navigation.navigate('Profile', {
-      user,
+      user: createdBy,
     });
   };
 
@@ -138,6 +138,7 @@ const Replies = ({ route, navigation, replyFeed, currentUser, fetching }) => {
       onLikePress={() => handleLikePress(route.params.post, 'COMMENT')}
       onReplyPress={() => null}
       onProfilePress={() => handleProfilePress(route.params.comment)}
+      onOptionsPress={() => null} // TODO: ADD COMMENT OPTIONS
       isComment
     />
   );

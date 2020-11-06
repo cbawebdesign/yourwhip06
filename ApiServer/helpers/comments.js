@@ -72,11 +72,16 @@ exports.getCommentsFromRequest = async (req) => {
 
   let comments = [];
 
+  console.log(commentType, parentId, req.user.filters.hiddenComments);
+
   if (commentType === 'POST_COMMENT') {
     comments = await Comment.find({
       post: { _id: parentId },
       _id: {
-        $nin: [req.user.filters.hiddenComments],
+        $nin: [...req.user.filters.hiddenComments],
+      },
+      createdBy: {
+        $nin: [...req.user.filters.hiddenUsers],
       },
     })
       .populate('createdBy')

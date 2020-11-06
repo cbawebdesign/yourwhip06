@@ -171,7 +171,7 @@ const FlaggedComments = ({
   }
 
   return (
-    <ContainerView>
+    <ContainerView touchEnabled={false}>
       <SelectionModal
         showModal={showCommentOptions}
         onModalDismissPress={() => setShowCommentOptions(false)}

@@ -15,11 +15,11 @@ exports.getPostsFromRequest = async (req) => {
     posts = await Post.find(
       {
         _id: {
-          $nin: [req.user.filters.hiddenPosts],
+          $nin: [...req.user.filters.hiddenPosts],
         },
         createdBy: {
           $in: [...following, req.user._id],
-          $nin: [req.user.filters.hiddenUsers],
+          $nin: [...req.user.filters.hiddenUsers],
         },
       },
       null,
@@ -171,7 +171,7 @@ exports.getPostsFromRequest = async (req) => {
     posts = await Post.find(
       {
         _id: {
-          $nin: [req.user.filters.hiddenPosts],
+          $nin: [...req.user.filters.hiddenPosts],
         },
         createdBy: {
           $nin: [...req.user.filters.hiddenUsers],
