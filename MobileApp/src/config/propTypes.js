@@ -129,7 +129,7 @@ export const commentItemPropType = PropTypes.shape({
     .isRequired,
   description: PropTypes.string.isRequired,
   likes: PropTypes.arrayOf(PropTypes.any).isRequired,
-  post: PropTypes.string,
+  post: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   comment: PropTypes.string,
   image: PropTypes.string,
   replies: PropTypes.arrayOf(PropTypes.any).isRequired,

@@ -36,11 +36,11 @@ exports.likeImagePress = async (req, res) => {
     );
 
     try {
-      await generalHelper.deleteLikeAndActivityFromRequest(req);
+      const deletedLike = await generalHelper.deleteLikeFromRequest(req);
       await image.save();
 
       // DELETE ACTIVITY
-      req.activityType = 'LIKE_IMAGE';
+      req.activityId = deletedLike.activityId;
       const result = await activityHelper.deleteActivityFromRequest(req);
 
       if (!result) {
@@ -56,8 +56,12 @@ exports.likeImagePress = async (req, res) => {
     }
   } else {
     try {
+      const activity = await activityHelper.buildActivityFromRequest(req);
       const newLike = await likeHelper.buildLikeFromRequest(req);
-      await activityHelper.buildActivityFromRequest(req);
+
+      // UPDATE LIKE WITH ACITIVITY DATA
+      newLike.activityId = activity._id;
+      await newLike.save();
 
       image.likes.push(newLike);
       await image.save();
@@ -78,8 +82,11 @@ exports.shareImage = async (req, res) => {
   req.activityType = 'SHARE_IMAGE';
 
   try {
+    const activity = await activityHelper.buildActivityFromRequest(req);
     const newShare = await shareHelper.buildShareFromRequest(req);
-    await activityHelper.buildActivityFromRequest(req);
+
+    newShare.activityId = activity._id;
+    await newShare.save();
 
     image.shares.push(newShare);
     await image.save();

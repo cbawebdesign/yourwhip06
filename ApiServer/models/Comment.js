@@ -12,6 +12,7 @@ const commentSchema = new mongoose.Schema(
     // images: [String], // TODO: ENABLE UPLOADING IMAGES TO COMMENTS
     likes: [{ type: Schema.Types.ObjectId, ref: 'Like' }],
     replies: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    activityId: String, // THE LINKED ACTIVITY MODEL ID
     flagged: Boolean,
     dateTime: {
       type: Date,

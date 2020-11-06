@@ -128,10 +128,15 @@ const FlaggedComments = ({
   const handleDeleteComment = () => {
     dispatch(
       deleteComment({
-        fromScreen: route.params.fromScreen,
+        fromScreen: 'FLAGGED',
         commentId: currentItem._id,
         postId: currentItem.post._id,
-        type: route.params.type,
+        // TODO: ADD TYPE TO COMMENT MODEL
+        type: currentItem.comment
+          ? 'REPLY'
+          : currentItem.image
+          ? 'IMAGE_COMMENT'
+          : 'POST',
       })
     );
 
@@ -228,7 +233,6 @@ FlaggedComments.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const {} = state.comments;
   const { flaggedCommentsFeed, fetching } = state.flagged;
   const { updateReplyCheck } = state.replies;
   const { user } = state.user;

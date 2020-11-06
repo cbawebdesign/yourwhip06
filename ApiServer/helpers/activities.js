@@ -79,56 +79,8 @@ exports.deleteActivityFromRequest = async (req) => {
   const currentUser = req.user;
   const { activityType, post, image, comment, id } = req;
 
-  let result;
-
   try {
-    switch (activityType) {
-      case 'FOLLOW':
-        result = await Activity.findOneAndDelete({
-          activity: activityType,
-          user_action: currentUser,
-          user_receiver: user,
-        });
-        break;
-      case 'LIKE_POST':
-        result = await Activity.findOneAndDelete({
-          activity: activityType,
-          user_action: currentUser,
-          post,
-        });
-        break;
-      case 'LIKE_IMAGE':
-        result = await Activity.findOneAndDelete({
-          activity: activityType,
-          user_action: currentUser,
-          image,
-        });
-        break;
-      case 'LIKE_COMMENT':
-      case 'LIKE_REPLY':
-        result = await Activity.findOneAndDelete({
-          activity: activityType,
-          user_action: currentUser,
-          comment,
-        });
-        break;
-      case 'POST_COMMENT':
-        result = await Activity.findOneAndDelete({
-          activity: activityType,
-          user_action: currentUser,
-          post: { _id: id },
-        });
-        break;
-      case 'IMAGE_COMMENT':
-        result = await Activity.findOneAndDelete({
-          activity: activityType,
-          user_action: currentUser,
-          image: { _id: id },
-        });
-        break;
-      default:
-        break;
-    }
+    const result = await Activity.findOneAndDelete({ _id: req.activityId });
 
     return result;
   } catch (error) {

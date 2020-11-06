@@ -78,6 +78,7 @@ const userSchema = new Schema(
     followers: [
       {
         user: { type: Schema.Types.ObjectId, ref: 'User' },
+        activityId: String,
         dateTime: {
           type: Date,
           required: true,

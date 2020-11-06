@@ -263,7 +263,10 @@ const Comments = ({
       })
     );
 
-    return () => dispatch({ type: 'RESET_COMMENT_FEED' });
+    return () => {
+      dispatch({ type: 'RESET_SUCCESS' });
+      dispatch({ type: 'RESET_COMMENT_FEED' });
+    };
   }, []);
 
   useEffect(() => {

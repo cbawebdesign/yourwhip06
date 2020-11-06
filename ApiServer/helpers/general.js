@@ -2,12 +2,14 @@ const Like = require('../models/Like');
 const Activity = require('../models/Activity');
 const Code = require('../models/RecoveryCode');
 
-exports.deleteLikeAndActivityFromRequest = async (req) => {
+exports.deleteLikeFromRequest = async (req) => {
   const { post, comment, user, image, activityType } = req;
+
+  let like;
 
   try {
     if (activityType === 'LIKE_POST') {
-      await Like.findOneAndDelete({
+      like = await Like.findOneAndDelete({
         post,
         createdBy: user,
       });
@@ -26,10 +28,7 @@ exports.deleteLikeAndActivityFromRequest = async (req) => {
       });
     }
 
-    await Activity.findOneAndDelete({
-      activity: activityType,
-      user_action: user,
-    });
+    return like;
   } catch (error) {
     throw new Error(error);
   }

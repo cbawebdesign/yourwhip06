@@ -98,6 +98,9 @@ exports.getCommentsFromRequest = async (req) => {
   } else if (commentType === 'FLAGGED') {
     comments = await Comment.find({ flagged: true })
       .populate('createdBy')
+      .populate('post')
+      .populate('image')
+      .populate('comment')
       .populate('likes')
       .sort('-dateTime');
   }
@@ -119,7 +122,9 @@ exports.getOneCommentFromRequest = async (req) => {
   if (
     req.activityType === 'LIKE_COMMENT' ||
     req.activityType === 'LIKE_REPLY' ||
-    req.activityType === 'FLAGGED'
+    req.activityType === 'FLAGGED' ||
+    req.activityType === 'EXPLORE' ||
+    req.activityType === 'DELETE_REPLY'
   ) {
     id = commentId;
   } else {

@@ -34,6 +34,16 @@ exports.buildLikeFromRequest = async (req) => {
   return like;
 };
 
+exports.deleteLikeById = async (id) => {
+  try {
+    const result = await Like.findByIdAndDelete(id);
+
+    return result;
+  } catch (error) {
+    console.log('36', error);
+  }
+};
+
 exports.getCountFromRequest = async (req) => {
   const { userId } = req.params;
 

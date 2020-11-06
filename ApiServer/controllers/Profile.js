@@ -51,9 +51,14 @@ exports.followUserPress = async (req, res) => {
       }
 
       // REMOVE FOLLOWER ID FROM FOLLOWERS AND FOLLOWING OBJECTS
-      followedUser.followers = followedUser.followers.filter(
-        (item) => item.user.toString() !== currentUser._id.toString()
-      );
+      let activityId;
+      followedUser.followers = followedUser.followers.filter((item) => {
+        if (item.user.toString() === currentUser._id.toString()) {
+          activityId = item.activityId;
+        }
+
+        return item.user.toString() !== currentUser._id.toString();
+      });
       currentUser.following = currentUser.following.filter(
         (item) => item._id.toString() !== user._id.toString()
       );
@@ -62,7 +67,7 @@ exports.followUserPress = async (req, res) => {
       const resultCurrentUser = await currentUser.save();
 
       // DELETE FOLLOW ACTIVITY
-      req.activityType = 'FOLLOW';
+      req.activityId = activityId;
       const result = await activityhelper.deleteActivityFromRequest(req);
 
       if (!result) {
@@ -93,7 +98,15 @@ exports.followUserPress = async (req, res) => {
         });
       }
 
-      followedUser.followers.push({ user: currentUser });
+      // CREATE NEW ACTIVITY
+      req.activityType = 'FOLLOW';
+      req.createdBy = user;
+      const activity = await activityhelper.buildActivityFromRequest(req);
+
+      followedUser.followers.push({
+        user: currentUser,
+        activityId: activity._id,
+      });
       currentUser.following.push(followedUser);
 
       const resultFollowedUser = await followedUser.save();
@@ -101,11 +114,6 @@ exports.followUserPress = async (req, res) => {
 
       req.findCurrentUser = true;
       const updatedUser = await userHelper.findOneUserFromRequest(req);
-
-      // CREATE NEW ACTIVITY
-      req.activityType = 'FOLLOW';
-      req.createdBy = user;
-      await activityhelper.buildActivityFromRequest(req);
 
       if (!resultFollowedUser || !resultCurrentUser) {
         throw new Error('An error occured saving the follow press action');

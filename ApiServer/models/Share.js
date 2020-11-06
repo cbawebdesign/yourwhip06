@@ -8,6 +8,7 @@ const shareSchema = new mongoose.Schema(
     comment: { type: Schema.Types.ObjectId, ref: 'Comment' },
     image: { type: Schema.Types.ObjectId, ref: 'Image' },
     createdBy: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    activityId: String,
     dateTime: {
       type: Date,
       required: true,

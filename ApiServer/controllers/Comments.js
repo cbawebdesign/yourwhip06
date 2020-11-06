@@ -54,16 +54,17 @@ exports.likeCommentPress = async (req, res) => {
 
   if (hasLikeByUser) {
     //REMOVE LIKE
+    let activityId;
     comment.likes = comment.likes.filter(
       (item) => item.createdBy.toString() !== user._id.toString()
     );
 
     try {
-      await generalHelper.deleteLikeAndActivityFromRequest(req);
+      const deletedLike = await generalHelper.deleteLikeFromRequest(req);
       await comment.save();
 
       // DELETE ACTIVITY
-      req.activityType = 'LIKE_COMMENT';
+      req.activityId = deletedLike.activityId;
       const result = await activityHelper.deleteActivityFromRequest(req);
 
       if (!result) {
@@ -84,8 +85,12 @@ exports.likeCommentPress = async (req, res) => {
     }
   } else {
     try {
+      const activity = await activityHelper.buildActivityFromRequest(req);
       const newLike = await likeHelper.buildLikeFromRequest(req);
-      await activityHelper.buildActivityFromRequest(req);
+
+      // UPDATE LIKE WITH ACITIVITY DATA
+      newLike.activityId = activity._id;
+      await newLike.save();
 
       comment.likes.push(newLike);
       await comment.save();
@@ -120,7 +125,11 @@ exports.composePostComment = async (req, res) => {
     await post.save();
 
     const comments = await commentHelper.getCommentsFromRequest(req);
-    await activityHelper.buildActivityFromRequest(req);
+    const activity = await activityHelper.buildActivityFromRequest(req);
+
+    // UPDATE COMMENT WITH ACITIVITY DATA
+    comment.activityId = activity._id;
+    await comment.save();
 
     res.status(HttpStatus.OK).send({
       success: 'Comment posted successfully',
@@ -153,7 +162,11 @@ exports.composeImageComment = async (req, res) => {
     await image.save();
 
     const comments = await commentHelper.getCommentsFromRequest(req);
-    await activityHelper.buildActivityFromRequest(req);
+    const activity = await activityHelper.buildActivityFromRequest(req);
+
+    // UPDATE COMMENT WITH ACITIVITY DATA
+    newComment.activityId = activity._id;
+    await newComment.save();
 
     res.status(HttpStatus.OK).send({
       success: 'Comment posted successfully',
@@ -173,20 +186,40 @@ exports.composeImageComment = async (req, res) => {
 exports.deleteComment = async (req, res) => {
   const { parentId, commentId, fromScreen, type } = req.body;
 
+  req.activityType = fromScreen;
+  const comment = await commentHelper.getOneCommentFromRequest(req);
+
+  // DELETE ALL LIKES AND LINKED ACTIVITIES
+  comment.likes.forEach(async (likeId) => {
+    const deletedLike = await likeHelper.deleteLikeById(likeId);
+
+    if (!deletedLike) {
+      throw Error('An error occurred deleting like on Comment object');
+    }
+
+    req.activityId = deletedLike.activityId;
+    const deletedActivity = await activityHelper.deleteActivityFromRequest(req);
+
+    if (!deletedActivity) {
+      throw Error(
+        'An error occurred deling the activity from like on Comment object'
+      );
+    }
+  });
+
+  // DELETE ACTIVITY
+  req.activityId = comment.activityId;
+  const result = await activityHelper.deleteActivityFromRequest(req);
+
+  if (!result) {
+    throw new Error(
+      `An error occurred deleting the ${type.toLowerCase()} comment activity`
+    );
+  }
+
   try {
     // DELETE COMMENT
     await commentHelper.deleteOneCommentFromRequest(req);
-
-    // DELETE ACTIVITY
-    req.activityType = type === 'POST' ? 'POST_COMMENT' : 'IMAGE_COMMENT';
-    req.id = parentId;
-    const result = await activityHelper.deleteActivityFromRequest(req);
-
-    if (!result) {
-      throw new Error(
-        `An error occurred deleting the ${type.toLowerCase()} comment activity`
-      );
-    }
 
     req.commentType = `${type}_COMMENT`;
     const comments = await commentHelper.getCommentsFromRequest(req);

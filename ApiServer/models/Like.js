@@ -9,6 +9,7 @@ const likeSchema = new mongoose.Schema(
     image: { type: Schema.Types.ObjectId, ref: 'Image' },
     createdBy: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     offeredTo: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    activityId: String, // THE LINKED ACTIVITY MODEL ID
     dateTime: {
       type: Date,
       required: true,

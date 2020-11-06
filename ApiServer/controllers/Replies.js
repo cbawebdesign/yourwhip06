@@ -39,11 +39,12 @@ exports.likeReplyPress = async (req, res) => {
     );
 
     try {
-      await generalHelper.deleteLikeAndActivityFromRequest(req);
+      const deletedLike = await generalHelper.deleteLikeFromRequest(req);
       await reply.save();
 
       // DELETE ACTIVITY
-      req.activityType = 'LIKE_REPLY';
+      req.activityId = deletedLike.activityId;
+      const result = await activityHelper.deleteActivityFromRequest(req);
 
       if (!result) {
         throw new Error('An error occurred deleting the like reply activity');
@@ -58,8 +59,12 @@ exports.likeReplyPress = async (req, res) => {
     }
   } else {
     try {
+      const activity = await activityHelper.buildActivityFromRequest(req);
       const newLike = await likeHelper.buildLikeFromRequest(req);
-      await activityHelper.buildActivityFromRequest(req);
+
+      // UPDATE LIKE WITH ACITIVITY DATA
+      newLike.activityId = activity._id;
+      await newLike.save();
 
       reply.likes.push(newLike);
       await reply.save();
@@ -84,8 +89,11 @@ exports.composeReply = async (req, res) => {
     req.commentType = 'REPLY';
     req.activityType = 'REPLY';
 
+    const activity = await activityHelper.buildActivityFromRequest(req);
     const newReply = await commentHelper.buildCommentFromRequest(req);
-    await activityHelper.buildActivityFromRequest(req);
+
+    newReply.activityId = activity._id;
+    await newReply.save();
 
     comment.replies.push(newReply);
     await comment.save();
@@ -108,17 +116,44 @@ exports.deleteReply = async (req, res) => {
   const { parentId, commentId } = req.body;
 
   try {
-    // DELETE REPLY
-    await commentHelper.deleteOneCommentFromRequest(req);
+    req.activityType = 'DELETE_REPLY';
+    const reply = await commentHelper.getOneCommentFromRequest(req);
+
+    // DELETE ALL LIKES AND LINKED ACTIVITIES
+    reply.likes.forEach(async (likeId) => {
+      const deletedLike = await likeHelper.deleteLikeById(likeId);
+
+      if (!deletedLike) {
+        throw Error('An error occurred deleting like on Comment object');
+      }
+
+      req.activityId = deletedLike.activityId;
+      const deletedActivity = await activityHelper.deleteActivityFromRequest(
+        req
+      );
+
+      if (!deletedActivity) {
+        throw Error(
+          'An error occurred deling the activity from like on Comment object'
+        );
+      }
+    });
+
+    // DELETE ACTIVITY
+    req.activityId = reply.activityId;
+    const result = await activityHelper.deleteActivityFromRequest(req);
 
     // DELETE REPLY FROM COMMENT OBJECT
-    req.activityType = 'DELETE_REPLY';
+    req.activityType = null;
     const parentComment = await commentHelper.getOneCommentFromRequest(req);
 
     parentComment.replies = parentComment.replies.filter(
       (id) => id.toString() !== commentId.toString()
     );
     await parentComment.save();
+
+    // DELETE REPLY
+    await commentHelper.deleteOneCommentFromRequest(req);
 
     // RETURN UPDATED FEED
     req.commentType = 'REPLY';

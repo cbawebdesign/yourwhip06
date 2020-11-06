@@ -2,8 +2,6 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const dummyDateObj = new Date();
-
 const activitySchema = new mongoose.Schema(
   {
     user_action: { type: Schema.Types.ObjectId, ref: 'User', required: true },
@@ -16,7 +14,7 @@ const activitySchema = new mongoose.Schema(
       type: Date,
       required: true,
       default: Date.now,
-      expires: 2678400, // 1 MONTH
+      expires: 2678400, // 1 MONTH: TO PREVENT DB OVERLOADING WITH ACTIVITY OBJECTS
     },
   },
   { collection: 'posts' }

@@ -42,11 +42,12 @@ exports.likePostPress = async (req, res) => {
     );
 
     try {
-      await generalHelper.deleteLikeAndActivityFromRequest(req);
+      const deletedLike = await generalHelper.deleteLikeFromRequest(req);
+
       await post.save();
 
       // DELETE ACITIVITY
-      req.activityType = 'LIKE_POST';
+      req.activityId = deletedLike.activityId;
       const result = await activityHelper.deleteActivityFromRequest(req);
 
       if (!result) {
@@ -66,8 +67,12 @@ exports.likePostPress = async (req, res) => {
     }
   } else {
     try {
+      const activity = await activityHelper.buildActivityFromRequest(req);
       const newLike = await likeHelper.buildLikeFromRequest(req);
-      await activityHelper.buildActivityFromRequest(req);
+
+      // UPDATE LIKE WITH ACITIVITY DATA
+      newLike.activityId = activity._id;
+      await newLike.save();
 
       post.likes.push(newLike);
       await post.save();
@@ -92,8 +97,11 @@ exports.sharePost = async (req, res) => {
   req.activityType = 'SHARE_POST';
 
   try {
+    const activity = await activityHelper.buildActivityFromRequest(req);
     const newShare = await shareHelper.buildShareFromRequest(req);
-    await activityHelper.buildActivityFromRequest(req);
+
+    newShare.activityId = activity._id;
+    await newShare.save();
 
     post.shares.push(newShare);
     await post.save();
@@ -151,9 +159,16 @@ exports.deletePost = async (req, res) => {
   const { postId, fromScreen } = req.body;
 
   try {
-    // DELETE IMAGES BEFORE POST
-    // OTHERWISE REFERENCE TO IMAGE IDS WILL GET LOST
+    // const post = await postHelper.getOnePostFromRequest(req);
+
+    // DELETE IMAGES
     await imageHelper.deleteImagesFromRequest(req);
+
+    // DELETE COMMENTS
+    // DELETE LIKES
+    // DELETE SHARES
+    // TODO
+
     await postHelper.deleteOnePostFromRequest(req);
 
     res
