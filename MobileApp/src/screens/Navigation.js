@@ -81,6 +81,7 @@ const Navigation = ({
       hasGradient
       headerHeight={route.params.headerHeight}
       loadingOptions={{ loading: fetching }}
+      touchEnabled={false}
     >
       <AnimatedFlatList
         contentContainerStyle={styles.$navigationInnerContainer}

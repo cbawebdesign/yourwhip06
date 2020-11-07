@@ -12,6 +12,7 @@ const styles = EStyleSheet.create({
   $navigationInnerContainer: {
     marginTop: 25,
     alignSelf: 'center',
+    paddingBottom: 100,
   },
 
   container: {

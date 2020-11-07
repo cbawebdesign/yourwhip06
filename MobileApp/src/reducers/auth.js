@@ -275,6 +275,11 @@ const authState = (state = initialState, action) => {
         },
         authToken: null,
       };
+    case 'RESET_ERROR':
+      return {
+        ...state,
+        error: null,
+      };
     default:
       return state;
   }

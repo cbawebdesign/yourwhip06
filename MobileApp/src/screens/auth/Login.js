@@ -169,6 +169,8 @@ const Login = ({ route, navigation, error, success, fetching }) => {
       });
       setShowModal(true);
     }
+
+    return () => dispatch({ type: 'RESET_ERROR' });
   }, [error, success]);
 
   return (

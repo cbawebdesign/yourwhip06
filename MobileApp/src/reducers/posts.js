@@ -41,11 +41,13 @@ const homeState = (state = initialState, action) => {
     case CREATE_NEW_POST:
       return {
         ...state,
+        fetching: true,
       };
     case NEW_POST_RESULT:
       return {
         ...state,
         homeFeed: action.result,
+        fetching: false,
         error: null,
       };
     case DELETE_POST_RESULT:
