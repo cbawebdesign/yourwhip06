@@ -105,6 +105,9 @@ export function* getUserInfo(action) {
     const result = yield response.json();
 
     if (result.error) {
+      if (result.type === 'INVALID_TOKEN') {
+        yield put({ type: 'INVALID_TOKEN' });
+      }
       yield put({ type: USER_INFO_ERROR, error: result.error });
     } else {
       yield put({ type: USER_INFO_RESULT, result });
@@ -123,6 +126,9 @@ export function* updateInterests(action) {
 
     // NO NEED TO STORE INTEREST IN APP STATE FOR THE MOMENT
     if (result.error) {
+      if (result.type === 'INVALID_TOKEN') {
+        yield put({ type: 'INVALID_TOKEN' });
+      }
       yield put({ type: UPDATE_INTERESTS_ERROR, error: result.error });
     } else {
       yield put({ type: UPDATE_INTERESTS_RESULT, result });
@@ -141,6 +147,9 @@ export function* updateSettings(action) {
 
     // NO NEED TO STORE INTEREST IN APP STATE FOR THE MOMENT
     if (result.error) {
+      if (result.type === 'INVALID_TOKEN') {
+        yield put({ type: 'INVALID_TOKEN' });
+      }
       yield put({ type: UPDATE_SETTINGS_ERROR, error: result.error });
     } else {
       yield put({ type: UPDATE_SETTINGS_RESULT, result });
@@ -158,6 +167,9 @@ export function* getRecommendedUsers() {
     const result = yield response.json();
 
     if (result.error) {
+      if (result.type === 'INVALID_TOKEN') {
+        yield put({ type: 'INVALID_TOKEN' });
+      }
       yield put({ type: RECOMMENDED_USERS_ERROR, error: result.error });
     } else {
       yield put({ type: RECOMMENDED_USERS_RESULT, result });
@@ -175,6 +187,9 @@ export function* removeUserPress(action) {
     const result = yield response.json();
 
     if (result.error) {
+      if (result.type === 'INVALID_TOKEN') {
+        yield put({ type: 'INVALID_TOKEN' });
+      }
       yield put({ type: REMOVE_USER_PRESS_ERROR, error: result.error });
     } else {
       yield put({ type: REMOVE_USER_PRESS_RESULT, result });
@@ -229,6 +244,9 @@ export function* editProfile(action) {
     const result = yield response.json();
 
     if (result.error) {
+      if (result.type === 'INVALID_TOKEN') {
+        yield put({ type: 'INVALID_TOKEN' });
+      }
       yield put({ type: EDIT_PROFILE_ERROR, error: result.error });
     } else {
       yield put({ type: EDIT_PROFILE_RESULT, result });
@@ -246,6 +264,9 @@ export function* search(action) {
     const result = yield response.json();
 
     if (result.error) {
+      if (result.type === 'INVALID_TOKEN') {
+        yield put({ type: 'INVALID_TOKEN' });
+      }
       yield put({ type: SEARCH_ERROR, error: result.error });
     } else {
       yield put({ type: SEARCH_RESULT, result });

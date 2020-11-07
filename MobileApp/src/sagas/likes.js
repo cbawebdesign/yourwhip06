@@ -28,6 +28,9 @@ export function* likePostPress(action) {
     const result = yield response.json();
 
     if (result.error) {
+      if (result.type === 'INVALID_TOKEN') {
+        yield put({ type: 'INVALID_TOKEN' });
+      }
       yield put({ type: LIKE_POST_PRESS_ERROR, error: result.error });
     } else {
       yield put({ type: LIKE_POST_PRESS_RESULT, result });

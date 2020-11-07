@@ -29,6 +29,9 @@ export function* getStatsForMonth(action) {
     const result = yield response.json();
 
     if (result.error) {
+      if (result.type === 'INVALID_TOKEN') {
+        yield put({ type: 'INVALID_TOKEN' });
+      }
       yield put({ type: STATS_FOR_MONTH_ERROR, error: result.error });
     } else {
       yield put({ type: STATS_FOR_MONTH_RESULT, result });

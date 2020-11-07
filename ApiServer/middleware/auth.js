@@ -23,9 +23,10 @@ const auth = async (req, res, next) => {
 
     next();
   } catch (error) {
-    res
-      .status(422)
-      .send({ error: 'You are not authorized to access this resource' });
+    res.status(422).send({
+      error: 'You are not authorized to access this resource',
+      type: 'INVALID_TOKEN',
+    });
   }
 };
 

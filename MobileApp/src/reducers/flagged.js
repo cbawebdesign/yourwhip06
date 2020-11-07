@@ -90,7 +90,10 @@ const flaggedState = (state = initialState, action) => {
     case DELETE_ACCOUNT_RESULT:
       return {
         ...state,
-        flaggedPostsFeed: state.flaggedFeed.filter(
+        flaggedPostsFeed: state.flaggedPostsFeed.filter(
+          (item) => item.createdBy._id !== action.result.deletedUserId
+        ),
+        flaggedCommentsFeed: state.flaggedCommentsFeed.filter(
           (item) => item.createdBy._id !== action.result.deletedUserId
         ),
       };

@@ -86,6 +86,9 @@ export function* getHomeFeed(action) {
     const result = yield response.json();
 
     if (result.error) {
+      if (result.type === 'INVALID_TOKEN') {
+        yield put({ type: 'INVALID_TOKEN' });
+      }
       yield put({ type: HOME_FEED_ERROR, error: result.error });
     } else {
       yield put({ type: HOME_FEED_RESULT, result });
@@ -146,6 +149,9 @@ export function* composePost(action) {
     const result = yield response.json();
 
     if (result.error) {
+      if (result.type === 'INVALID_TOKEN') {
+        yield put({ type: 'INVALID_TOKEN' });
+      }
       yield put({ type: NEW_POST_ERROR, error: result.error });
     } else {
       yield put({ type: NEW_POST_RESULT, result });
@@ -163,6 +169,9 @@ export function* deletePost(action) {
     const result = yield response.json();
 
     if (result.error) {
+      if (result.type === 'INVALID_TOKEN') {
+        yield put({ type: 'INVALID_TOKEN' });
+      }
       yield put({ type: DELETE_POST_ERROR, error: result.error });
     } else {
       yield put({ type: DELETE_POST_RESULT, result });
@@ -180,6 +189,9 @@ export function* hidePost(action) {
     const result = yield response.json();
 
     if (result.error) {
+      if (result.type === 'INVALID_TOKEN') {
+        yield put({ type: 'INVALID_TOKEN' });
+      }
       yield put({ type: HIDE_POST_ERROR, error: result.error });
     } else {
       yield put({ type: HIDE_POST_RESULT, result });
@@ -197,6 +209,9 @@ export function* hidePostsByUser(action) {
     const result = yield response.json();
 
     if (result.error) {
+      if (result.type === 'INVALID_TOKEN') {
+        yield put({ type: 'INVALID_TOKEN' });
+      }
       yield put({ type: HIDE_POSTS_BY_USER_ERROR, error: result.error });
     } else {
       yield put({ type: HIDE_POSTS_BY_USER_RESULT, result });

@@ -109,6 +109,9 @@ export function* getCommentFeed(action) {
     const result = yield response.json();
 
     if (result.error) {
+      if (result.type === 'INVALID_TOKEN') {
+        yield put({ type: 'INVALID_TOKEN' });
+      }
       yield put({ type: COMMENT_FEED_ERROR, error: result.error });
     } else {
       yield put({ type: COMMENT_FEED_RESULT, result });
@@ -126,6 +129,9 @@ export function* likeCommentPress(action) {
     const result = yield response.json();
 
     if (result.error) {
+      if (result.type === 'INVALID_TOKEN') {
+        yield put({ type: 'INVALID_TOKEN' });
+      }
       yield put({ type: LIKE_COMMENT_PRESS_ERROR, error: result.error });
     } else {
       yield put({ type: LIKE_COMMENT_PRESS_RESULT, result });
@@ -156,6 +162,9 @@ export function* composeComment(action) {
     const result = yield response.json();
 
     if (result.error) {
+      if (result.type === 'INVALID_TOKEN') {
+        yield put({ type: 'INVALID_TOKEN' });
+      }
       yield put({ type: NEW_COMMENT_ERROR, error: result.error });
     } else {
       yield put({ type: NEW_COMMENT_RESULT, result });
@@ -173,6 +182,9 @@ export function* deleteComment(action) {
     const result = yield response.json();
 
     if (result.error) {
+      if (result.type === 'INVALID_TOKEN') {
+        yield put({ type: 'INVALID_TOKEN' });
+      }
       yield put({ type: DELETE_COMMENT_ERROR, error: result.error });
     } else {
       yield put({ type: DELETE_COMMENT_RESULT, result });
@@ -190,6 +202,9 @@ export function* hideComment(action) {
     const result = yield response.json();
 
     if (result.error) {
+      if (result.type === 'INVALID_TOKEN') {
+        yield put({ type: 'INVALID_TOKEN' });
+      }
       yield put({ type: HIDE_COMMENT_ERROR, error: result.error });
     } else {
       yield put({ type: HIDE_COMMENT_RESULT, result });
@@ -207,6 +222,9 @@ export function* hideCommentsByUser(action) {
     const result = yield response.json();
 
     if (result.error) {
+      if (result.type === 'INVALID_TOKEN') {
+        yield put({ type: 'INVALID_TOKEN' });
+      }
       yield put({ type: HIDE_COMMENTS_BY_USER_ERROR, error: result.error });
     } else {
       yield put({ type: HIDE_COMMENTS_BY_USER_RESULT, result });

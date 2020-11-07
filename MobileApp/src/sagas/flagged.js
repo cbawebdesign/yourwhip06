@@ -116,6 +116,9 @@ export function* getFlaggedCommentsFeed() {
     const result = yield response.json();
 
     if (result.error) {
+      if (result.type === 'INVALID_TOKEN') {
+        yield put({ type: 'INVALID_TOKEN' });
+      }
       yield put({ type: GET_FLAGGED_COMMENTS_FEED_ERROR, error: result.error });
     } else {
       yield put({ type: GET_FLAGGED_COMMENTS_FEED_RESULT, result });
@@ -133,6 +136,9 @@ export function* reportPost(action) {
     const result = yield response.json();
 
     if (result.error) {
+      if (result.type === 'INVALID_TOKEN') {
+        yield put({ type: 'INVALID_TOKEN' });
+      }
       yield put({ type: REPORT_POST_ERROR, error: result.error });
     } else {
       yield put({ type: REPORT_POST_RESULT, result });
@@ -150,6 +156,9 @@ export function* unflagPost(action) {
     const result = yield response.json();
 
     if (result.error) {
+      if (result.type === 'INVALID_TOKEN') {
+        yield put({ type: 'INVALID_TOKEN' });
+      }
       yield put({ type: UNFLAG_POST_ERROR, error: result.error });
     } else {
       yield put({ type: UNFLAG_POST_RESULT, result });
@@ -167,6 +176,9 @@ export function* unflagComment(action) {
     const result = yield response.json();
 
     if (result.error) {
+      if (result.type === 'INVALID_TOKEN') {
+        yield put({ type: 'INVALID_TOKEN' });
+      }
       yield put({ type: UNFLAG_COMMENT_ERROR, error: result.error });
     } else {
       yield put({ type: UNFLAG_COMMENT_RESULT, result });
@@ -184,6 +196,9 @@ export function* reportComment(action) {
     const result = yield response.json();
 
     if (result.error) {
+      if (result.type === 'INVALID_TOKEN') {
+        yield put({ type: 'INVALID_TOKEN' });
+      }
       yield put({ type: REPORT_COMMENT_ERROR, error: result.error });
     } else {
       yield put({ type: REPORT_COMMENT_RESULT, result });

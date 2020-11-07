@@ -44,6 +44,15 @@ const initialState = {
   user: null,
 };
 
+const signoutUser = async (state) => {
+  SecureStore.deleteItemAsync('token');
+
+  return {
+    ...state,
+    authToken: null,
+  };
+};
+
 const authState = (state = initialState, action) => {
   switch (action.type) {
     case ROUTE_CHECKS_COMPLETE:
@@ -260,6 +269,8 @@ const authState = (state = initialState, action) => {
         error: action.error,
         token: null,
       };
+    case 'INVALID_TOKEN':
+      return signoutUser(state);
     default:
       return state;
   }

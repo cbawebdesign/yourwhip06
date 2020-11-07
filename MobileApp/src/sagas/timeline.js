@@ -21,6 +21,9 @@ export function* getTimelineFeed(action) {
     const result = yield response.json();
 
     if (result.error) {
+      if (result.type === 'INVALID_TOKEN') {
+        yield put({ type: 'INVALID_TOKEN' });
+      }
       yield put({ type: TIMELINE_FEED_ERROR, error: result.error });
     } else {
       yield put({ type: TIMELINE_FEED_RESULT, result });

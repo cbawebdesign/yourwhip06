@@ -54,6 +54,9 @@ export function* sharePost(action) {
     const result = yield response.json();
 
     if (result.error) {
+      if (result.type === 'INVALID_TOKEN') {
+        yield put({ type: 'INVALID_TOKEN' });
+      }
       yield put({ type: SHARE_POST_PRESS_ERROR, error: result.error });
     } else {
       yield put({ type: SHARE_POST_PRESS_RESULT, result });
@@ -77,6 +80,9 @@ export function* shareImage(action) {
     const result = yield response.json();
 
     if (result.error) {
+      if (result.type === 'INVALID_TOKEN') {
+        yield put({ type: 'INVALID_TOKEN' });
+      }
       yield put({ type: SHARE_IMAGE_PRESS_ERROR, error: result.error });
     } else {
       yield put({ type: SHARE_IMAGE_PRESS_RESULT, result });
