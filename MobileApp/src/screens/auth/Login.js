@@ -155,6 +155,13 @@ const Login = ({ route, navigation, error, success, fetching }) => {
         title: 'Authentication Error',
         body: error.loginError,
       });
+    } else if (error && error.invalidToken) {
+      setModalMessage({
+        title: 'Authentication Error',
+        body:
+          'Your authentication session has expired. Please try to login again.',
+      });
+      setShowModal(true);
     } else if (success && success.accountDeleteSuccess) {
       setModalMessage({
         title: 'Account deleted',

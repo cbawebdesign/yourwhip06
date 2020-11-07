@@ -44,13 +44,8 @@ const initialState = {
   user: null,
 };
 
-const signoutUser = async (state) => {
-  SecureStore.deleteItemAsync('token');
-
-  return {
-    ...state,
-    authToken: null,
-  };
+const signoutUser = async () => {
+  await SecureStore.deleteItemAsync('token');
 };
 
 const authState = (state = initialState, action) => {
@@ -270,7 +265,16 @@ const authState = (state = initialState, action) => {
         token: null,
       };
     case 'INVALID_TOKEN':
-      return signoutUser(state);
+      signoutUser(state);
+
+      return {
+        ...state,
+        error: {
+          ...state.error,
+          invalidToken: true,
+        },
+        authToken: null,
+      };
     default:
       return state;
   }
