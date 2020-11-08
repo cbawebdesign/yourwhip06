@@ -146,6 +146,30 @@ exports.composePostComment = async (req, res) => {
   }
 };
 
+exports.editComment = async (req, res) => {
+  const { fromScreen, type } = req.body;
+  // const imagePath = req.file ? req.file.path : ''; // TODO: ENABLE UPLOADING IMAGES TO COMMENTS
+
+  try {
+    const comment = await commentHelper.updateCommentFromRequest(req);
+
+    if (!comment) {
+      throw new Error('An error occurred while updating the comment');
+    }
+
+    req.commentType = `${type}_COMMENT`;
+    const comments = await commentHelper.getCommentsFromRequest(req);
+
+    res.status(HttpStatus.OK).send({
+      success: 'Comment updated successfully',
+      comments,
+    });
+  } catch (error) {
+    console.log('9', error);
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({ error: error.message });
+  }
+};
+
 exports.composeImageComment = async (req, res) => {
   const { parentId, fromScreen, type } = req.body;
   // const imagePath = req.file ? req.file.path : ''; // TODO: ENABLE UPLOADING IMAGES TO COMMENTS

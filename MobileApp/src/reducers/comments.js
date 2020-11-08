@@ -5,6 +5,8 @@ import {
   LIKE_COMMENT_PRESS_ERROR,
   NEW_COMMENT_RESULT,
   NEW_COMMENT_ERROR,
+  EDIT_COMMENT_RESULT,
+  EDIT_COMMENT_ERROR,
   RESET_COMMENT_UPDATE_CHECK,
   GET_COMMENT_FEED,
   DELETE_COMMENT_RESULT,
@@ -60,6 +62,13 @@ const commentState = (state = initialState, action) => {
         },
         error: null,
       };
+    case EDIT_COMMENT_RESULT:
+      return {
+        ...state,
+        commentFeed: action.result.comments,
+        success: action.result.success,
+        error: null,
+      };
     case RESET_COMMENT_UPDATE_CHECK:
       return {
         ...state,
@@ -105,6 +114,7 @@ const commentState = (state = initialState, action) => {
     case DELETE_COMMENT_ERROR:
     case HIDE_COMMENT_ERROR:
     case HIDE_COMMENTS_BY_USER_ERROR:
+    case EDIT_COMMENT_ERROR:
       return {
         ...state,
         error: action.error,

@@ -38,6 +38,22 @@ exports.buildCommentFromRequest = async (req) => {
   return newComment;
 };
 
+exports.updateCommentFromRequest = async (req) => {
+  const { user, images } = req;
+  const { description, commentId } = req.body;
+  let comment;
+
+  if (images) {
+    // TODO: ADD COMMENT IMAGES
+  } else {
+    comment = await Comment.findByIdAndUpdate(commentId, {
+      description,
+    });
+  }
+
+  return comment;
+};
+
 exports.deleteOneCommentFromRequest = async (req) => {
   const { commentId } = req.body;
 
@@ -106,6 +122,8 @@ exports.getCommentsFromRequest = async (req) => {
       .populate('comment')
       .populate('likes')
       .sort('-dateTime');
+  } else if (commentType === 'EDIT') {
+    comments = await Comment.find({ comment });
   }
 
   if (!comments) {

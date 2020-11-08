@@ -8,7 +8,6 @@ import { footerViewStyles as styles } from './styles';
 
 // DISPLAYS THE FOOTER VIEW
 // Takes the following props:
-// isLarge (renders the larger 85 points variant of the footer)
 // hasGradient (renders a gradient background color)
 // backgroundColor (renders a non-gradient background color)
 // keyboardActive (registers whether the keyboard is active
@@ -16,13 +15,12 @@ import { footerViewStyles as styles } from './styles';
 
 const FooterView = ({
   children,
-  isLarge,
   hasGradient,
   backgroundColor,
   keyboardActive,
+  height,
 }) => {
-  const HEIGHT =
-    (isLarge ? 85 : 60) + (keyboardActive ? 0 : useSafeArea().bottom);
+  const HEIGHT = height + (keyboardActive ? 0 : useSafeArea().bottom);
   const BG_COLOR = hasGradient
     ? [styles.$gradientColorFrom, styles.$gradientColorTo]
     : [backgroundColor, backgroundColor];
@@ -35,19 +33,19 @@ const FooterView = ({
 };
 
 FooterView.defaultProps = {
-  isLarge: false,
   hasGradient: false,
   backgroundColor: '#020202',
   keyboardActive: false,
+  height: 60,
 };
 
 FooterView.propTypes = {
   children: PropTypes.oneOfType([PropTypes.array, PropTypes.element])
     .isRequired,
-  isLarge: PropTypes.bool,
   hasGradient: PropTypes.bool,
   backgroundColor: PropTypes.string,
   keyboardActive: PropTypes.bool,
+  height: PropTypes.number,
 };
 
 export default FooterView;

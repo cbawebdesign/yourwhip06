@@ -22,6 +22,7 @@ import {
   getCommentFeed,
   likeCommentPress,
   composeNewComment,
+  editComment,
   deleteComment,
   hideComment,
   hideCommentsByUser,
@@ -61,11 +62,26 @@ const Comments = ({
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showCommentOptions, setShowCommentOptions] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
+  const [commentViewHeight, setCommentViewHeight] = useState(60);
+  const [editingComment, setEditingComment] = useState(false);
 
   const commentOptions = {
     title: 'Comment Options',
     body: 'Select one of the options below',
     buttons: [
+      {
+        title: 'Edit comment',
+        subtitle: 'Change how this comment is displayed to other users',
+        onPress: () => {
+          setComment(currentItem.description);
+          setEditingComment(true);
+          setShowCommentOptions(false);
+        },
+        hide:
+          currentItem &&
+          currentUser &&
+          currentItem.createdBy._id !== currentUser._id,
+      },
       {
         title: 'Delete comment',
         subtitle: 'The comment will no longer be visible to other users',
@@ -168,15 +184,26 @@ const Comments = ({
       return;
     }
 
-    dispatch(
-      composeNewComment({
-        type: route.params.type,
-        fromScreen: route.params.fromScreen,
-        parentId,
-        description: comment,
-        photo: null,
-      })
-    );
+    if (editingComment) {
+      dispatch(
+        editComment({
+          type: route.params.type,
+          fromScreen: route.params.fromScreen,
+          commentId: currentItem._id,
+          parentId,
+          description: comment,
+        })
+      );
+    } else {
+      dispatch(
+        composeNewComment({
+          type: route.params.type,
+          fromScreen: route.params.fromScreen,
+          parentId,
+          description: comment,
+        })
+      );
+    }
 
     setComment('');
     handleRemoveKeyboard();
@@ -332,11 +359,14 @@ const Comments = ({
         color="transparent"
         hasGradient
         keyboardActive={keyboardShowing}
+        height={commentViewHeight > 60 ? commentViewHeight : 60}
       >
         <CommentComposeView
           onComposePress={handleComposePress}
           onCommentChange={(text) => setComment(text)}
           commentValue={comment}
+          onHeightChange={(height) => setCommentViewHeight(height)}
+          editComment={editingComment}
         />
       </FooterView>
     </ContainerView>

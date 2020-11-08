@@ -298,7 +298,6 @@ exports.updatePostFromRequest = async (req) => {
     });
   } else {
     post = await Post.findByIdAndUpdate(postId, {
-      createdBy: user._id,
       description,
       caption,
       sharedPost,
@@ -306,8 +305,6 @@ exports.updatePostFromRequest = async (req) => {
       shouldExpire: CONFIG.ENABLE_POST_SELF_DESTRUCT,
     });
   }
-
-  // const result = await post.save();
 
   if (!post) {
     throw new Error('An error occurred while updating the post');

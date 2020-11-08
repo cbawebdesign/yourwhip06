@@ -116,6 +116,8 @@ export const getHeaderTitleHelper = (route, navigation, currentUser = null) => {
         return { text: EXPLORE };
       }
       return { text: '' };
+    case COMPOSE:
+      return { text: childStack.params.editPost ? 'Edit' : COMPOSE };
     case LOGIN:
     case CAMERA:
       return { text: '' };

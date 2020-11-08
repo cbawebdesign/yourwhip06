@@ -7,6 +7,8 @@ import {
   LIKE_COMMENT_PRESS_ERROR,
   NEW_COMMENT_RESULT,
   NEW_COMMENT_ERROR,
+  EDIT_COMMENT_RESULT,
+  EDIT_COMMENT_ERROR,
   DELETE_COMMENT_RESULT,
   DELETE_COMMENT_ERROR,
   HIDE_COMMENT_RESULT,
@@ -46,6 +48,17 @@ const fetchLikeCommentPress = ({ action, token }) =>
 
 const fetchCompose = ({ data, token }) =>
   fetch(`${API_HOST}/compose-comment/`, {
+    method: 'post',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json',
+      'Content-Type': 'multipart/form-data',
+    },
+    body: data,
+  });
+
+const fetchEdit = ({ data, token }) =>
+  fetch(`${API_HOST}/edit-comment/`, {
     method: 'post',
     headers: {
       Authorization: `Bearer ${token}`,
@@ -149,13 +162,14 @@ export function* composeComment(action) {
   formData.append('type', action.data.type);
   formData.append('parentId', action.data.parentId);
   formData.append('description', action.data.description);
-  if (action.data.photo) {
-    formData.append('photo', {
-      uri: action.data.photo.uri,
-      type: 'image/jpg',
-      name: 'photo',
-    });
-  }
+  // TODO: ADD COMMENT IMAGE
+  // if (action.data.photo) {
+  //   formData.append('photo', {
+  //     uri: action.data.photo.uri,
+  //     type: 'image/jpg',
+  //     name: 'photo',
+  //   });
+  // }
 
   try {
     const response = yield call(fetchCompose, { data: formData, token });
@@ -171,6 +185,41 @@ export function* composeComment(action) {
     }
   } catch (e) {
     yield put({ type: NEW_COMMENT_ERROR, error: e.message });
+  }
+}
+
+export function* editComment(action) {
+  const token = yield select((state) => state.auth.authToken);
+
+  const formData = new FormData();
+  formData.append('commentId', action.data.commentId);
+  formData.append('fromScreen', action.data.fromScreen);
+  formData.append('type', action.data.type);
+  formData.append('parentId', action.data.parentId);
+  formData.append('description', action.data.description);
+  // TODO: ADD COMMENT IMAGE
+  // if (action.data.photo) {
+  //   formData.append('photo', {
+  //     uri: action.data.photo.uri,
+  //     type: 'image/jpg',
+  //     name: 'photo',
+  //   });
+  // }
+
+  try {
+    const response = yield call(fetchEdit, { data: formData, token });
+    const result = yield response.json();
+
+    if (result.error) {
+      if (result.type === 'INVALID_TOKEN') {
+        yield put({ type: 'INVALID_TOKEN' });
+      }
+      yield put({ type: EDIT_COMMENT_ERROR, error: result.error });
+    } else {
+      yield put({ type: EDIT_COMMENT_RESULT, result });
+    }
+  } catch (e) {
+    yield put({ type: EDIT_COMMENT_ERROR, error: e.message });
   }
 }
 

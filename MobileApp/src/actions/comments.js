@@ -10,6 +10,10 @@ export const COMPOSE_NEW_COMMENT = 'COMPOSE_NEW_COMMENT';
 export const NEW_COMMENT_RESULT = 'COMMENTS_RESULT';
 export const NEW_COMMENT_ERROR = 'COMMENTS_ERROR';
 
+export const EDIT_COMMENT = 'EDIT_COMMENT';
+export const EDIT_COMMENT_RESULT = 'EDIT_COMMENT_RESULT';
+export const EDIT_COMMENT_ERROR = 'EDIT_COMMENT_ERROR';
+
 export const DELETE_COMMENT = 'DELETE_COMMENT';
 export const DELETE_COMMENT_RESULT = 'DELETE_COMMENT_RESULT';
 export const DELETE_COMMENT_ERROR = 'DELETE_COMMENT_ERROR';
@@ -31,6 +35,11 @@ export const getCommentFeed = (data) => ({
 
 export const composeNewComment = (data) => ({
   type: COMPOSE_NEW_COMMENT,
+  data,
+});
+
+export const editComment = (data) => ({
+  type: EDIT_COMMENT,
   data,
 });
 

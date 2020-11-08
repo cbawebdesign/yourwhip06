@@ -72,6 +72,7 @@ app.post('/compose-comment/', auth, uploads.uploadImage, (req, res, next) =>
     ? Comments.composePostComment(req, res, next)
     : Comments.composeImageComment(req, res, next)
 );
+app.post('/edit-comment/', auth, uploads.uploadImage, Comments.editComment);
 app.post('/delete-comment/', auth, Comments.deleteComment);
 app.post('/hide-comment/', auth, Comments.hideComment);
 app.post('/hide-comments-by-user/', auth, Comments.hideCommentsByUser);
