@@ -49,6 +49,7 @@ import { sharePost, shareImage } from './shares';
 import {
   GET_HOME_FEED,
   CREATE_NEW_POST,
+  EDIT_POST,
   DELETE_POST,
   HIDE_POST,
   HIDE_POSTS_BY_USER,
@@ -56,6 +57,7 @@ import {
 import {
   getHomeFeed,
   composePost,
+  editPost,
   deletePost,
   hidePost,
   hidePostsByUser,
@@ -142,6 +144,7 @@ export default function* rootSaga() {
   // HOME
   yield takeEvery(GET_HOME_FEED, getHomeFeed);
   yield takeEvery(CREATE_NEW_POST, composePost);
+  yield takeEvery(EDIT_POST, editPost);
   yield takeEvery(DELETE_POST, deletePost);
   yield takeEvery(HIDE_POST, hidePost);
   yield takeEvery(HIDE_POSTS_BY_USER, hidePostsByUser);

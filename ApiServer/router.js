@@ -38,6 +38,7 @@ app.post('/follow-user-press/', auth, Profile.followUserPress);
 // HOME
 app.get('/get-home-feed/:skip/:limit/', auth, Home.getFeed);
 app.post('/compose-post/', auth, uploads.uploadImage, Home.compose);
+app.post('/edit-post', auth, uploads.uploadImage, Home.edit);
 app.post('/delete-post/', auth, Home.deletePost);
 app.post('/hide-post/', auth, Home.hidePost);
 app.post('/hide-posts-by-user/', auth, Home.hidePostsByUser);

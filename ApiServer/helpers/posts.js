@@ -281,6 +281,41 @@ exports.buildPostFromRequest = async (req) => {
   return post;
 };
 
+exports.updatePostFromRequest = async (req) => {
+  const { user, images, sharedPost, sharedImage } = req;
+  const { description, caption, postId } = req.body;
+  let post;
+
+  if (images) {
+    post = await Post.findByIdAndUpdate(postId, {
+      createdBy: user._id,
+      description,
+      caption,
+      images,
+      sharedPost,
+      sharedImage,
+      shouldExpire: CONFIG.ENABLE_POST_SELF_DESTRUCT,
+    });
+  } else {
+    post = await Post.findByIdAndUpdate(postId, {
+      createdBy: user._id,
+      description,
+      caption,
+      sharedPost,
+      sharedImage,
+      shouldExpire: CONFIG.ENABLE_POST_SELF_DESTRUCT,
+    });
+  }
+
+  // const result = await post.save();
+
+  if (!post) {
+    throw new Error('An error occurred while updating the post');
+  }
+
+  return post;
+};
+
 exports.getOnePostFromRequest = async (req) => {
   const postId =
     req.params && req.params.parentId ? req.params.parentId : req.body.parentId;

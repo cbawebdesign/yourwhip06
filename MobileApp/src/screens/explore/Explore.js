@@ -44,7 +44,7 @@ import {
   userPropType,
   commentPropType,
 } from '../../config/propTypes';
-import { PAGINATION_LIMIT } from '../../config/constants';
+import { COMPOSE, PAGINATION_LIMIT } from '../../config/constants';
 
 import styles from '../styles';
 
@@ -88,6 +88,21 @@ const Explore = ({
     title: 'Post Options',
     body: 'Select one of the options below',
     buttons: [
+      {
+        title: 'Edit post',
+        subtitle: 'Change how this post is displayed to other users',
+        onPress: () => {
+          navigation.navigate(COMPOSE, {
+            editPost: true,
+            item: currentItem,
+          });
+          setShowPostOptions(false);
+        },
+        hide:
+          currentItem &&
+          currentUser &&
+          currentItem.createdBy._id !== currentUser._id,
+      },
       {
         title: 'Delete post',
         subtitle: 'The post will no longer be visible to other users',

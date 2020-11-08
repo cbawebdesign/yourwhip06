@@ -11,7 +11,7 @@ import SelectionModal from '../UI/modals/SelectionModal';
 import TextInputModal from '../UI/modals/TextInputModal';
 
 import { getGalleryFeed } from '../actions/galleries';
-import { composePost } from '../actions/posts';
+import { composePost, editPost } from '../actions/posts';
 
 import { PAGINATION_LIMIT } from '../config/constants';
 import { useKeyboardState } from '../config/hooks';
@@ -190,15 +190,29 @@ const Compose = ({ route, navigation, galleryFeed }) => {
   };
 
   const handleComposeAction = () => {
-    dispatch(
-      composePost({
-        description,
-        caption,
-        media,
-        gallery: { type: saveToGalleryType, name: galleryName },
-        limit: PAGINATION_LIMIT,
-      })
-    );
+    if (route.params.editPost) {
+      dispatch(
+        editPost({
+          postId: route.params.item._id,
+          description,
+          caption,
+          media,
+          gallery: { type: saveToGalleryType, name: galleryName },
+          limit: PAGINATION_LIMIT,
+        })
+      );
+    } else {
+      dispatch(
+        composePost({
+          description,
+          caption,
+          media,
+          gallery: { type: saveToGalleryType, name: galleryName },
+          limit: PAGINATION_LIMIT,
+        })
+      );
+    }
+
     navigation.goBack();
 
     setShowAlertModal(false);
@@ -311,6 +325,17 @@ const Compose = ({ route, navigation, galleryFeed }) => {
         }
 
         setMedia({ type: 'photo', images: route.params.selection });
+      } else if (route.params.editPost) {
+        // EXIT EARLY WHEN PASSING THROUGH THE SECOND TIME
+        if (description || media || caption) {
+          return;
+        }
+
+        setDescription(route.params.item.description);
+        if (route.params.item.images && route.params.item.images.length > 0) {
+          setMedia({ type: 'unknown', images: route.params.item.images });
+        }
+        setCaption(route.params.item.caption);
       }
     }
   }, [route]);

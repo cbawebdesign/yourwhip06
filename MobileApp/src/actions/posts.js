@@ -6,6 +6,10 @@ export const CREATE_NEW_POST = 'CREATE_NEW_POST';
 export const NEW_POST_RESULT = 'NEW_POST_RESULT';
 export const NEW_POST_ERROR = 'NEW_POST_ERROR';
 
+export const EDIT_POST = 'EDIT_POST';
+export const EDIT_POST_RESULT = 'EDIT_POST_RESULT';
+export const EDIT_POST_ERROR = 'EDIT_POST_ERROR';
+
 export const DELETE_POST = 'DELETE_POST';
 export const DELETE_POST_RESULT = 'DELETE_POST_RESULT';
 export const DELETE_POST_ERROR = 'DELETE_POST_ERROR';
@@ -28,6 +32,11 @@ export const getHomeFeed = (skip, limit) => ({
 
 export const composePost = (data) => ({
   type: CREATE_NEW_POST,
+  data,
+});
+
+export const editPost = (data) => ({
+  type: EDIT_POST,
   data,
 });
 

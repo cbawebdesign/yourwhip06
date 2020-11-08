@@ -4,6 +4,9 @@ import {
   HOME_FEED_ERROR,
   NEW_POST_RESULT,
   NEW_POST_ERROR,
+  EDIT_POST,
+  EDIT_POST_RESULT,
+  EDIT_POST_ERROR,
   DELETE_POST_RESULT,
   DELETE_POST_ERROR,
   RESET_DELETE_POST,
@@ -39,11 +42,19 @@ const homeState = (state = initialState, action) => {
         error: null,
       };
     case CREATE_NEW_POST:
+    case EDIT_POST:
       return {
         ...state,
         fetching: true,
       };
     case NEW_POST_RESULT:
+      return {
+        ...state,
+        homeFeed: action.result,
+        fetching: false,
+        error: null,
+      };
+    case EDIT_POST_RESULT:
       return {
         ...state,
         homeFeed: action.result,
@@ -92,6 +103,7 @@ const homeState = (state = initialState, action) => {
         homeFeed: [],
       };
     case NEW_POST_ERROR:
+    case EDIT_POST_ERROR:
     case HOME_FEED_ERROR:
     case DELETE_POST_ERROR:
     case HIDE_POST_ERROR:

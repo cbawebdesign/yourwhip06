@@ -155,6 +155,53 @@ exports.compose = async (req, res) => {
   }
 };
 
+exports.edit = async (req, res) => {
+  const { galleryType } = req.body;
+
+  let images;
+  let sharedPost;
+
+  try {
+    // STORE NEW MEDIA
+    if (req.files.length > 0) {
+      // FIRST, DELETE ORIGINAL MEDIA
+      await imageHelper.deleteImagesFromRequest(req);
+
+      images = await imageHelper.saveImagesFromRequest(req);
+      req.images = images;
+    }
+
+    // CHECK IF COMPOSE IS FOR A SHARED POST
+    if (req.body.parentId !== 'undefined') {
+      sharedPost = await postHelper.getOnePostFromRequest(req);
+      req.sharedPost = sharedPost;
+    } else if (req.body.imageId !== 'undefined') {
+      sharedImage = await imageHelper.getOneImageFromRequest(req);
+      req.sharedImage = sharedImage;
+    }
+
+    // CHECK IF A GALLERY NAME HAS BEEN PROVIDED
+    if (galleryType && galleryType === 'NEW_GALLERY') {
+      await galleryHelper.buildGalleryFromRequest(req);
+    } else if (galleryType && galleryType === 'EXISTING_GALLERY') {
+      await galleryHelper.updateGalleryFromRequest(req);
+    }
+
+    // UPDATE POST DATA
+    await postHelper.updatePostFromRequest(req);
+
+    // CURRENTLY PASSING BACK LIMITED NUMBER OF POSTS
+    // LIMITED BASED ON PAGINATION_LIMIT CONSTANT MOBILE APP
+    // TODO: get posts for specific user
+    const postsList = await postHelper.getPostsFromRequest(req);
+
+    res.status(HttpStatus.OK).send(postsList);
+  } catch (error) {
+    console.log('20', error);
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({ error: error.message });
+  }
+};
+
 exports.deletePost = async (req, res) => {
   const { postId, fromScreen } = req.body;
 
