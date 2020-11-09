@@ -194,6 +194,7 @@ const Comments = ({
           description: comment,
         })
       );
+      setEditingComment(false);
     } else {
       dispatch(
         composeNewComment({

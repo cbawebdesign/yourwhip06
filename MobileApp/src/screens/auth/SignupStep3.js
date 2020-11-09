@@ -16,10 +16,6 @@ import { signupStep3 } from '../../actions/auth';
 
 import styles from '../styles';
 
-const paragraphStyle = {
-  paddingBottom: 12,
-};
-
 import {
   termsPar0,
   termsPar1,
@@ -33,6 +29,11 @@ import {
   termsPar8,
   termsPar9,
 } from '../../helpers/dataHelper';
+
+const paragraphStyle = {
+  paddingBottom: 12,
+  fontSize: 15,
+};
 
 const SignupStep3 = ({ route }) => {
   const dispatch = useDispatch();
@@ -62,7 +63,7 @@ const SignupStep3 = ({ route }) => {
         <Text
           text="By tapping 'I Agree', you agree to our Terms of Use"
           fontFamily={BODY_FONT}
-          style={{ paddingBottom: 48, fontSize: 14 }}
+          style={{ paddingBottom: 48, fontSize: 15 }}
         />
         <Text text={termsPar0} fontFamily={BODY_FONT} style={paragraphStyle} />
         <Text text={termsPar1} fontFamily={BODY_FONT} style={paragraphStyle} />

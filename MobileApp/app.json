@@ -19,7 +19,12 @@
     "ios": {
       "supportsTablet": false,
       "infoPlist": {
-        "UIBackgroundModes": ["location"]
+        "UIBackgroundModes": [""],
+        "NSLocationUsageDescription": "This app uses your location to set your profile's 'Location' info.",
+        "NSCameraUsageDescription": "The needs access to your camera to enable uploading photos and videos to your posts.",
+        "NSMicrophoneUsageDescription": "The app needs access to your microphone to enable sound when creating video posts.",
+        "NSPhotoLibraryUsageDescription": "The app needs access to your library to enable uploading media to your posts.",
+        "NSPhotoLibraryAddUsageDescription": "The app needs access to your library to enable saving media to your library."
       },
       "bundleIdentifier": "com.knowlephant.share",
       "buildNumber": "1.1.2"

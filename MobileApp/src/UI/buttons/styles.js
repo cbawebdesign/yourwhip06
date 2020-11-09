@@ -102,7 +102,7 @@ export const imagePickerButtonStyles = EStyleSheet.create({
     resizeMode: 'cover',
     marginLeft: 4,
     marginBottom: 4,
-    borderColor: COLORS.primary1,
+    borderColor: COLORS.white,
   },
   videoDuration: {
     color: '$white',

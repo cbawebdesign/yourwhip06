@@ -422,7 +422,9 @@ const Explore = ({
   useEffect(() => {
     // FETCH POSTS ON SCREEN LOAD
     // REFETCH AFTER CURRENTUSER EDITS PROFILE IMAGE
-    dispatch(getHomeFeed(0, PAGINATION_LIMIT));
+    if (currentUser) {
+      dispatch(getHomeFeed(0, PAGINATION_LIMIT));
+    }
   }, [currentUser]);
 
   useEffect(() => {

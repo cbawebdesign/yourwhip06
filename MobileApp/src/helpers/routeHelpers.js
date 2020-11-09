@@ -204,7 +204,9 @@ export const getHeaderTitleHelper = (route, navigation, currentUser = null) => {
       return { text: 'My profile' };
     case COMMENTS:
     case REPLIES:
-      return { text: childStack.params.title };
+      return {
+        text: childStack && childStack.params ? childStack.params.title : '',
+      };
     case SEARCH:
       return null;
     default:
