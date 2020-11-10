@@ -165,7 +165,7 @@ const SignUpStep2 = ({
     setlocationActive(false);
   };
 
-  const handleInputPress = (type) => {
+  const handleInputPress = async (type) => {
     switch (type) {
       case 'BIRTHDAY':
         setbirthdayActive(true);
@@ -178,6 +178,8 @@ const SignUpStep2 = ({
         setlocationActive(false);
         break;
       case 'LOCATION':
+        await getLocationPermissions();
+
         setbirthdayActive(false);
         setgenderActive(false);
         setlocationActive(true);
@@ -276,8 +278,6 @@ const SignUpStep2 = ({
   };
 
   useEffect(() => {
-    getLocationPermissions();
-
     navigation.setParams({
       ...route.params,
       title: fromScreen === 'SETTINGS' ? 'Edit Profile' : 'Signup (Step 2)',
