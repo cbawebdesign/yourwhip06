@@ -20,13 +20,7 @@ const ANIMATION_DURATION = 500;
 const arrowRightIcon = require('../../../assets/icons/arrowRight.png');
 const thumbnailImage = require('../../../assets/images/compose.png');
 
-const GalleryListItem = ({
-  item,
-  onPress,
-  enableOptions,
-  onOptionsPress,
-  onDeletePress,
-}) => {
+const GalleryListItem = ({ item, onPress, onOptionsPress, onDeletePress }) => {
   const opacity = new Animated.Value(1);
 
   const handleDeleteItem = () => {
@@ -85,7 +79,6 @@ const GalleryListItem = ({
             <HeaderView
               number={item.images.length.toString()}
               onPressDisabled
-              enableOptions={enableOptions}
               onOptionsPress={onOptionsPress}
             />
           </View>
@@ -99,7 +92,6 @@ GalleryListItem.propTypes = {
   item: galleryItemPropType.isRequired,
   onPress: PropTypes.func.isRequired,
   onOptionsPress: PropTypes.func.isRequired,
-  enableOptions: PropTypes.bool.isRequired,
   onDeletePress: PropTypes.func.isRequired,
 };
 

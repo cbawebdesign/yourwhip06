@@ -110,7 +110,6 @@ const Gallery = ({ route, navigation, currentUser, galleryFeed, fetching }) => {
           <GalleryListItem
             item={item}
             onPress={() => handlePress(item)}
-            enableOptions
             onOptionsPress={() => handleGalleryOptionsPress(item)}
             onDeletePress={() => handleDeleteGallery()}
           />

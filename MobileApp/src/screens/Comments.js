@@ -346,7 +346,6 @@ const Comments = ({
             onLikePress={() => handleLikePress(item)}
             onReplyPress={() => handleReplyPress(item)}
             onProfilePress={() => handleProfilePress(item)}
-            enableOptions={item.createdBy._id === currentUser._id}
             onOptionsPress={() => handleCommentOptionsPress(item)}
             onDeletePress={() => handleDeleteComment()}
           />

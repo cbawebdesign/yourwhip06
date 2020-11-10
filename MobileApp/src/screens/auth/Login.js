@@ -20,8 +20,8 @@ const backgroundImage = require('../../../assets/images/background.png');
 const Login = ({ route, navigation, error, success, fetching }) => {
   const dispatch = useDispatch();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('henkcorporaal@hotmail.com');
+  const [password, setPassword] = useState('qqqqqqqq');
   const [emailActive, setEmailActive] = useState(false);
   const [passwordActive, setPasswordActive] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -232,7 +232,9 @@ Login.propTypes = {
     navigate: PropTypes.func.isRequired,
   }).isRequired,
   fetching: PropTypes.bool.isRequired,
-  error: PropTypes.objectOf(PropTypes.string),
+  error: PropTypes.objectOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
+  ),
   success: PropTypes.objectOf(PropTypes.string),
 };
 

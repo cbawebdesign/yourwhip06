@@ -139,7 +139,7 @@ const Replies = ({ route, navigation, replyFeed, currentUser, fetching }) => {
       onLikePress={() => handleLikePress(route.params.post, 'COMMENT')}
       onReplyPress={() => null}
       onProfilePress={() => handleProfilePress(route.params.comment)}
-      onOptionsPress={() => null} // TODO: ADD COMMENT OPTIONS
+      onOptionsPress={null} // TODO: ADD COMMENT OPTIONS
       isComment
     />
   );
@@ -200,7 +200,6 @@ const Replies = ({ route, navigation, replyFeed, currentUser, fetching }) => {
             onReplyPress={() => null}
             onProfilePress={() => handleProfilePress(item)}
             isReply
-            enableOptions={item.createdBy._id === currentUser._id}
             onOptionsPress={() => handleReplyOptionsPress(item)}
             onDeletePress={() => handleDeleteReply(item)}
           />
@@ -221,6 +220,7 @@ const Replies = ({ route, navigation, replyFeed, currentUser, fetching }) => {
           onCommentChange={(text) => setReply(text)}
           commentValue={reply}
           onHeightChange={(height) => setCommentViewHeight(height)}
+          editComment={false}
         />
       </FooterView>
     </ContainerView>

@@ -402,7 +402,6 @@ const Profile = ({
             onCommentsPress={() => handleCommentsPress(item)}
             onLikePress={() => handleLikePress(item)}
             onProfilePress={() => handleProfilePress(item)}
-            enableOptions={currentUser._id === user._id}
             onOptionsPress={() => handlePostOptionsPress(item)}
             onDeletePress={() => handleDeletePost('PROFILE')}
             itemInView={viewableItems.some(

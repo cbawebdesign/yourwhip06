@@ -205,7 +205,6 @@ const ExploreDetail = ({
       onProfilePress={handleProfilePress}
       onSharePress={() => handleSharePress(post, 'POST')}
       hideMediaView
-      enableOptions={post.createdBy._id === currentUser._id}
       onOptionsPress={() => setShowPostOptions(true)}
     />
   );

@@ -92,11 +92,11 @@ exports.likePostPress = async (req, res) => {
 };
 
 exports.sharePost = async (req, res) => {
-  const post = await postHelper.getOnePostFromRequest(req);
-  req.post = post;
-  req.activityType = 'SHARE_POST';
-
   try {
+    const post = await postHelper.getOnePostFromRequest(req);
+    req.post = post;
+    req.activityType = 'SHARE_POST';
+
     const activity = await activityHelper.buildActivityFromRequest(req);
     const newShare = await shareHelper.buildShareFromRequest(req);
 

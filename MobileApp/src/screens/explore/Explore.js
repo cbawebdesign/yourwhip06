@@ -298,7 +298,9 @@ const Explore = ({
 
       setFeed(result.feed);
     } else if (result.share.action === 'sharedAction') {
-      dispatch(sharePost({ parentId: currentItem._id }));
+      dispatch(
+        sharePost({ parentId: currentItem._id, activityType: 'SOCIAL_SHARE' })
+      );
 
       setFeed(result.feed);
     }

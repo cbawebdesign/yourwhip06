@@ -119,7 +119,7 @@ const AuthStackScreen = () => {
   const headerHeight = useHeaderHeight();
 
   return (
-    <AuthNavigationStack.Navigator>
+    <AuthNavigationStack.Navigator headerMode="none">
       <AuthNavigationStack.Screen
         name={LOGIN}
         component={Login}
@@ -169,7 +169,7 @@ const WalkthroughStackScreen = () => {
   const headerHeight = useHeaderHeight();
 
   return (
-    <WalkthroughNavigationStack.Navigator>
+    <WalkthroughNavigationStack.Navigator headerMode="none">
       <WalkthroughNavigationStack.Screen
         name={WALKTHROUGH}
         component={WalkthroughStep1}
@@ -188,7 +188,7 @@ const ImagePickerStackStackScreen = ({ route }) => {
   const { headerHeight } = route.params;
 
   return (
-    <ImagePickerStack.Navigator>
+    <ImagePickerStack.Navigator headerMode="none">
       <ImagePickerStack.Screen
         name={MEDIA_ALBUMS}
         component={ImagePicker}
@@ -207,7 +207,7 @@ const MainStackScreen = ({ route }) => {
   const { headerHeight } = route.params;
 
   return (
-    <MainNavigationStack.Navigator>
+    <MainNavigationStack.Navigator headerMode="none">
       <MainNavigationStack.Screen
         name={EXPLORE}
         component={Explore}
@@ -276,7 +276,7 @@ const PopupStackScreen = () => {
   const headerHeight = useHeaderHeight();
 
   return (
-    <PopupNavigationStack.Navigator mode="modal">
+    <PopupNavigationStack.Navigator mode="modal" headerMode="none">
       <PopupNavigationStack.Screen
         name="Main"
         component={MainStackScreen}

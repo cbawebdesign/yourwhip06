@@ -20,7 +20,7 @@ const fetchSharePost = ({ action, token }) =>
     },
     body: JSON.stringify({
       parentId: action.data.parentId,
-      activityType: action.data.sharedAactivityTypection,
+      activityType: action.data.activityType,
     }),
   });
 

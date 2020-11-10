@@ -17,7 +17,6 @@ import { commentListItemStyles as styles } from './styles';
 // onLikePress (processes pressing the 'like' button)
 // onProfilePress (to navigate to the Profile screen)
 // onReplyPress (handles the reply press action)
-// enableOptions (display the post options button)
 // onOptionsPress (handle the post options onPress)
 // isComment (renders the list item style as a comment; NOTE, only used
 // inside the 'Reply' screen; default: 'false');
@@ -35,7 +34,6 @@ const CommentListItem = ({
   onReplyPress,
   isComment,
   isReply,
-  enableOptions,
   onOptionsPress,
   onDeletePress,
 }) => {
@@ -70,7 +68,6 @@ const CommentListItem = ({
           dateTime={item.dateTime}
           showName
           onProfilePress={onProfilePress}
-          enableOptions={enableOptions}
           onOptionsPress={onOptionsPress}
         />
         <View
@@ -101,7 +98,6 @@ CommentListItem.defaultProps = {
   isReply: false,
   onDeletePress: null,
   onOptionsPress: null,
-  enableOptions: null,
 };
 
 CommentListItem.propTypes = {
@@ -109,7 +105,6 @@ CommentListItem.propTypes = {
   onLikePress: PropTypes.func.isRequired,
   onReplyPress: PropTypes.func.isRequired,
   onProfilePress: PropTypes.func.isRequired,
-  enableOptions: PropTypes.bool,
   onOptionsPress: PropTypes.func,
   isComment: PropTypes.bool,
   isReply: PropTypes.bool,
