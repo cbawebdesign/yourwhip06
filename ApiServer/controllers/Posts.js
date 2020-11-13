@@ -216,7 +216,11 @@ exports.deletePost = async (req, res) => {
     // DELETE SHARES
     // TODO
 
-    await postHelper.deleteOnePostFromRequest(req);
+    const deletedPost = await postHelper.deleteOnePostFromRequest(req);
+
+    if (!deletedPost) {
+      throw new Error('An error occured while deleting the post');
+    }
 
     res
       .status(HttpStatus.OK)

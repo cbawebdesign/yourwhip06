@@ -113,7 +113,7 @@ const Help = ({ route, navigation, fetching, error, success }) => {
         <View style={styles.inputView}>
           <AuthInputView inputOptions={inputBlockOptions} />
         </View>
-        <View style={styles.buttonView}>
+        <View style={[styles.buttonView, { marginBottom: 50 }]}>
           <AuthButtonView
             onStartPress={handleStartPress}
             mainButtonText="NEXT"

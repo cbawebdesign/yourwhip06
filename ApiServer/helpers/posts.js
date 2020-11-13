@@ -473,9 +473,7 @@ exports.deleteOnePostFromRequest = async (req) => {
   try {
     const result = await Post.findByIdAndDelete(postId);
 
-    if (!result) {
-      throw new Error('An error occured while deleting the post');
-    }
+    return result;
   } catch (error) {
     console.log('39', error);
   }

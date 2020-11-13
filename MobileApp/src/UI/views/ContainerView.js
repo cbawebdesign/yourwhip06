@@ -32,10 +32,33 @@ const ContainerView = ({
   backgroundColor,
   loadingOptions,
   headerHeight,
+  enableKeyboardAvoidingView,
 }) => {
   const BG_COLOR = hasGradient
     ? [styles.$gradientColorFrom, styles.$gradientColorTo]
     : [backgroundColor, backgroundColor];
+
+  if (!enableKeyboardAvoidingView) {
+    return (
+      <TouchableWithoutFeedback
+        onPress={onPress}
+        disabled={!touchEnabled}
+        style={styles.container}
+      >
+        <LinearGradient
+          style={[styles.gradientView, { paddingTop: headerHeight }]}
+          colors={BG_COLOR}
+          start={[0, 0]}
+          end={[1, 1]}
+        >
+          {loadingOptions && loadingOptions.loading && (
+            <LoadingView hideSpinner={loadingOptions.hideSpinner} />
+          )}
+          {children}
+        </LinearGradient>
+      </TouchableWithoutFeedback>
+    );
+  }
 
   return (
     <KeyboardAvoidingView
@@ -71,6 +94,7 @@ ContainerView.defaultProps = {
   backgroundColor: '#DDDDDD',
   loadingOptions: null,
   headerHeight: 0,
+  enableKeyboardAvoidingView: true,
 };
 
 ContainerView.propTypes = {
@@ -84,6 +108,7 @@ ContainerView.propTypes = {
     hideSpinner: PropTypes.bool,
   }),
   headerHeight: PropTypes.number,
+  enableKeyboardAvoidingView: PropTypes.bool,
 };
 
 export default ContainerView;

@@ -29,7 +29,7 @@
         "NSPhotoLibraryAddUsageDescription": "Social Networkding Backend App needs access to your library to enable saving media to your library."
       },
       "bundleIdentifier": "com.knowlephant.share",
-      "buildNumber": "6"
+      "buildNumber": "7"
     }
   }
 }

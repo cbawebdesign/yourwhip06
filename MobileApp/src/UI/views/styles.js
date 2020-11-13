@@ -33,9 +33,13 @@ export const logoViewStyles = EStyleSheet.create({
     margin: 47,
   },
   title: {
+    textAlign: 'center',
     color: '$white',
     fontSize: 24,
     letterSpacing: 20,
+    lineHeight: 40,
+    paddingLeft: 25,
+    paddingRight: 25,
   },
 });
 

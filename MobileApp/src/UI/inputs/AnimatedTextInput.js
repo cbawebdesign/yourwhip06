@@ -64,17 +64,15 @@ const AnimatedTextInput = ({ options }) => {
   };
 
   const setToActive = () => {
-    Animated.timing(containerScale, {
+    Animated.spring(containerScale, {
       toValue: styles.$containerLarge,
-      duration: ANIMATION_DURATION,
       useNativeDriver: true,
     }).start();
   };
 
   const setToInactive = () => {
-    Animated.timing(containerScale, {
+    Animated.spring(containerScale, {
       toValue: styles.$containerSmall,
-      duration: ANIMATION_DURATION,
       useNativeDriver: true,
     }).start();
   };

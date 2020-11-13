@@ -83,7 +83,7 @@ const flaggedState = (state = initialState, action) => {
     case DELETE_POST_RESULT:
       return {
         ...state,
-        flaggedPostsFeed: state.flaggedFeed.filter(
+        flaggedPostsFeed: state.flaggedPostsFeed.filter(
           (item) => item._id !== action.result.postId
         ),
       };

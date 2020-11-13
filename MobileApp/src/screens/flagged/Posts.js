@@ -67,7 +67,7 @@ const FlaggedPosts = ({
     buttons: [
       {
         title: 'Unflag post',
-        subtitle: 'The post does not break community guidlines',
+        subtitle: 'The post does not break community guidelines',
         onPress: () => {
           dispatch(unflagPost(currentItem._id));
           setShowPostOptions(false);
@@ -156,7 +156,8 @@ const FlaggedPosts = ({
   };
 
   const handleDeletePost = (fromScreen) => {
-    const deletedPostId = deletedPost ? deletedPost.postId : currentItem._id;
+    const deletedPostId =
+      deletedPost && currentItem ? deletedPost.postId : currentItem._id;
 
     // DISPATCH 'DELETEPOST' ONLY FOR THIS SCREEN
     // DETAIL SCREEN HANDLES ITS OWN DISPATCH 'DELETEPOST'
@@ -250,6 +251,7 @@ const FlaggedPosts = ({
     if (deletedPost) {
       return;
     }
+
     setFeed(flaggedPostsFeed);
   }, [route, flaggedPostsFeed, commentsUpdateCheck, newLikeCheck]);
 

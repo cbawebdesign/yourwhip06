@@ -54,7 +54,7 @@ const FlaggedComments = ({
     buttons: [
       {
         title: 'Unflag comment',
-        subtitle: 'The comment does not break community guidlines',
+        subtitle: 'The comment does not break community guidelines',
         onPress: () => {
           dispatch(unflagComment(currentItem._id));
           setShowCommentOptions(false);

@@ -62,6 +62,7 @@ const SignUpStep2 = ({
   const [address, setAddress] = useState(null);
   const [locationError, setLocationError] = useState(null);
   const [showImageTypeModal, setShowImageTypeModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const inputBlockOptions = [
     {
@@ -165,7 +166,7 @@ const SignUpStep2 = ({
     setlocationActive(false);
   };
 
-  const handleInputPress = async (type) => {
+  const handleInputPress = (type) => {
     switch (type) {
       case 'BIRTHDAY':
         setbirthdayActive(true);
@@ -178,11 +179,13 @@ const SignUpStep2 = ({
         setlocationActive(false);
         break;
       case 'LOCATION':
-        await getLocationPermissions();
-
+        if (!address) {
+          getLocationPermissions();
+        } else {
+          setlocationActive(true);
+        }
         setbirthdayActive(false);
         setgenderActive(false);
-        setlocationActive(true);
         break;
       default:
         break;
@@ -266,8 +269,11 @@ const SignUpStep2 = ({
 
     if (status !== 'granted') {
       setLocationError('Permission to access location was denied');
+
+      return;
     }
 
+    setLoading(true);
     const locationObject = await Location.getCurrentPositionAsync({});
     const addressObject = await Location.reverseGeocodeAsync({
       latitude: locationObject.coords.latitude,
@@ -275,9 +281,14 @@ const SignUpStep2 = ({
     });
 
     setAddress(`${addressObject[0].city}, ${addressObject[0].country}`);
+
+    setlocationActive(true);
+    setLoading(false);
   };
 
   useEffect(() => {
+    handleRemoveKeyboard();
+
     navigation.setParams({
       ...route.params,
       title: fromScreen === 'SETTINGS' ? 'Edit Profile' : 'Signup (Step 2)',
@@ -296,7 +307,7 @@ const SignUpStep2 = ({
       <ContainerView
         onPress={handleRemoveKeyboard}
         backgroundColor="transparent"
-        loadingOptions={{ loading: fetching }}
+        loadingOptions={{ loading: fetching || loading }}
         headerHeight={route.params.headerHeight}
       >
         <SelectionModal

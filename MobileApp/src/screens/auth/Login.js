@@ -13,12 +13,15 @@ import SelectionModal from '../../UI/modals/SelectionModal';
 
 import { login, resetMessages } from '../../actions/auth';
 
+import { useKeyboardState } from '../../config/hooks';
+
 import styles from '../styles';
 
 const backgroundImage = require('../../../assets/images/background.png');
 
 const Login = ({ route, navigation, error, success, fetching }) => {
   const dispatch = useDispatch();
+  const { keyboardHeight } = useKeyboardState();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -180,6 +183,7 @@ const Login = ({ route, navigation, error, success, fetching }) => {
         backgroundColor="transparent"
         loadingOptions={{ loading: fetching }}
         headerHeight={route.params.headerHeight}
+        enableKeyboardAvoidingView={false}
       >
         <SelectionModal
           showModal={showModal}
@@ -197,6 +201,9 @@ const Login = ({ route, navigation, error, success, fetching }) => {
           style={[
             styles.buttonView,
             (emailActive || passwordActive) && styles.$active,
+            (emailActive || passwordActive) && {
+              marginBottom: keyboardHeight + 25,
+            },
           ]}
         >
           <AuthButtonView
