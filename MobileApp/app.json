@@ -2,9 +2,9 @@
   "expo": {
     "name": "Social Networking Backend App",
     "slug": "social-networking-backend-app",
-    "platforms": ["ios", "android"],
-    "version": "2.0.0",
+    "version": "2.0.1",
     "description": "Social Networking Backend App is a full-feature social media application ready to be deployed to the app store of your choice. The app combines Twitter, Instagram and Facebook type features, but in its own unique style. Easy to maintain and to customise with your company brand and styling, this app will jump-start the launch of your organization's social media imperium.",
+    "platforms": ["ios", "android"],
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -19,17 +19,17 @@
     "ios": {
       "supportsTablet": false,
       "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "Social Networkding Backend App requires your location so that we can set user profile location info.",
-        "NSLocationAlwaysUsageDescription": "Social Networkding Backend App requires your location so that we can set user profile location info.",
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "Social Networkding Backend App requires your location so that we can set user profile location info.",
-        "NSLocationUsageDescription": "Social Networkding Backend App requires your location so that we can set user profile location info.",
-        "NSCameraUsageDescription": "Social Networkding Backend App needs access to your camera to enable uploading photos and videos to your posts.",
-        "NSMicrophoneUsageDescription": "Social Networkding Backend App needs access to your microphone to enable sound when creating video posts.",
-        "NSPhotoLibraryUsageDescription": "Social Networkding Backend App needs access to your library to enable uploading media to your posts.",
-        "NSPhotoLibraryAddUsageDescription": "Social Networkding Backend App needs access to your library to enable saving media to your library."
+        "NSLocationWhenInUseUsageDescription": "Social Networking Backend App requires your location so that we can set user profile location info.",
+        "NSLocationAlwaysUsageDescription": "Social Networking Backend App requires your location so that we can set user profile location info.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Social Networking Backend App requires your location so that we can set user profile location info.",
+        "NSLocationUsageDescription": "Social Networking Backend App requires your location so that we can set user profile location info.",
+        "NSCameraUsageDescription": "Social Networking Backend App needs access to your camera to enable uploading photos and videos to your posts.",
+        "NSMicrophoneUsageDescription": "Social Networking Backend App needs access to your microphone to enable sound when creating video posts.",
+        "NSPhotoLibraryUsageDescription": "Social Networking Backend App needs access to your library to enable uploading media to your posts.",
+        "NSPhotoLibraryAddUsageDescription": "Social Networking Backend App needs access to your library to enable saving media to your library."
       },
       "bundleIdentifier": "com.knowlephant.share",
-      "buildNumber": "7"
+      "buildNumber": "8"
     }
   }
 }

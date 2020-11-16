@@ -1,3 +1,10 @@
+// APP & COMPANY INFO
+// THESE ARE APPLIED IN THE 'SIGNUP_STEP_3' SCREEN
+export const APP_NAME = 'React Native Share Backend App';
+export const COMPANY_NAME = 'Knowlephant';
+export const CONTACT_EMAIL = 'info@knowlephant.com';
+
+// APISERVER URLS
 const DEVELOPMENT_API_HOST = 'http://localhost:4000';
 const PRODUCTION_API_HOST = 'https://react-native-share.herokuapp.com';
 

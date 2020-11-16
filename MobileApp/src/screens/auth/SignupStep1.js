@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { View, Keyboard, ImageBackground, ScrollView } from 'react-native';
+import {
+  View,
+  Keyboard,
+  ImageBackground,
+  ScrollView,
+  Platform,
+} from 'react-native';
 
 import ContainerView from '../../UI/views/ContainerView';
 import LogoView from '../../UI/views/LogoView';
@@ -18,6 +24,8 @@ import { useKeyboardState } from '../../config/hooks';
 import styles from '../styles';
 
 const backgroundImage = require('../../../assets/images/background.png');
+
+const isIos = Platform.OS === 'ios';
 
 const SignupStep1 = ({ route, navigation, fetching, error, success }) => {
   const dispatch = useDispatch();
@@ -199,12 +207,13 @@ const SignupStep1 = ({ route, navigation, fetching, error, success }) => {
           <View
             style={[
               styles.buttonView,
-              (firstNameActive ||
-                lastNameActive ||
-                emailActive ||
-                passwordActive) && {
-                marginBottom: keyboardHeight + 25,
-              },
+              isIos &&
+                (firstNameActive ||
+                  lastNameActive ||
+                  emailActive ||
+                  passwordActive) && {
+                  marginBottom: keyboardHeight + 25,
+                },
             ]}
           >
             <AuthButtonView

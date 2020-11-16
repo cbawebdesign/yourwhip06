@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { View, ImageBackground, Keyboard } from 'react-native';
+import { View, ImageBackground, Keyboard, Platform } from 'react-native';
 import { useDispatch, connect } from 'react-redux';
 
 import ContainerView from '../../UI/views/ContainerView';
@@ -18,6 +18,8 @@ import { useKeyboardState } from '../../config/hooks';
 import styles from '../styles';
 
 const backgroundImage = require('../../../assets/images/background.png');
+
+const isIos = Platform.OS === 'ios';
 
 const Login = ({ route, navigation, error, success, fetching }) => {
   const dispatch = useDispatch();
@@ -201,9 +203,10 @@ const Login = ({ route, navigation, error, success, fetching }) => {
           style={[
             styles.buttonView,
             (emailActive || passwordActive) && styles.$active,
-            (emailActive || passwordActive) && {
-              marginBottom: keyboardHeight + 25,
-            },
+            isIos &&
+              (emailActive || passwordActive) && {
+                marginBottom: keyboardHeight + 25,
+              },
           ]}
         >
           <AuthButtonView

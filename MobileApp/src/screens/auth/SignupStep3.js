@@ -17,9 +17,7 @@ import { signupStep3 } from '../../actions/auth';
 import styles from '../styles';
 
 import {
-  termsPar0,
   termsPar1,
-  termsPar1_1,
   termsPar2,
   termsPar3,
   termsPar4,
@@ -28,6 +26,8 @@ import {
   termsPar7,
   termsPar8,
   termsPar9,
+  termsPar10,
+  termsPar11,
 } from '../../helpers/dataHelper';
 
 const paragraphStyle = {
@@ -52,7 +52,7 @@ const SignupStep3 = ({ route }) => {
         contentContainerStyle={{
           padding: 12,
           paddingBottom: 48,
-          paddingTop: 48,
+          paddingTop: 12,
         }}
       >
         <Text
@@ -65,13 +65,7 @@ const SignupStep3 = ({ route }) => {
           fontFamily={BODY_FONT}
           style={{ paddingBottom: 48, fontSize: 15 }}
         />
-        <Text text={termsPar0} fontFamily={BODY_FONT} style={paragraphStyle} />
         <Text text={termsPar1} fontFamily={BODY_FONT} style={paragraphStyle} />
-        <Text
-          text={termsPar1_1}
-          fontFamily={BODY_FONT}
-          style={paragraphStyle}
-        />
         <Text text={termsPar2} fontFamily={BODY_FONT} style={paragraphStyle} />
         <Text text={termsPar3} fontFamily={BODY_FONT} style={paragraphStyle} />
         <Text text={termsPar4} fontFamily={BODY_FONT} style={paragraphStyle} />
@@ -80,6 +74,8 @@ const SignupStep3 = ({ route }) => {
         <Text text={termsPar7} fontFamily={BODY_FONT} style={paragraphStyle} />
         <Text text={termsPar8} fontFamily={BODY_FONT} style={paragraphStyle} />
         <Text text={termsPar9} fontFamily={BODY_FONT} style={paragraphStyle} />
+        <Text text={termsPar10} fontFamily={BODY_FONT} style={paragraphStyle} />
+        <Text text={termsPar11} fontFamily={BODY_FONT} style={paragraphStyle} />
       </ScrollView>
       <FooterView backgroundColor="white">
         <TextButton
