@@ -126,6 +126,8 @@ const Login = ({ route, navigation, error, success, fetching }) => {
   const handleSignUp = () => {
     dispatch(resetMessages());
     navigation.navigate('Signup (Step 1)');
+    setEmail('');
+    setPassword('');
   };
 
   const handleOnHelpPress = () => {

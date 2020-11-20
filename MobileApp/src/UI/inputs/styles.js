@@ -35,6 +35,7 @@ export const animatedTextInputStyles = EStyleSheet.create({
     height: 18,
     tintColor: '$black',
     marginRight: 8,
+    opacity: 0.4,
   },
   placeholder: {
     fontSize: 10,

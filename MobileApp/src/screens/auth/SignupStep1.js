@@ -169,6 +169,7 @@ const SignupStep1 = ({ route, navigation, fetching, error, success }) => {
   };
 
   const handleStartPress = () => {
+    handleRemoveKeyboard();
     dispatch(signupStep1({ firstName, lastName, email, password }));
   };
 
