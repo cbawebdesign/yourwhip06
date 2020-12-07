@@ -57,6 +57,10 @@ const userSchema = new Schema(
         type: Boolean,
         default: true,
       },
+      enableNotifications: {
+        type: Boolean,
+        default: false,
+      },
     },
     dateTime: {
       type: Date,
