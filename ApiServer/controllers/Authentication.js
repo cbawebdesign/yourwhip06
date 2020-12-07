@@ -9,7 +9,7 @@ const imageHelper = require('../helpers/images');
 const commentsHelper = require('../helpers/comments');
 const activityHelper = require('../helpers/activities');
 
-const sendCodeEmail = require('../emails/recoveryCodeEmail');
+const sendCodeEmail = require('../emails_and_notifications/recoveryCodeEmail');
 
 exports.login = async (req, res) => {
   try {

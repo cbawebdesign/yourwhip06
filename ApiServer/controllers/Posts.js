@@ -8,6 +8,9 @@ const likeHelper = require('../helpers/likes');
 const shareHelper = require('../helpers/shares');
 const galleryHelper = require('../helpers/galleries');
 const generalHelper = require('../helpers/general');
+const sendNotification = require('../emails_and_notifications/notifications');
+
+const CONFIG = require('../constants');
 
 exports.getFeed = async (req, res) => {
   const { skip } = req.params;
@@ -141,6 +144,29 @@ exports.compose = async (req, res) => {
     }
 
     await postHelper.buildPostFromRequest(req);
+
+    // CREATE PUSH NOTIFICATIONS
+    // TO ALL PEOPLE THAT FOLLOW CURRENTUSER
+    console.log(
+      'notification test',
+      req.user.followers.map((item) => item.user)
+    );
+    var message = {
+      app_id: CONFIG.ONESIGNAL_APP_ID,
+      headings: {
+        en: `${
+          req.body.descriptions ||
+          req.body.caption ||
+          `Posted just now on ${CONFIG.COMPANY_INFO.app_name}`
+        }`,
+      },
+      contents: {
+        en: `Recommended: ${req.user.firstName} ${req.user.lastName}`,
+      },
+      channel_for_external_user_ids: 'push',
+      include_external_user_ids: req.user.followers.map((item) => item.user),
+    };
+    sendNotification(message);
 
     // CURRENTLY PASSING BACK LIMITED NUMBER OF POSTS
     // LIMITED BASED ON PAGINATION_LIMIT CONSTANT MOBILE APP

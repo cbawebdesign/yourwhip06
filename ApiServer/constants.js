@@ -43,3 +43,8 @@ exports.CLOUDINARY = {
 };
 
 exports.JWT_KEY = process.env.JWT_KEY || CONFIG.JWT_KEY;
+
+exports.ONESIGNAL_REST_KEY =
+  process.env.ONESIGNAL_REST_KEY || CONFIG.ONESIGNAL_REST_KEY;
+exports.ONESIGNAL_APP_ID =
+  process.env.ONESIGNAL_APP_ID || CONFIG.ONESIGNAL_APP_ID;
