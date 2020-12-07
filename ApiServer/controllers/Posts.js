@@ -143,19 +143,15 @@ exports.compose = async (req, res) => {
       await galleryHelper.updateGalleryFromRequest(req);
     }
 
-    await postHelper.buildPostFromRequest(req);
+    const newPost = await postHelper.buildPostFromRequest(req);
 
     // CREATE PUSH NOTIFICATIONS
     // TO ALL PEOPLE THAT FOLLOW CURRENTUSER
-    console.log(
-      'notification test',
-      req.user.followers.map((item) => item.user._id.toString())
-    );
     var message = {
       app_id: CONFIG.ONESIGNAL_APP_ID,
       headings: {
         en: `${
-          req.body.descriptions ||
+          req.body.description ||
           req.body.caption ||
           `Posted just now on ${CONFIG.COMPANY_INFO.app_name}`
         }`,
@@ -163,6 +159,7 @@ exports.compose = async (req, res) => {
       contents: {
         en: `Recommended: ${req.user.firstName} ${req.user.lastName}`,
       },
+      appUrl: `${CONFIG.APP_SCHEME}://detail/?${newPost._id}`,
       channel_for_external_user_ids: 'push',
       include_external_user_ids: req.user.followers.map((item) =>
         item.user._id.toString()
