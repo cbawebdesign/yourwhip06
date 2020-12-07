@@ -149,7 +149,7 @@ exports.compose = async (req, res) => {
     // TO ALL PEOPLE THAT FOLLOW CURRENTUSER
     console.log(
       'notification test',
-      req.user.followers.map((item) => item.user)
+      req.user.followers.map((item) => item.user._id.toString())
     );
     var message = {
       app_id: CONFIG.ONESIGNAL_APP_ID,
@@ -164,7 +164,9 @@ exports.compose = async (req, res) => {
         en: `Recommended: ${req.user.firstName} ${req.user.lastName}`,
       },
       channel_for_external_user_ids: 'push',
-      include_external_user_ids: req.user.followers.map((item) => item.user),
+      include_external_user_ids: req.user.followers.map((item) =>
+        item.user._id.toString()
+      ),
     };
     sendNotification(message);
 
