@@ -11,6 +11,7 @@ exports.buildUserFromRequest = async (req) => {
     gender,
     location,
     description,
+    onesignalConsent,
   } = req.body;
   const { profileImage } = req;
   const user = new User({
@@ -23,6 +24,7 @@ exports.buildUserFromRequest = async (req) => {
     gender: gender === 'undefined' || gender === 'null' ? null : gender,
     location: location === 'undefined' || location === 'null' ? null : location,
     description,
+    onesignalConsent,
   });
 
   try {
