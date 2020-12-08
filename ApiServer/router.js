@@ -101,7 +101,7 @@ app.post('/edit-profile/', auth, uploads.uploadProfileImage, Users.editProfile);
 app.get('/get-recommended-users/', auth, Users.getRecommended);
 app.post('/remove-user-press', auth, Users.removeUserPress);
 app.get('/search-users/:searchInput', auth, Users.searchUsers);
-app.get('/update-onesignal-consent/', auth, Users.updateOnesignalConsent);
+app.post('/update-onesignal-consent/', auth, Users.updateOnesignalConsent);
 
 // SETTINGS
 app.post('/delete-account/', auth, Authentication.deleteAccount);
