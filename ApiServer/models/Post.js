@@ -13,6 +13,7 @@ const postSchema = new mongoose.Schema(
     shares: [{ type: Schema.Types.ObjectId, ref: 'Share' }],
     sharedPost: { type: Schema.Types.ObjectId, ref: 'Post' },
     sharedImage: { type: Schema.Types.ObjectId, ref: 'Image' },
+    viewCount: { type: Number, default: 0 },
     flagged: Boolean,
     shouldExpire: { type: Boolean, required: true },
     dateTime: {

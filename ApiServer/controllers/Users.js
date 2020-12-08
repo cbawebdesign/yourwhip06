@@ -60,7 +60,7 @@ exports.updateOnesignalConsent = async (req, res) => {
 
     res.status(HttpStatus.OK).send(currentUser.onesignalConsent);
   } catch (error) {
-    console.log('50', error);
+    console.log('57', error);
   }
 };
 

@@ -42,6 +42,7 @@ app.post('/edit-post', auth, uploads.uploadImage, Home.edit);
 app.post('/delete-post/', auth, Home.deletePost);
 app.post('/hide-post/', auth, Home.hidePost);
 app.post('/hide-posts-by-user/', auth, Home.hidePostsByUser);
+app.post('/update-video-viewcount/', auth, Home.updateVideoViews);
 
 // FLAGGED
 app.get(

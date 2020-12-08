@@ -175,6 +175,6 @@ exports.getFlaggedCommentsFromRequest = async (req) => {
 
     return comments;
   } catch (error) {
-    console.log('53', error);
+    console.log('56', error);
   }
 };

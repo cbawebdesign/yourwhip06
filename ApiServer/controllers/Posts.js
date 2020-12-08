@@ -290,3 +290,20 @@ exports.hidePostsByUser = async (req, res) => {
     console.log('47', error);
   }
 };
+
+exports.updateVideoViews = async (req, res) => {
+  try {
+    // GET POST FOR VIDEO
+    const post = await postHelper.getOnePostFromRequest(req);
+
+    // UPDATE POST
+    post.viewCount = post.viewCount + 1;
+    await post.save();
+
+    res
+      .status(HttpStatus.OK)
+      .send({ success: 'View count successfully updated' });
+  } catch (error) {
+    console.log('55', error);
+  }
+};
