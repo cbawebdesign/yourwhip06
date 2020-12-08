@@ -51,7 +51,7 @@ exports.updateOnesignalConsent = async (req, res) => {
   const currentUser = req.user;
   const { consent } = req.body;
 
-  currentUser.onesignalConsent = consent;
+  currentUser.onesignalConsent = consent === 'true' ? true : false;
 
   try {
     await currentUser.save();
