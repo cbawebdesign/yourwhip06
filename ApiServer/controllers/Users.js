@@ -47,6 +47,21 @@ exports.updateSettings = async (req, res) => {
   }
 };
 
+exports.updateOnesignalConsent = async (req, res) => {
+  const currentUser = req.user;
+  const { consent } = req.body;
+
+  currentUser.onesignalConsent = consent;
+
+  try {
+    await currentUser.save();
+
+    res.status(HttpStatus.OK).send(currentUser.onesignalConsent);
+  } catch (error) {
+    console.log('50', error);
+  }
+};
+
 exports.getRecommended = async (req, res) => {
   const currentUser = req.user;
 

@@ -62,6 +62,10 @@ const userSchema = new Schema(
         default: false,
       },
     },
+    onesignalConsent: {
+      type: Boolean,
+      default: false,
+    },
     dateTime: {
       type: Date,
       required: true,
