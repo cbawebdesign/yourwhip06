@@ -147,6 +147,7 @@ exports.compose = async (req, res) => {
 
     // CREATE PUSH NOTIFICATIONS
     // TO ALL PEOPLE THAT FOLLOW CURRENTUSER
+    console.log(req.user.followers.map((item) => item.user._id.toString()));
     var message = {
       app_id: CONFIG.ONESIGNAL_APP_ID,
       headings: {
