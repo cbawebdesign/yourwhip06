@@ -1,5 +1,7 @@
 const Activity = require('../models/Activity');
 
+const notificationHelper = require('../helpers/notifications');
+
 exports.getActivitiesFromRequest = async (req) => {
   const { user } = req;
   const skip = Number(req.params.skip);
@@ -35,6 +37,12 @@ exports.buildActivityFromRequest = async (req) => {
       activity: activityType,
       post,
     });
+    notificationHelper.createNotificationFromActivity(
+      user,
+      post.createdBy,
+      activityType,
+      post
+    );
   } else if (
     activityType === 'LIKE_COMMENT' ||
     activityType === 'LIKE_REPLY' ||
