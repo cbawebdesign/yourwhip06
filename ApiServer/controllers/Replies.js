@@ -11,9 +11,11 @@ exports.getReplyFeed = async (req, res) => {
 
   try {
     // NOTE: REPLIES ARE NORMAL COMMENTS DISGUISED AS REPLIES
+    req.commentId = req.params.parentId;
+    const comment = await commentHelper.getOneCommentFromRequest(req);
     const replies = await commentHelper.getCommentsFromRequest(req);
 
-    res.status(HttpStatus.OK).send(replies);
+    res.status(HttpStatus.OK).send({ comment, replies });
   } catch (error) {
     console.log('24', error);
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({ error: error.message });

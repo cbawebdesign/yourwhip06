@@ -136,7 +136,8 @@ exports.getCommentsFromRequest = async (req) => {
 };
 
 exports.getOneCommentFromRequest = async (req) => {
-  const { parentId, commentId } = req.body;
+  const commentId = req.commentId || req.body.commentId;
+  const { parentId } = req.body;
 
   let id;
 
@@ -145,7 +146,8 @@ exports.getOneCommentFromRequest = async (req) => {
     req.activityType === 'LIKE_REPLY' ||
     req.activityType === 'FLAGGED' ||
     req.activityType === 'EXPLORE' ||
-    req.activityType === 'DELETE_REPLY'
+    req.activityType === 'DELETE_REPLY' ||
+    req.commentType === 'REPLY' // USED TO GET COMMENT LINKED TO REPLY FEED
   ) {
     id = commentId;
   } else {
