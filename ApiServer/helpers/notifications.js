@@ -29,15 +29,41 @@ const getActionText = (activity) => {
   }
 };
 
+const getAppUrl = (activityType, id) => {
+  switch (activity) {
+    case 'LIKE_POST':
+      return `${CONFIG.APP_SCHEME}://detail/?post&screen=post&id=${id}`;
+    case 'SHARE_POST':
+      return `${CONFIG.APP_SCHEME}://detail/?post&screen=post&id=${id}`;
+    case 'LIKE_COMMENT':
+      return `${CONFIG.APP_SCHEME}://detail/?post&screen=comments&id=${id}`;
+    case 'LIKE_IMAGE':
+      return `${CONFIG.APP_SCHEME}://detail/?post&screen=post&id=${id}`;
+    case 'FOLLOW':
+      return `${CONFIG.APP_SCHEME}://detail/?profile&screen=profile&id=${id}`;
+    case 'SHARE_IMAGE':
+      return `${CONFIG.APP_SCHEME}://detail/?explore&screen=explore&id=${null}`;
+    case 'POST_COMMENT':
+      return `${CONFIG.APP_SCHEME}://detail/?post&screen=post&id=${id}`;
+    case 'IMAGE_COMMENT':
+      return `${CONFIG.APP_SCHEME}://detail/?post&screen=post&id=${id}`;
+    case 'REPLY':
+      return `${CONFIG.APP_SCHEME}://detail/?comment&screen=replies&id=${id}`;
+    case 'LIKE_REPLY':
+      return `${CONFIG.APP_SCHEME}://detail/?comment&screen=replies&id=${id}`;
+    default:
+      return null;
+  }
+};
+
 exports.createNotificationFromActivity = (
   userAction,
   userReceiver,
   activityType,
-  post
+  item
 ) => {
   // CREATE PUSH NOTIFICATIONS
   // TO ALL PEOPLE THAT FOLLOW CURRENTUSER
-  console.log(userReceiver._id.toString());
   var message = {
     app_id: CONFIG.ONESIGNAL_APP_ID,
     headings: {
@@ -48,9 +74,7 @@ exports.createNotificationFromActivity = (
         activityType
       )}`,
     },
-    app_url: post
-      ? `${CONFIG.APP_SCHEME}://detail/?${post._id}`
-      : `${CONFIG.APP_SCHEME}://`,
+    app_url: getAppUrl(activityType, item._id),
     channel_for_external_user_ids: 'push',
     include_external_user_ids: [userReceiver._id.toString()],
   };

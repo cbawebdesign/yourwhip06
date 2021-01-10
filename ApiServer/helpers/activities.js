@@ -58,7 +58,7 @@ exports.buildActivityFromRequest = async (req) => {
       user,
       comment.createdBy,
       activityType,
-      null
+      comment
     );
   } else if (
     activityType === 'LIKE_IMAGE' ||

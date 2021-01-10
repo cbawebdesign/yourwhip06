@@ -159,7 +159,7 @@ exports.compose = async (req, res) => {
       contents: {
         en: `Recommended: ${req.user.firstName} ${req.user.lastName}`,
       },
-      app_url: `${CONFIG.APP_SCHEME}://detail/?${newPost._id}`,
+      app_url: `${CONFIG.APP_SCHEME}://detail/?post&screen=post&id=${newPost._id}`,
       channel_for_external_user_ids: 'push',
       include_external_user_ids: req.user.followers.map((item) =>
         item.user._id.toString()
