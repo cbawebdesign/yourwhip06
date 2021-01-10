@@ -148,7 +148,7 @@ exports.compose = async (req, res) => {
     // CREATE PUSH NOTIFICATIONS
     // TO ALL PEOPLE THAT FOLLOW CURRENTUSER
     // PREVENT WHEN SHARING POST (HANDLED ALREADY AS ACTIVITY NOTIFICATION)
-    if (req.body.parentId === 'undefined' || req.body.imageId === 'undefined') {
+    if (req.body.parentId === 'undefined' && req.body.imageId === 'undefined') {
       var message = {
         app_id: CONFIG.ONESIGNAL_APP_ID,
         headings: {
