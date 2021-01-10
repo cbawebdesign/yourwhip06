@@ -45,12 +45,12 @@ const getAppUrl = (activityType, item, userAction) => {
       return `${CONFIG.APP_SCHEME}://detail/?profile&screen=profile&id=${id}`;
     case 'SHARE_IMAGE': // WORKING BUT WRONG MESSAGE
       return `${CONFIG.APP_SCHEME}://detail/?explore&screen=explore&id=${null}`;
-    case 'POST_COMMENT':
+    case 'POST_COMMENT': // WORKING
       return `${CONFIG.APP_SCHEME}://detail/?post&screen=post&id=${item._id}`;
-    case 'IMAGE_COMMENT':
+    case 'IMAGE_COMMENT': // WORKING
       return `${CONFIG.APP_SCHEME}://detail/?post&screen=post&id=${item.post._id}`;
     case 'REPLY':
-      return `${CONFIG.APP_SCHEME}://detail/?comment&screen=replies&id=${item.post._id}`;
+      return `${CONFIG.APP_SCHEME}://detail/?comment&screen=replies&id=${item._id}`;
     case 'LIKE_REPLY':
       return `${CONFIG.APP_SCHEME}://detail/?comment&screen=replies&id=${item.post._id}`;
     default:
@@ -69,7 +69,7 @@ exports.createNotificationFromActivity = (
   var message = {
     app_id: CONFIG.ONESIGNAL_APP_ID,
     headings: {
-      en: `${`Posted just now on ${CONFIG.COMPANY_INFO.app_name}`}`,
+      en: `${`Just now on ${CONFIG.COMPANY_INFO.app_name}`}`,
     },
     contents: {
       en: `${userAction.firstName} ${userAction.lastName} ${getActionText(
