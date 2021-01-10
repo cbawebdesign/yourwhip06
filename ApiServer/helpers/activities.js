@@ -23,7 +23,6 @@ exports.getActivitiesFromRequest = async (req) => {
 
 exports.buildActivityFromRequest = async (req) => {
   const { user, post, comment, image, activityType, createdBy } = req;
-  console.log(req.post);
 
   let activity;
 
@@ -76,7 +75,7 @@ exports.buildActivityFromRequest = async (req) => {
       user,
       image.createdBy,
       activityType,
-      null
+      image
     );
   } else if (activityType === 'FOLLOW') {
     activity = new Activity({
