@@ -29,28 +29,29 @@ const getActionText = (activity) => {
   }
 };
 
-const getAppUrl = (activityType, id) => {
+const getAppUrl = (activityType, item, userAction) => {
+  console.log(item.post);
   switch (activityType) {
     case 'LIKE_POST':
-      return `${CONFIG.APP_SCHEME}://detail/?post&screen=post&id=${id}`;
+      return `${CONFIG.APP_SCHEME}://detail/?post&screen=post&id=${item._id}`;
     case 'SHARE_POST':
-      return `${CONFIG.APP_SCHEME}://detail/?post&screen=post&id=${id}`;
+      return `${CONFIG.APP_SCHEME}://detail/?post&screen=explore&id=${null}`;
     case 'LIKE_COMMENT':
-      return `${CONFIG.APP_SCHEME}://detail/?post&screen=comments&id=${id}`;
+      return `${CONFIG.APP_SCHEME}://detail/?post&screen=comments&id=${item.post._id}`;
     case 'LIKE_IMAGE':
-      return `${CONFIG.APP_SCHEME}://detail/?post&screen=post&id=${id}`;
+      return `${CONFIG.APP_SCHEME}://detail/?post&screen=post&id=${item.post._id}`;
     case 'FOLLOW':
       return `${CONFIG.APP_SCHEME}://detail/?profile&screen=profile&id=${id}`;
     case 'SHARE_IMAGE':
       return `${CONFIG.APP_SCHEME}://detail/?explore&screen=explore&id=${null}`;
     case 'POST_COMMENT':
-      return `${CONFIG.APP_SCHEME}://detail/?post&screen=post&id=${id}`;
+      return `${CONFIG.APP_SCHEME}://detail/?post&screen=post&id=${item._id}`;
     case 'IMAGE_COMMENT':
-      return `${CONFIG.APP_SCHEME}://detail/?post&screen=post&id=${id}`;
+      return `${CONFIG.APP_SCHEME}://detail/?post&screen=post&id=${item.post._id}`;
     case 'REPLY':
-      return `${CONFIG.APP_SCHEME}://detail/?comment&screen=replies&id=${id}`;
+      return `${CONFIG.APP_SCHEME}://detail/?comment&screen=replies&id=${item.post._id}`;
     case 'LIKE_REPLY':
-      return `${CONFIG.APP_SCHEME}://detail/?comment&screen=replies&id=${id}`;
+      return `${CONFIG.APP_SCHEME}://detail/?comment&screen=replies&id=${item.post._id}`;
     default:
       return null;
   }
@@ -74,7 +75,7 @@ exports.createNotificationFromActivity = (
         activityType
       )}`,
     },
-    app_url: getAppUrl(activityType, item._id),
+    app_url: getAppUrl(activityType, item, userAction),
     channel_for_external_user_ids: 'push',
     include_external_user_ids: [userReceiver._id.toString()],
   };
