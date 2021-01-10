@@ -43,9 +43,9 @@ exports.createNotificationFromActivity = (
       en: `${`Posted just now on ${CONFIG.COMPANY_INFO.app_name}`}`,
     },
     contents: {
-      en: `${req.user.firstName} ${req.user.lastName} ${getActionText(
-        activityType
-      )}`,
+      en: `${userAction.user.firstName} ${
+        userAction.user.lastName
+      } ${getActionText(activityType)}`,
     },
     app_url: `${CONFIG.APP_SCHEME}://detail/?${post._id}`,
     channel_for_external_user_ids: 'push',
