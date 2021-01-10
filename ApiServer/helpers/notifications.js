@@ -30,7 +30,7 @@ const getActionText = (activity) => {
 };
 
 const getAppUrl = (activityType, id) => {
-  switch (activity) {
+  switch (activityType) {
     case 'LIKE_POST':
       return `${CONFIG.APP_SCHEME}://detail/?post&screen=post&id=${id}`;
     case 'SHARE_POST':
