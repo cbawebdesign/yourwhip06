@@ -147,25 +147,28 @@ exports.compose = async (req, res) => {
 
     // CREATE PUSH NOTIFICATIONS
     // TO ALL PEOPLE THAT FOLLOW CURRENTUSER
-    var message = {
-      app_id: CONFIG.ONESIGNAL_APP_ID,
-      headings: {
-        en: `${
-          req.body.description ||
-          req.body.caption ||
-          `Posted just now on ${CONFIG.COMPANY_INFO.app_name}`
-        }`,
-      },
-      contents: {
-        en: `Recommended: ${req.user.firstName} ${req.user.lastName}`,
-      },
-      app_url: `${CONFIG.APP_SCHEME}://detail/?post&screen=post&id=${newPost._id}`,
-      channel_for_external_user_ids: 'push',
-      include_external_user_ids: req.user.followers.map((item) =>
-        item.user._id.toString()
-      ),
-    };
-    sendNotification(message);
+    // PREVENT WHEN SHARING POST (HANDLED ALREADY AS ACTIVITY NOTIFICATION)
+    if (req.body.parentId === 'undefined' || req.body.imageId === 'undefined') {
+      var message = {
+        app_id: CONFIG.ONESIGNAL_APP_ID,
+        headings: {
+          en: `${
+            req.body.description ||
+            req.body.caption ||
+            `Posted just now on ${CONFIG.COMPANY_INFO.app_name}`
+          }`,
+        },
+        contents: {
+          en: `Recommended: ${req.user.firstName} ${req.user.lastName}`,
+        },
+        app_url: `${CONFIG.APP_SCHEME}://detail/?post&screen=post&id=${newPost._id}`,
+        channel_for_external_user_ids: 'push',
+        include_external_user_ids: req.user.followers.map((item) =>
+          item.user._id.toString()
+        ),
+      };
+      sendNotification(message);
+    }
 
     // CURRENTLY PASSING BACK LIMITED NUMBER OF POSTS
     // LIMITED BASED ON PAGINATION_LIMIT CONSTANT MOBILE APP
