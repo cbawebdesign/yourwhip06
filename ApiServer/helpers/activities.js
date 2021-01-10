@@ -54,6 +54,12 @@ exports.buildActivityFromRequest = async (req) => {
       activity: activityType,
       comment,
     });
+    notificationHelper.createNotificationFromActivity(
+      user,
+      comment.createdBy,
+      activityType,
+      null
+    );
   } else if (
     activityType === 'LIKE_IMAGE' ||
     activityType === 'IMAGE_COMMENT' ||
@@ -65,12 +71,24 @@ exports.buildActivityFromRequest = async (req) => {
       activity: activityType,
       image,
     });
+    notificationHelper.createNotificationFromActivity(
+      user,
+      image.createdBy,
+      activityType,
+      null
+    );
   } else if (activityType === 'FOLLOW') {
     activity = new Activity({
       user_action: user,
       user_receiver: createdBy,
       activity: activityType,
     });
+    notificationHelper.createNotificationFromActivity(
+      user,
+      createdBy,
+      activityType,
+      null
+    );
   }
 
   const result = await activity.save();

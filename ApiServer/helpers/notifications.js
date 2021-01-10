@@ -3,7 +3,6 @@ const sendNotification = require('../emails_and_notifications/notifications');
 const CONFIG = require('../constants');
 
 const getActionText = (activity) => {
-  console.log(activity);
   switch (activity) {
     case 'LIKE_POST':
       return 'liked your post';
@@ -38,6 +37,7 @@ exports.createNotificationFromActivity = (
 ) => {
   // CREATE PUSH NOTIFICATIONS
   // TO ALL PEOPLE THAT FOLLOW CURRENTUSER
+  console.log(userReceiver._id.toString());
   var message = {
     app_id: CONFIG.ONESIGNAL_APP_ID,
     headings: {
@@ -48,9 +48,11 @@ exports.createNotificationFromActivity = (
         activityType
       )}`,
     },
-    app_url: `${CONFIG.APP_SCHEME}://detail/?${post._id}`,
+    app_url: post
+      ? `${CONFIG.APP_SCHEME}://detail/?${post._id}`
+      : `${CONFIG.APP_SCHEME}://`,
     channel_for_external_user_ids: 'push',
-    include_external_user_ids: userReceiver._id.toString(),
+    include_external_user_ids: [userReceiver._id.toString()],
   };
   sendNotification(message);
 };
