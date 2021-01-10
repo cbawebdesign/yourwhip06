@@ -2,8 +2,9 @@ const sendNotification = require('../emails_and_notifications/notifications');
 
 const CONFIG = require('../constants');
 
-const getActionText = () => {
-  switch (item.activity) {
+const getActionText = (activity) => {
+  console.log(activity);
+  switch (activity) {
     case 'LIKE_POST':
       return 'liked your post';
     case 'SHARE_POST':
@@ -43,13 +44,13 @@ exports.createNotificationFromActivity = (
       en: `${`Posted just now on ${CONFIG.COMPANY_INFO.app_name}`}`,
     },
     contents: {
-      en: `${userAction.user.firstName} ${
-        userAction.user.lastName
-      } ${getActionText(activityType)}`,
+      en: `${userAction.firstName} ${userAction.lastName} ${getActionText(
+        activityType
+      )}`,
     },
     app_url: `${CONFIG.APP_SCHEME}://detail/?${post._id}`,
     channel_for_external_user_ids: 'push',
-    include_external_user_ids: user._id.toString(),
+    include_external_user_ids: userReceiver._id.toString(),
   };
   sendNotification(message);
 };
