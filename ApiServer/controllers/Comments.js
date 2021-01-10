@@ -124,12 +124,12 @@ exports.composePostComment = async (req, res) => {
     post.comments.push(comment);
     await post.save();
 
-    const comments = await commentHelper.getCommentsFromRequest(req);
-    const activity = await activityHelper.buildActivityFromRequest(req);
-
     // UPDATE COMMENT WITH ACITIVITY DATA
+    const activity = await activityHelper.buildActivityFromRequest(req);
     comment.activityId = activity._id;
     await comment.save();
+
+    const comments = await commentHelper.getCommentsFromRequest(req);
 
     res.status(HttpStatus.OK).send({
       success: 'Comment posted successfully',
