@@ -23,6 +23,7 @@ exports.getActivitiesFromRequest = async (req) => {
 
 exports.buildActivityFromRequest = async (req) => {
   const { user, post, comment, image, activityType, createdBy } = req;
+  console.log(req.post);
 
   let activity;
 

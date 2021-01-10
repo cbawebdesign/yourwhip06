@@ -30,13 +30,12 @@ const getActionText = (activity) => {
 };
 
 const getAppUrl = (activityType, item, userAction) => {
-  console.log(item.post);
   switch (activityType) {
-    case 'LIKE_POST':
+    case 'LIKE_POST': // WORKING
       return `${CONFIG.APP_SCHEME}://detail/?post&screen=post&id=${item._id}`;
-    case 'SHARE_POST':
+    case 'SHARE_POST': // WORKING
       return `${CONFIG.APP_SCHEME}://detail/?post&screen=explore&id=${null}`;
-    case 'LIKE_COMMENT':
+    case 'LIKE_COMMENT': // WORKING
       return `${CONFIG.APP_SCHEME}://detail/?post&screen=comments&id=${item.post._id}`;
     case 'LIKE_IMAGE':
       return `${CONFIG.APP_SCHEME}://detail/?post&screen=post&id=${item.post._id}`;

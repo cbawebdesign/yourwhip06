@@ -262,23 +262,34 @@ exports.buildPostFromRequest = async (req) => {
   const { user, images, sharedPost, sharedImage } = req;
   const { description, caption } = req.body;
 
-  const post = new Post({
-    createdBy: user._id,
-    description,
-    caption,
-    images,
-    sharedPost,
-    sharedImage,
-    shouldExpire: CONFIG.ENABLE_POST_SELF_DESTRUCT,
-  });
+  try {
+    const post = new Post({
+      createdBy: user._id,
+      description,
+      caption,
+      images,
+      sharedPost,
+      sharedImage,
+      shouldExpire: CONFIG.ENABLE_POST_SELF_DESTRUCT,
+    });
+    const result = await post.save();
 
-  const result = await post.save();
+    // CONNECT NEW POST TO EACH OF POST IMAGES
+    if (images && images.length > 0) {
+      images.forEach(async (image) => {
+        image.post = post;
+        await image.save();
+      });
+    }
 
-  if (!result) {
-    throw new Error('An error occurred saving the new post');
+    if (!result) {
+      throw new Error('An error occurred saving the new post');
+    }
+
+    return post;
+  } catch (error) {
+    console.log('57', error);
   }
-
-  return post;
 };
 
 exports.updatePostFromRequest = async (req) => {

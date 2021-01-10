@@ -7,6 +7,7 @@ const imageSchema = new mongoose.Schema(
     image: String,
     publicId: String,
     resourceType: String,
+    post: { type: Schema.Types.ObjectId, ref: 'Post' },
     createdBy: { type: Schema.Types.ObjectId, ref: 'User' },
     likes: [{ type: Schema.Types.ObjectId, ref: 'Like' }],
     comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
