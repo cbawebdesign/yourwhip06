@@ -52,7 +52,7 @@ const getAppUrl = (activityType, item, userAction) => {
     case 'REPLY': // WORKING
       return `${CONFIG.APP_SCHEME}://detail/?comment&screen=replies&id=${item._id}`;
     case 'LIKE_REPLY':
-      return `${CONFIG.APP_SCHEME}://detail/?comment&screen=replies&id=${item._id}`;
+      return `${CONFIG.APP_SCHEME}://detail/?comment&screen=replies&id=${item.comment._id}`;
     default:
       return null;
   }
