@@ -87,7 +87,7 @@ exports.buildActivityFromRequest = async (req) => {
       user,
       createdBy,
       activityType,
-      null
+      user
     );
   }
 
