@@ -41,8 +41,8 @@ const getAppUrl = (activityType, item, userAction) => {
       return `${
         CONFIG.APP_SCHEME
       }://detail/?post&screen=post&id=${item.post.toString()}`;
-    case 'FOLLOW': // WORKING
-      return `${CONFIG.APP_SCHEME}://detail/?profile&screen=profile&id=${id}`;
+    case 'FOLLOW': //
+      return `${CONFIG.APP_SCHEME}://detail/?profile&screen=profile&id=${null}`;
     case 'SHARE_IMAGE': // WORKING BUT WRONG MESSAGE
       return `${CONFIG.APP_SCHEME}://detail/?explore&screen=explore&id=${null}`;
     case 'POST_COMMENT': // WORKING
@@ -51,7 +51,7 @@ const getAppUrl = (activityType, item, userAction) => {
       return `${CONFIG.APP_SCHEME}://detail/?post&screen=post&id=${item.post._id}`;
     case 'REPLY': // WORKING
       return `${CONFIG.APP_SCHEME}://detail/?comment&screen=replies&id=${item._id}`;
-    case 'LIKE_REPLY':
+    case 'LIKE_REPLY': // WORKING
       return `${CONFIG.APP_SCHEME}://detail/?comment&screen=replies&id=${item.comment._id}`;
     default:
       return null;
