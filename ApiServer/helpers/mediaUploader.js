@@ -19,7 +19,7 @@ exports.cloudinaryUploader = async (
         resource_type: 'auto',
         secure: true,
         folder: CONFIG.CLOUDINARY.MEDIA_FOLDER,
-        width: 400,
+        width: 800,
         crop: 'scale',
       },
       async (error, result) => {

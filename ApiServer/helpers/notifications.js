@@ -41,7 +41,7 @@ const getAppUrl = (activityType, item, userAction) => {
       return `${
         CONFIG.APP_SCHEME
       }://detail/?post&screen=post&id=${item.post.toString()}`;
-    case 'FOLLOW': //
+    case 'FOLLOW': // WORKING
       return `${CONFIG.APP_SCHEME}://detail/?profile&screen=profile&id=${item._id}`;
     case 'SHARE_IMAGE': // WORKING BUT WRONG MESSAGE
       return `${CONFIG.APP_SCHEME}://detail/?explore&screen=explore&id=${null}`;
